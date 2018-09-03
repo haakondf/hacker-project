@@ -42,7 +42,7 @@
         <hr>
         <a href="/arcade" class="side-bar-text" id="side-bar-arcade">ARCADE</a>
         <hr>
-        <a href="/logout" class="side-bar-text" id="side-bar-logout">LOGOUT (sudo -rm -rf)</a>
+        <a href="/logout" class="side-bar-text" id="side-bar-logout">LOGOUT (sudo rm -rf)</a>
     </div>
 
     <!-- HEADER -->
@@ -57,17 +57,8 @@
     <!-- GAMEAREA/GAMEPAD -->
     <div id="gamepad-fixed-adjuster"></div>
     <div id="gamepad">
-
-        {{!-- this can be moved to only the combat page --}}
-        <br>
-        <div id="loading">
-            <div id="loading-bar">
-            </div>
-        </div>
-        <div id="writing">
-        </div>
+        {{{body}}}
     </div>
-    {{{body}}}
     <script src="/javascripts/combat.js"></script>
 </body>
 

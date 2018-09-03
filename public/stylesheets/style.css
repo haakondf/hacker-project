@@ -120,6 +120,7 @@ a {
     margin: 0px auto;
     color: rgb(71, 223, 71);
     font-size: 0.9vw;
+    line-height: 1vw;
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -139,7 +140,7 @@ a {
     background-color: rgb(71, 223, 71);
     width: 0%;
     height: 100%;
-    transition: width 2s;
+    transition: width 1s;
 }
 
 .success {

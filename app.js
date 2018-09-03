@@ -78,4 +78,4 @@ app.use('/auth', auth)
 
 module.exports = app
 
-//app.listen(3000)
+app.listen(3000)

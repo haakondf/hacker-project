@@ -7,7 +7,59 @@ router.get('/index', (req, res, next) => {
 });
 
 router.get("/", (req,res, next) => {
-  res.render("home")
+  res.render("menu/home")
+})
+
+router.get("/home", (req,res, next) => {
+  res.render("menu/home")
+})
+
+router.get("/hack/crimes", (req,res, next) => {
+  res.render("menu/hack-crimes")
+})
+
+router.get("/hack/hack-player", (req,res, next) => {
+  res.render("menu/hack-player")
+})
+
+router.get("/hack/wanted-list", (req,res, next) => {
+  res.render("menu/wanted-list")
+})
+
+router.get("/alliance/forum", (req,res, next) => {
+  res.render("menu/forum")
+})
+
+router.get("/alliance/group-kill", (req,res, next) => {
+  res.render("menu/group-kill")
+})
+
+router.get("/alliance/hideout", (req,res, next) => {
+  res.render("menu/hideout")
+})
+
+router.get("/marketplace", (req,res, next) => {
+  res.render("menu/marketplace")
+})
+
+router.get("/system-repair", (req,res, next) => {
+  res.render("menu/system-repair")
+})
+
+router.get("/ladder", (req,res, next) => {
+  res.render("menu/ladder")
+})
+
+router.get("/information", (req,res, next) => {
+  res.render("menu/information")
+})
+
+router.get("/arcade", (req,res, next) => {
+  res.render("menu/arcade")
+})
+
+router.get("/logout", (req,res, next) => {
+  res.render("menu/logout")
 })
 
 module.exports = router;

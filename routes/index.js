@@ -6,6 +6,10 @@ router.get('/index', (req, res, next) => {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/create-hacker', (req, res, next) => {
+  res.render('create-hacker', { title: 'Express' });
+});
+
 router.get("/", (req,res, next) => {
   res.render("menu/home")
 })

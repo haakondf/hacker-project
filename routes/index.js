@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const User = require("../models/User");
 
 /* GET all routes. */
 router.get('/index', (req, res, next) => {
@@ -27,7 +28,10 @@ router.get("/hack/hack-player", (req,res, next) => {
 })
 
 router.get("/hack/wanted-list", (req,res, next) => {
-  res.render("menu/hack-wanted-list")
+  User.find({}).then((user) => {
+    console.log(user);
+    res.render("menu/hack-wanted-list", {user})
+  })
 })
 
 router.get("/alliance/forum", (req,res, next) => {

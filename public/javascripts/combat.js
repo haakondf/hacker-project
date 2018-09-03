@@ -18,11 +18,15 @@ const Player = function(name, str, dodge, hp, maxHp) {
   this.crimeSkill = 0;
   this.money = 0;
   this.failedAttempts = 0;
+  this.expToLevel = 10;
   this.fightCrime = function(opponent) {
     this.battery -= opponent.difficulty * 4 + 2;
     this.failedAttempts = 0;
     fight(this, opponent);
   };
+  this.fightAnotherPlayer = function(opponent) {
+      fightPlayer(this, opponent);
+  }
 };
 
 const playerOne = new Player("Markus", 20, 15, 200, 200);
@@ -89,7 +93,9 @@ function fight(player, opponent) {
   }
 }
 
+
 //Combat Players
+
 let randomCombatLogComments = [
     "Accessing files... struct ip_config_file_uploader = function(password) {console.log(debug_report); return ip}...1",
     "Rehosting server to accesspoint... Function denied, relocating host point to ip...1",
@@ -107,6 +113,37 @@ let randomCombatLogComments = [
     "Running around the house trying to find the battery charger, but it failed to commit... System reboots: external_battery_source = True1"
   ];
 
+  function fightPlayer(player, opponent) {
+    let dodgeOcc = Math.random() * (opponent.dodge / player.dodge);
+    if (player.failedAttempts === 4) {
+        setTimeout(() => {
+            return combatFailed(player, opponent);
+        }, 1500)
+    } else if (player.hp <= 0 || opponent.hp <= 0) {
+      setTimeout(
+        function() {
+          return combatFinished(player, opponent);
+        }.bind(player),
+        1000
+      );
+    } else if (dodgeOcc >= 1) {
+      player.failedAttempts += 1;
+      let splitStrFour = errorEncryptionDots.split("");
+      document.getElementById("writing").innerHTML +=
+        "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
+      return combatLog(splitStrFour, player, opponent);
+    } else {
+      let randomComment = Math.floor(
+        Math.random() * randomCombatLogComments.length
+      );
+      opponent.hp -= player.str;
+      let splitStrOne = randomCombatLogComments[randomComment].split("");
+      document.getElementById("writing").innerHTML += "<br>";
+      console.log(opponent.hp);
+      return combatLog(splitStrOne, player, opponent);
+    }
+  }
+
 //Combat log
 
 function combatLog(array, player, opponent) {
@@ -123,11 +160,13 @@ function combatLog(array, player, opponent) {
       }, 30);
     }
   } else {
+    if (opponent.hp < 0) opponent.hp = 0;
     document.getElementById("loading-bar").style.width =
       100 - (opponent.hp / opponent.maxHp) * 100 + "%";
     return fight(player, opponent);
   }
 }
+
 
 //Finish Combat
 
@@ -142,7 +181,7 @@ function combatFinished(player, opponent) {
   player.money += moneyChange;
   player.exp += expChange;
   player.crimeSkill += crimeChange;
-  if (player.crimeSkill > 1000) return (player.crimeSkill = 1000);
+  if (player.crimeSkill > 1000) player.crimeSkill = 1000;
   document.getElementById("writing").innerHTML +=
     "<br><br><br>" +
     "Hack successful!! <br><br><br><br><div class='success'>You gained:<br><br>" +
@@ -154,6 +193,9 @@ function combatFinished(player, opponent) {
     " crimeskill<br>-" +
     batteryChange +
     "% battery</div>";
+    if (player.exp >= player.expToLevel) {
+        document.getElementById("writing").innerHTML += "<br><br><a href='/home' class='level-up-text'>Congratulations, you have gained a new rank!</a>"
+    }
   return; // player.save();
 }
 

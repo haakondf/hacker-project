@@ -24,9 +24,11 @@ const userSchema = new Schema({
 
     //Player possessions
     bitCoins: Number,
+    bounty: Number,
 
     //Player information
-    
+    rank: String,
+    alliance: String,
 
     //Figth accessories
     inCombat: Boolean,

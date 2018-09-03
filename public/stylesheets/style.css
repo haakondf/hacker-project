@@ -144,4 +144,10 @@ a {
 
 .success {
     color: blue;
+    line-height: 1.2vw;
+}
+
+.failure {
+    color: red;
+    line-height: 1.2vw;
 }

@@ -1,29 +1,30 @@
 console.log("Combat-stuff");
 const Crime = function(name, dodge, hp, maxHp, difficulty) {
-    this.name = name;
-    this.dodge = dodge;
-    this.hp = hp;
-    this.maxHp = maxHp;
-    this.difficulty = difficulty;
-}
+  this.name = name;
+  this.dodge = dodge;
+  this.hp = hp;
+  this.maxHp = maxHp;
+  this.difficulty = difficulty;
+};
 
-const Player = function(name, str, dodge, hp, maxHp)  {
-    this.name = name;
-    this.str = str;
-    this.dodge = dodge;
-    this.hp = hp;
-    this.maxHp = maxHp;
-    this.battery = 100;
-    this.exp = 0;
-    this.crimeSkill = 0;
-    this.money = 0;
-    this.fightCrime = function(opponent) {
-        fight(this, opponent);
-    }
-}
+const Player = function(name, str, dodge, hp, maxHp) {
+  this.name = name;
+  this.str = str;
+  this.dodge = dodge;
+  this.hp = hp;
+  this.maxHp = maxHp;
+  this.battery = 100;
+  this.exp = 0;
+  this.crimeSkill = 0;
+  this.money = 0;
+  this.failedAttempts = 0;
+  this.fightCrime = function(opponent) {
+    fight(this, opponent);
+  };
+};
 
-const playerOne = new Player ("Markus", 20, 10, 200, 200)
-const playerTwo = new Crime ("Google", 20, 120, 120, 1.5)
+const playerOne = new Player("Markus", 20, 10, 200, 200);
+const playerTwo = new Crime("Google", 60, 120, 120, 1.5);
 
 //Combat Crime
 
@@ -44,37 +45,41 @@ let randomCombatLogComments = [
   "Running around the house trying to find the battery charger, but it failed to commit... System reboots: external_battery_source = True1"
 ];
 let errorEncryptionText = "ERROR: Problem detected, have to solve encryption";
-let errorEncryptionDots = "....................................................... 4";
+let errorEncryptionDots =
+  "....................................................... 4";
 let successCombatLogText =
-  "Hack successful!! <br><br><div class='success'>You gained:<br>100 exp<br> 50 bitcoins<br>-5% battery</div>5";
+  "Hack successful!! <br><br><div class='success'>You gained:<br>100 exp<br> 50 bitcoins<br>-5% battery</div>";
 
-function fight (player, opponent) {
-    let dodgeOcc = Math.random() * (opponent.dodge / player.dodge);
-    if (player.hp <= 0 || opponent.hp <= 0) {
-      setTimeout(
-        function() {
-          combatLog(successCombatLogText, player, opponent);
-          console.log("FINISHED!");
-          return combatFinished(player, opponent)
-        }.bind(player),
-        1000
-      );
-    } else if (dodgeOcc >= 1.5) {
-      console.log("dodge");
-      let splitStrFour = errorEncryptionDots.split("");
-      document.getElementById("writing").innerHTML +=
-        "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
-      return combatLog(splitStrFour, player, opponent);
-    } else {
-      let randomComment = Math.floor(Math.random() * randomCombatLogComments.length);
-      opponent.hp -= player.str;
-      let splitStrOne = randomCombatLogComments[randomComment].split("");
-      document.getElementById("writing").innerHTML += "<br>";
-      console.log(opponent.hp);
-      return combatLog(splitStrOne, player, opponent);
-    }
-  };
-
+function fight(player, opponent) {
+  let dodgeOcc = Math.random() * (opponent.dodge / player.dodge);
+  if (player.failedAttempts === 4) {
+    combatFailed(player, opponent);
+  } else if (player.hp <= 0 || opponent.hp <= 0) {
+    setTimeout(
+      function() {
+        console.log("FINISHED!");
+        return combatFinished(player, opponent);
+      }.bind(player),
+      1500
+    );
+  } else if (dodgeOcc >= 1.5) {
+    player.failedAttempts += 1;
+    console.log("dodge");
+    let splitStrFour = errorEncryptionDots.split("");
+    document.getElementById("writing").innerHTML +=
+      "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
+    return combatLog(splitStrFour, player, opponent);
+  } else {
+    let randomComment = Math.floor(
+      Math.random() * randomCombatLogComments.length
+    );
+    opponent.hp -= player.str;
+    let splitStrOne = randomCombatLogComments[randomComment].split("");
+    document.getElementById("writing").innerHTML += "<br>";
+    console.log(opponent.hp);
+    return combatLog(splitStrOne, player, opponent);
+  }
+}
 
 //Combat log
 
@@ -90,10 +95,6 @@ function combatLog(array, id, opponent) {
       setTimeout(() => {
         combatLog(array, id, opponent);
       }, 30);
-    } else if (array[array.length - 1] == "5") {
-      document.getElementById("writing").innerHTML +=
-        "<br><br><br>" + array.slice(0, array.length - 1);
-      return;
     }
   } else {
     document.getElementById("loading-bar").style.width =
@@ -106,12 +107,42 @@ function combatLog(array, id, opponent) {
 //Finish Combat
 
 function combatFinished(player, opponent) {
-    player.battery -= (opponent.difficulty * 4) + 2;
-    player.money += Math.floor(Math.random() * (opponent.difficulty * 1000)) + (opponent.difficulty * 500);
-    player.exp += Math.floor(Math.random() * 300) + (opponent.difficulty * 100) + 100;  
-    player.crimeSkill += Math.floor(Math.random() * opponent.difficulty) + 1;
-    if (player.crimeSkill > 500) return player.crimeSkill = 500;
+  player.failedAttempts = 0;
+  let batteryChange = opponent.difficulty * 4 + 2;
+  let moneyChange =
+    Math.floor(Math.random() * (opponent.difficulty * 1000)) +
+    opponent.difficulty * 500;
+  let expChange =
+    Math.floor(Math.random() * 300) + opponent.difficulty * 100 + 100;
+  let crimeChange = Math.floor(Math.random() * opponent.difficulty) + 1;
+  player.battery -= batteryChange;
+  player.money += moneyChange;
+  player.exp += expChange;
+  player.crimeSkill += crimeChange;
+  if (player.crimeSkill > 1000) return (player.crimeSkill = 1000);
+  document.getElementById("writing").innerHTML +=
+    "<br><br><br><br>" +
+    "Hack successful!! <br><br><br><br><br><br><div class='success'>You gained:<br><br>" +
+    expChange +
+    " exp<br>" +
+    moneyChange +
+    " bitcoins<br>" +
+    crimeChange +
+    " crimeskill<br>-" +
+    batteryChange +
+    "% battery</div>";
+  return; // player.save();
 }
 
+function combatFailed(player, opponent) {
+  player.failedAttempts = 0;
+  let batteryChange = opponent.difficulty * 8 + 2;
+  player.battery -= batteryChange;
+  document.getElementById("writing").innerHTML +=
+    "<br><br><br><br>" +
+    "Hack failure! Your internet was compromised by the Police CyberForce 2000...<br><br><br><br><br><br><div class='failure'>You lost:<br>" +
+    batteryChange +
+    "% battery</div>";
+}
 
-playerOne.fightCrime(playerTwo)
+playerOne.fightCrime(playerTwo);

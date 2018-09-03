@@ -237,6 +237,7 @@ a {
 
 
 /* start of cards */
+
 .title, .text{
     font-family: 'Courier New', Courier, monospace;
     font-size: 1vw;
@@ -286,4 +287,5 @@ a {
     display: inline-block;
     font-size: 1vw;
 }
+
  /* end of cards */

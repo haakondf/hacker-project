@@ -19,6 +19,7 @@ const Player = function(name, str, dodge, hp, maxHp) {
   this.money = 0;
   this.failedAttempts = 0;
   this.expToLevel = 10;
+  this.networth = 0;
   this.fightCrime = function(opponent) {
     this.battery -= opponent.difficulty * 4 + 2;
     this.failedAttempts = 0;
@@ -144,6 +145,7 @@ let randomCombatLogComments = [
     }
   }
 
+
 //Combat log
 
 function combatLog(array, player, opponent) {
@@ -179,6 +181,7 @@ function combatFinished(player, opponent) {
     Math.floor(Math.random() * 300) + opponent.difficulty * 100 + 100;
   let crimeChange = Math.floor(Math.random() * opponent.difficulty) + 1;
   player.money += moneyChange;
+  player.networth += moneyChange;
   player.exp += expChange;
   player.crimeSkill += crimeChange;
   if (player.crimeSkill > 1000) player.crimeSkill = 1000;

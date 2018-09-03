@@ -29,6 +29,7 @@ const userSchema = new Schema({
     //Player information
     rank: String,
     alliance: String,
+    
 
     //Figth accessories
     inCombat: Boolean,

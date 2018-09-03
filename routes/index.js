@@ -29,9 +29,8 @@ router.get("/hack/hack-player", (req,res, next) => {
 
 router.get("/hack/wanted-list", (req,res, next) => {
   User.find({}).then((user) => {
-    console.log(user);
     res.render("menu/hack-wanted-list", {user})
-  })
+  }).catch(console.error)
 })
 
 router.get("/alliance/forum", (req,res, next) => {
@@ -55,7 +54,9 @@ router.get("/system-repair", (req,res, next) => {
 })
 
 router.get("/ladder", (req,res, next) => {
-  res.render("menu/ladder")
+  User.find({}).then((user) => {
+    res.render("menu/ladder", {user})
+  }).catch(console.error)
 })
 
 router.get("/information", (req,res, next) => {

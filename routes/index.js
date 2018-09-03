@@ -23,19 +23,19 @@ router.get("/hack/hack-player", (req,res, next) => {
 })
 
 router.get("/hack/wanted-list", (req,res, next) => {
-  res.render("menu/wanted-list")
+  res.render("menu/hack-wanted-list")
 })
 
 router.get("/alliance/forum", (req,res, next) => {
-  res.render("menu/forum")
+  res.render("menu/alliance-forum")
 })
 
 router.get("/alliance/group-kill", (req,res, next) => {
-  res.render("menu/group-kill")
+  res.render("menu/alliance-group-kill")
 })
 
 router.get("/alliance/hideout", (req,res, next) => {
-  res.render("menu/hideout")
+  res.render("menu/alliance-hideout")
 })
 
 router.get("/marketplace", (req,res, next) => {

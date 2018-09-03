@@ -11,7 +11,7 @@ const userSchema = new Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    
+
     //Character information
     name: String,
     //Player stats
@@ -31,6 +31,10 @@ const userSchema = new Schema({
     //Figth accessories
     inCombat: Boolean,
 })
+
+userSchema.methods.fightCrime = function (opponent) {
+    fight(this, opponent);
+}
 
 
 module.exports = mongoose.model('User', userSchema)

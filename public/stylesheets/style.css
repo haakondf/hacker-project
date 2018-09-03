@@ -61,7 +61,7 @@
 }
 
 #gamepad-fixed-adjuster {
-    height: 13vh;
+    height: 15vh;
     background-color: black;
     width: 70vw;
     margin: 0 auto;
@@ -69,7 +69,7 @@
 
 #gamepad {
     background-color: black;
-    min-height: 87vh;
+    min-height: 85vh;
     height: auto;
     width: 70vw;
     padding-bottom: 10vh;
@@ -128,7 +128,6 @@ a {
     font-size: 1vw;
 }
 
-/* LOADING BAR!
 #loading {
     width: 35vw;
     border: 4px solid white;
@@ -142,7 +141,6 @@ a {
     height: 100%;
     transition: width 2s;
 }
-*/
 
 .success {
     color: blue;

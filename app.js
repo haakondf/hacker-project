@@ -1,7 +1,5 @@
 require('dotenv').config()
 
-console.log("a change")
-
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const express = require('express')
@@ -18,7 +16,7 @@ const flash = require('connect-flash')
 mongoose.Promise = Promise
 mongoose
     .connect(
-        'mongodb://localhost/w5d1-live',
+        'mongodb://localhost/hacker-project',
         { useMongoClient: true }
     )
     .then(() => {

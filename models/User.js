@@ -106,6 +106,7 @@ userSchema.methods.fightCrime = function(opponent) {
     results.gains.battery = -14;
     this.battery -= 7;
     this.roundNumber = 0;
+    this.failedAttempts = 0;
     this.save();
     return results;
   } else if (opponent.currentFirewall <= 0) {
@@ -118,7 +119,7 @@ userSchema.methods.fightCrime = function(opponent) {
     let expChange =
       Math.floor(Math.random() * 300) + opponent.difficulty * 100 + 100;
     let crimeChange = Math.floor(Math.random() * opponent.difficulty) + 1;
-    this.money += moneyChange;
+    this.bitCoins += moneyChange;
     this.networth += moneyChange;
     this.exp += expChange;
     this.crimeSkill += crimeChange;
@@ -127,7 +128,7 @@ userSchema.methods.fightCrime = function(opponent) {
     results.gains.bitCoins = moneyChange;
     results.gains.battery = batteryChange;
     results.gains.crime = crimeChange;
-    this.roundNumber = 0;
+    this.failedAttempts = 0;
     this.save();
     return results;
   } else if (dodgeOccurance >= 1) {

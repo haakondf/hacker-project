@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
-<<<<<<< HEAD
 const uploadCloud = require('../utils/cloudinary.js');
 const User = require('../models/User.js')
-=======
-const User = require("../models/User");
->>>>>>> 1a808c028f59fe9f032a4fc904768daa2a4d48b9
 
 /* GET all routes. */
 router.get('/index', (req, res, next) => {

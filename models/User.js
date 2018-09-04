@@ -14,6 +14,7 @@ const userSchema = new Schema({
 
     //Character information
     name: String,
+    
     // Player picture
     imgName: String,
     imgPath: String,
@@ -74,14 +75,6 @@ const userSchema = new Schema({
     },
 
     //Figth accessories
-<<<<<<< HEAD
-    inCombat: Boolean,
-},{
-    timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" }
-  });
-  
-
-=======
     inCombat: {
         type: Boolean,
         default: false,
@@ -90,9 +83,12 @@ const userSchema = new Schema({
     inHideout: {
         type: Boolean,
         default: false,
-    },
+    }
+}, {
+    timestamps:{ 
+        createdAt: "createdAt", updatedAt: "updatedAt" 
+    }
 })
->>>>>>> 1a808c028f59fe9f032a4fc904768daa2a4d48b9
 
 userSchema.methods.fightCrime = function (opponent) {
     fight(this, opponent);

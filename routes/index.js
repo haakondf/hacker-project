@@ -10,23 +10,41 @@ const uploadCloud = require('../utils/cloudinary.js');
 router.get("/index", (req, res, next) => {
   res.render("index", { title: "Express" });
 });
-
-router.get("/create-hacker", (req, res, next) => {
+// npm install ensureLogin see 
+//atm ensureAuthenticated is not doing anything
+router.get("/create-hacker", ensureAuthenticated, (req, res, next) => { // ensure user is logged in
   res.render("create-hacker", { title: "Express" });
 });
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/sign-in')
+  }
+}
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
   const { title, description } = req.body;
   const imgPath = req.file.url;
   const imgName = req.file.originalname;
-  const newUser = new User({ title, description, imgPath, imgName });
-  newUser
-    .save()
-    .then(user => {
-      res.redirect("/");
-    })
+
+  console.log('req user consolelog',req.user)
+  //User.findById /// add { title, description, imgPath, imgName });
+  User.findByIdAndUpdate(req.user._id, { title, description, imgPath, imgName }).then((result) => {
+    console.log(result);
+    res.render('index')
+  })
+
+  // const newUser = new User({ title, description, imgPath, imgName });
+  // newUser
+  //   .save()
+  //   .then(user => {
+  //     res.redirect("/");
+  //   })
     .catch(error => {
       console.log(error);
+      res.redirect('error');
     });
 });
 
@@ -48,8 +66,10 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   let crimeIdThing = Crime.findById(req.params.id)
 
   Promise.all([userIdThing, crimeIdThing]).then((result) => {
-    let resultCrime = result[0].fightCrime(result[1]);
-    res.render("menu/hack-crimes-id", {result: JSON.stringify(resultCrime)})
+    let player = result[0];
+    let crimeToCommit = result[1];
+    let resultCrime = player.fightCrime(crimeToCommit);
+    console.log(resultCrime); 
   })
 });
 
@@ -146,5 +166,10 @@ router.get("/arcade", (req, res, next) => {
 router.get("/logout", (req, res, next) => {
   res.render("menu/logout");
 });
+
+router.post("/upload", (req, res) => {
+  console.log(req.files)
+  res.send("we got the file")
+})
 
 module.exports = router;

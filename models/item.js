@@ -1,67 +1,22 @@
-//Crime:
-const newCrimeOne = Crime({
-    name: "Internet Troll",
-    difficulty: 1,
-    dodge: 15,
-    currentFirewall: 120,
-    maxFirewall: 120,
-  })
-  newCrimeOne.save();
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-  const newCrimeTwo = Crime({
-    name: "Internet Scam",
-    difficulty: 1.5,
-    dodge: 20,
-    currentFirewall: 200,
-    maxFirewall: 200,
-  })
-  newCrimeTwo.save()
+const itemSchema = new Schema({
+    name: String,
+    type: String,
+    price: Number,
+    bonus: Number,
+});
 
-const newCrimeThree = Crime({
-    name: "ID Theft",
-    difficulty: 2.5,
-    dodge: 30,
-    currentFirewall: 300,
-    maxFirewall: 300,
-  })
-  newCrimeThree.save()
+module.exports = mongoose.model('Item', itemSchema);
 
-  const newCrimeFour = Crime({
-    name: "DDOS",
-    difficulty: 4,
-    dodge: 50,
-    currentFirewall: 400,
-    maxFirewall: 400,
-  })
-  newCrimeFour.save()
-
-  const newCrime = Crime({
-    name: "Logic Bomb",
-    difficulty: 7,
-    dodge: 60,
-    currentFirewall: 700,
-    maxFirewall: 700,
-  })
-  newCrime.save()
-
-
-  //Alliance
-
-
-  //User
-
-
-
-
-// ITEMS
-// ITEMS
-// ITEMS
 // MARKETPLACE
 //TODO:
-// PLAYER CAN ONLY HAVE ONE ITEM PER CATEGORY
+// MAKE FUNCTION FOR BUYING ITEMS
+// ONLY ONE ITEM PER CATEGORY
 // BUYING NEW ITEM OVERRIDES CURRENT ITEM IF ANY
 // BEST ITEMS SHOULD NOT BE OBTAINABLE THE FIRST WEEK?
-// values are not final
+// MARKETPLACE ITEMS. values are not final
 
 //CPU items:
 //CPU items:
@@ -230,3 +185,43 @@ const newItemTwenty = Item({
     bonus: 15,
   })
   newItemTwenty.save();
+
+
+
+
+
+
+
+/* let cpuItems = [
+    {name: "Intel celeron G3930", price: 10000, bonus: 3},
+    {name: "Intel I3-8350K", price: 30000, bonus: 10},
+    {name: "AMD Ryzen Threaddripper 1950X", price: 80000, bonus: 20},
+    {name: "Intel i9-7980 xe", price: 150000, bonus: 50},
+    {name: "Intel Xeon Platinum 8180", price: 500000, bonus: 100},
+] 
+
+let firewallItems = [
+    {name: "", price: 10000, bonus: 3},
+    {name: "", price: 30000, bonus: 10},
+    {name: "", price: 80000, bonus: 20},
+    {name: "", price: 150000, bonus: 50},
+    {name: "", price: 500000, bonus: 100},
+]
+
+
+let avsItems = [
+    {name: "", price: 10000, bonus: 3},
+    {name: "", price: 30000, bonus: 10},
+    {name: "", price: 80000, bonus: 20},
+    {name: "", price: 150000, bonus: 50},
+    {name: "", price: 500000, bonus: 100},
+] 
+ 
+  let encryptionItems = [
+    {name: "Enigma machine", price: 10000, bonus: 3},
+    {name: "Bcrypt npm node", price: 30000, bonus: 5},
+    {name: "VeraCrypt", price: 80000, bonus: 7},
+    {name: "CertainSafe", price: 150000, bonus: 10},
+    {name: "Vernam Cipher", price: 500000, bonus: 15},
+]
+ */

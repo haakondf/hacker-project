@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const User = require("../models/User");
 const Crime = require("../models/Crime")
+const uploadCloud = require('../utils/cloudinary.js');
 
 /* GET all routes. */
 router.get('/index', (req, res, next) => {
@@ -11,6 +12,20 @@ router.get('/index', (req, res, next) => {
 router.get('/create-hacker', (req, res, next) => {
   res.render('create-hacker', { title: 'Express' });
 });
+
+router.post('/create-hacker', uploadCloud.single('photo'), (req, res, next) => {
+  const { title, description } = req.body;
+  const imgPath = req.file.url;
+  const imgName = req.file.originalname;
+  const newUser = new User({title, description, imgPath, imgName})
+  newUser.save()
+  .then(user => {
+    res.redirect('/')
+  })
+  .catch(error => {
+    console.log(error)
+  })
+})
 
 router.get("/", (req,res, next) => {
   res.render("menu/home")
@@ -95,3 +110,4 @@ router.get("/logout", (req,res, next) => {
 })
 
 module.exports = router;
+

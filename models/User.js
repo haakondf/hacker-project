@@ -12,29 +12,41 @@ const userSchema = new Schema({
     default: "user"
   },
 
-  //Character information
-  name: String,
-  //Player stats
-  maxFirewall: {
-    type: Number,
-    default: 100
-  },
-  currentFirewall: {
-    type: Number,
-    default: 100
-  },
-  cpu: {
-    type: Number,
-    default: 10
-  },
-  antiVirus: {
-    type: Number,
-    default: 3
-  },
-  dodge: {
-    type: Number,
-    default: 10
-  },
+    //Character information
+    name: String,
+    
+    // Player picture
+    imgName: String,
+    imgPath: String,
+    //Player stats
+    maxFirewall: {
+        type: Number,
+        default: 100,
+    },
+    currentFirewall: {
+        type: Number,
+        default: 100,
+    },
+    cpu: {
+        type: Number,
+        default: 10,
+    },
+    antiVirus: {
+        type: Number,
+        default: 3,
+    },
+    dodge: {
+        type: Number,
+        default: 10
+    },
+    crimeSkill: {
+        type: Number,
+        default: 100
+    },
+    battery: {
+        type: Number,
+        default: 100
+    },
 
   //Player possessions
   bitCoins: {
@@ -71,12 +83,12 @@ const userSchema = new Schema({
     type: Number,
     default: 0
   },
+}, {
+    timestamps:{ 
+        createdAt: "createdAt", updatedAt: "updatedAt" 
+    }
+})
 
-//   roundNumber: {
-//     type: Number,
-//     default: 0
-//   }
-});
 
 userSchema.methods.fightCrime = function(opponent) {
   let results = {

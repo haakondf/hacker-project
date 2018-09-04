@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
+<<<<<<< HEAD
 const uploadCloud = require('../utils/cloudinary.js');
 const User = require('../models/User.js')
+=======
+const User = require("../models/User");
+>>>>>>> 1a808c028f59fe9f032a4fc904768daa2a4d48b9
 
 /* GET all routes. */
 router.get('/index', (req, res, next) => {
@@ -43,7 +47,9 @@ router.get("/hack/hack-player", (req,res, next) => {
 })
 
 router.get("/hack/wanted-list", (req,res, next) => {
-  res.render("menu/hack-wanted-list")
+  User.find({}).then((user) => {
+    res.render("menu/hack-wanted-list", {user})
+  }).catch(console.error)
 })
 
 router.get("/alliance/forum", (req,res, next) => {
@@ -67,7 +73,9 @@ router.get("/system-repair", (req,res, next) => {
 })
 
 router.get("/ladder", (req,res, next) => {
-  res.render("menu/ladder")
+  User.find({}).then((user) => {
+    res.render("menu/ladder", {user})
+  }).catch(console.error)
 })
 
 router.get("/information", (req,res, next) => {

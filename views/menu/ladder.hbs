@@ -1,0 +1,20 @@
+<h1>LADDER</h1>
+
+<table cellspacing="0">
+  <tr>
+    <th>Name</th>
+    <th>Alliance</th>
+    <th>Rank</th>
+    <th>Shutdowns</th>
+    <th>Networth</th>
+  </tr>
+  {{#each user}}
+  <tr>
+    <td>{{this.name}} </td>
+    <td>{{this.alliance}} </td>
+    <td>{{this.rank}} </td>
+    <td>{{this.shutdowns}} </td>
+    <td>${{this.networth}} </td>
+  </tr>
+  {{/each}}
+</table>

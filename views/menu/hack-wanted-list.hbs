@@ -1,0 +1,20 @@
+<h1>WANTED LIST</h1>
+
+<table cellspacing="0">
+  <tr>
+    <th>Name</th>
+    <th>Alliance</th>
+    <th>Rank</th>
+    <th>Bounty</th>
+    <th>Hack</th>
+  </tr>
+  {{#each user}}
+  <tr>
+    <td>{{this.name}} </td>
+    <td>{{this.alliance}} </td>
+    <td>{{this.rank}} </td>
+    <td>${{this.bounty}} </td>
+    <td><a href="/">Hack</a></td>
+  </tr>
+  {{/each}}
+</table>

@@ -1,4 +1,6 @@
 //Crime:
+//Crime:
+
 const newCrimeOne = Crime({
     name: "Internet Troll",
     difficulty: 1,
@@ -46,22 +48,30 @@ const newCrimeThree = Crime({
 
 
   //Alliance
+  //Alliance
+  //ALLIANCES WHITE HATS & BLACK HATS:
 
+const newAllianceWhite = Alliance({
+    name: "White hats",
+    hideoutStrength: 1,
+    members: Array,
+  })
+  newAllianceWhite.save();
 
-  //User
-
+  const newAllianceBlack = Alliance({
+    name: "Black hats",
+    hideoutStrength: 1,
+    members: Array,
+  })
+  newAllianceBlack.save();
+  
+//User
+//User
 
 
 
 // ITEMS
 // ITEMS
-// ITEMS
-// MARKETPLACE
-//TODO:
-// PLAYER CAN ONLY HAVE ONE ITEM PER CATEGORY
-// BUYING NEW ITEM OVERRIDES CURRENT ITEM IF ANY
-// BEST ITEMS SHOULD NOT BE OBTAINABLE THE FIRST WEEK?
-// values are not final
 
 //CPU items:
 //CPU items:
@@ -74,7 +84,7 @@ const newItemOne = Item({
   newItemOne.save();
 
 const newItemTwo = Item({
-    name: "Intel I3-8350K",
+    name: "Intel i3-8350K",
     type: "cpu",
     price: 30000,
     bonus: 10,

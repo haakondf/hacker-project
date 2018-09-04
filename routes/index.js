@@ -1,8 +1,10 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../models/User");
-const Crime = require("../models/Crime");
-const uploadCloud = require("../utils/cloudinary.js");
+const Crime = require("../models/Crime")
+const Alliance = require("../models/Alliance")
+const Item = require("../models/Item")
+const uploadCloud = require('../utils/cloudinary.js');
 
 /* GET all routes. */
 router.get("/index", (req, res, next) => {
@@ -71,8 +73,6 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   })
 
 
-
-
   // Crime.findById(req.params.id).then(result => {
   //   crimeToCommit = result;
   //   res.render("menu/hack-crimes-id", {
@@ -115,10 +115,22 @@ router.get("/alliance/hideout", (req, res, next) => {
   res.render("menu/alliance-hideout");
 });
 
-router.get("/marketplace", (req, res, next) => {
-  res.render("menu/marketplace");
+router.get("/marketplace", (req,res, next) => {
+  Item.find()
+  .then(items => {
+    res.render("menu/marketplace", { 
+      items,
+      cpuItems: items.filter(i => i.type === "cpu"),
+      firewallItems: items.filter(i => i.type === "firewall"),
+      avsItems: items.filter(i => i.type === "avs"),
+      encryptionItems: items.filter(i => i.type === "encryption"),
+    });
+   
+  })
+  .catch(error => {
+    console.log(error)
+  })
 });
-
 router.get("/system-repair", (req, res, next) => {
   res.render("menu/system-repair");
 });

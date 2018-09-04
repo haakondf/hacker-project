@@ -4,25 +4,25 @@ let index = 0;
 //Combat Crime
 
 let randomCrimeString = [
-  "Selling fake nudes for bitcoins.1",
+  "Selling fake nudes for bitcoins. Using the excessive money to buy hookers1",
   "Using your webdev skills to create a fake Paypal website.1",
-  "Claiming to be a nigerian prince.1",
+  "Claiming to be a nigerian prince, and sends out a bunch of emails using advanced scripts...1",
   "Asking your facebook friends for their password.1",
   "Impersonate as the perfect girl on Tinder, asking guys for funds.1",
   "Tricking eldery people to give their credit card information.1",
   "Attaching keylogger malware to your emails.1",
-  "Setting up a fake fundraiser.1",
+  "Setting up a fake fundraiser, and asks grandmother to chip in a little extra1",
   "Trying to log in to others bank account by trial and error.1",
   "Setting up a bitcoin-mining-app in the background of your text-based MMORPG...1",
   "Shutting down Irans nuclear program.1",
   "Fetching personal data from Ashley Madison dating website.1",
   "Observing Home Depots trancsaction through the US...1",
-  "Rebooting the Melissa Virus...1",
-  "Breaking into Sony Playstation...1",
+  "Rebooting the Melissa Virus... It is super effective!1",
+  "Breaking into Sony Playstation... Greeted by a lot of japanese people. This is nice..1",
   "Stealing login credentials to Mt. Gox Bitcoin exchange...1",
-  "Spreading Wannacry ransomware...1",
+  "Spreading Wannacry ransomware... Login: Wanna_cry, Password: ran_some_where. Access granted!1",
   "Stealing personal information from Equifax...1",
-  "Breaking into Pentagon...1"
+  "Breaking into Pentagon and selling their software on ebay1"
 ];
 let errorEncryptionText = "ERROR: Problem detected, have to solve encryption";
 let errorEncryptionDots =
@@ -31,6 +31,7 @@ let successCombatLogText =
   "Hack successful!! <br><br><div class='success'>You gained:<br>100 exp<br> 50 bitcoins<br>-5% battery</div>";
 
 function fight(result, index) {
+
   if (result.rounds[index] === "dodge") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
@@ -44,15 +45,15 @@ function fight(result, index) {
     index += 1;
     return combatLog(splitStrOne, result, index);
   }
-}
-if (result.won === false) {
-  setTimeout(() => {
-    return combatFailed();
-  }, 1500);
-} else if (result.won === true) {
-  setTimeout(function() {
-    return combatFinished();
-  }, 1000);
+  if (result.won === false && result.rounds.length === index) {
+    setTimeout(() => {
+      return combatFailed(result);
+    }, 1500);
+  } else if (result.won === true && result.rounds.length === index) {
+    setTimeout(function() {
+      return combatFinished(result);
+    }, 1000);
+  }
 }
 
 //Combat Players
@@ -82,7 +83,7 @@ function combatLog(array, result, index) {
       document.getElementById("writing").innerHTML += array.shift();
       setTimeout(() => {
         return combatLog(array, result, index);
-      }, 6);
+      }, 7);
     } else if (array[array.length - 1] == "4") {
       document.getElementById("writing").innerHTML += array.shift();
       setTimeout(() => {
@@ -90,8 +91,8 @@ function combatLog(array, result, index) {
       }, 30);
     }
   } else {
-    // document.getElementById("loading-bar").style.width =
-    //   100 - (opponent.hp / opponent.maxHp) * 100 + "%";
+    document.getElementById("loading-bar").style.width =
+    100 - (result.currentHp[index] / result.maxHp) * 100 + "%";
     return fight(result, index);
   }
 }
@@ -102,28 +103,26 @@ function combatFinished(result) {
   document.getElementById("writing").innerHTML +=
     "<br><br><br>" +
     "Hack successful!! <br><br><br><br><div class='success'>You gained:<br><br>" +
-    expChange +
+    result.gains.exp +
     " exp<br>" +
-    moneyChange +
+    result.gains.bitCoins +
     " bitcoins<br>" +
-    crimeChange +
+    result.gains.crime +
     " crimeskill<br>-" +
-    batteryChange +
+    result.gains.battery +
     "% battery</div>";
-  if (player.exp >= player.expToLevel) {
+  if (result.gains.exp >= result.gains.expToLevel) {
     document.getElementById("writing").innerHTML +=
       "<br><br><a href='/home' class='level-up-text'>Congratulations, you have gained a new rank!</a>";
   }
-  return; // player.save();
+  return
 }
 
-function combatFailed(player, opponent) {
-  let batteryChange = opponent.difficulty * 8 + 2;
-  player.battery -= opponent.difficulty * 4;
+function combatFailed(result) {
   document.getElementById("writing").innerHTML +=
     "<br><br><br>" +
     "Hack failure! Your internet was compromised by the Police CyberForce 2000...<br><br><br><br><div class='failure'>You lost:<br>" +
-    batteryChange +
+    result.gains.battery +
     "% battery</div>";
 }
 

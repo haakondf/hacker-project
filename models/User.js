@@ -1,94 +1,97 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  //Account information
-  email: String,
-  password: String,
-  googleId: String,
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user"
-  },
+const userSchema = new Schema(
+  {
+    //Account information
+    email: String,
+    password: String,
+    googleId: String,
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user"
+    },
 
     //Character information
     name: String,
-    
+
     // Player picture
     imgName: String,
     imgPath: String,
     //Player stats
     maxFirewall: {
-        type: Number,
-        default: 100,
+      type: Number,
+      default: 100
     },
     currentFirewall: {
-        type: Number,
-        default: 100,
+      type: Number,
+      default: 100
     },
     cpu: {
-        type: Number,
-        default: 10,
+      type: Number,
+      default: 10
     },
     antiVirus: {
-        type: Number,
-        default: 3,
+      type: Number,
+      default: 3
     },
     dodge: {
-        type: Number,
-        default: 10
+      type: Number,
+      default: 10
     },
     crimeSkill: {
-        type: Number,
-        default: 100
+      type: Number,
+      default: 100
     },
     battery: {
-        type: Number,
-        default: 100
+      type: Number,
+      default: 100
     },
 
-  //Player possessions
-  bitCoins: {
-    type: Number,
-    default: 0
-  },
-  bounty: {
-    type: Number,
-    default: 0
-  },
+    //Player possessions
+    bitCoins: {
+      type: Number,
+      default: 0
+    },
+    bounty: {
+      type: Number,
+      default: 0
+    },
 
-  //Player information
-  rank: {
-    type: String,
-    default: 0
-  },
-  alliance: String,
-  shutdowns: {
-    type: Number,
-    default: 0
-  },
-  networth: {
-    type: Number,
-    default: 0
-  },
+    //Player information
+    rank: {
+      type: String,
+      default: 0
+    },
+    alliance: String,
+    shutdowns: {
+      type: Number,
+      default: 0
+    },
+    networth: {
+      type: Number,
+      default: 0
+    },
 
-  //Figth accessories
-  inCombat: {
-    type: Boolean,
-    default: false
-  },
+    //Figth accessories
+    inCombat: {
+      type: Boolean,
+      default: false
+    },
 
-  failedAttempts: {
-    type: Number,
-    default: 0
-  },
-}, {
-    timestamps:{ 
-        createdAt: "createdAt", updatedAt: "updatedAt" 
+    failedAttempts: {
+      type: Number,
+      default: 0
     }
-})
-
+  },
+  {
+    timestamps: {
+      createdAt: "createdAt",
+      updatedAt: "updatedAt"
+    }
+  }
+);
 
 userSchema.methods.fightCrime = function(opponent) {
   let results = {
@@ -101,11 +104,18 @@ userSchema.methods.fightCrime = function(opponent) {
       crime: 0
     }
   };
+  updatedResults = this.fightCrimeBattle(opponent, results);
+  return updatedResults;
+};
+
+userSchema.methods.fightCrimeBattle = function(opponent, results) {
   let dodgeOccurance = Math.random() * (opponent.dodge / this.dodge);
+
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
     this.roundNumber = 0;
+    this.failedAttempts = 0;
     this.save();
     return results;
   } else if (opponent.currentFirewall <= 0) {
@@ -118,7 +128,7 @@ userSchema.methods.fightCrime = function(opponent) {
     let expChange =
       Math.floor(Math.random() * 300) + opponent.difficulty * 100 + 100;
     let crimeChange = Math.floor(Math.random() * opponent.difficulty) + 1;
-    this.money += moneyChange;
+    this.bitCoins += moneyChange;
     this.networth += moneyChange;
     this.exp += expChange;
     this.crimeSkill += crimeChange;
@@ -127,17 +137,16 @@ userSchema.methods.fightCrime = function(opponent) {
     results.gains.bitCoins = moneyChange;
     results.gains.battery = batteryChange;
     results.gains.crime = crimeChange;
-    this.roundNumber = 0;
+    this.failedAttempts = 0;
     this.save();
     return results;
   } else if (dodgeOccurance >= 1) {
     this.failedAttempts += 1;
     results.rounds.push("dodge");
-    return this.fightCrime(opponent)
-  } else 
-  opponent.currentFirewall -= this.cpu;
-  results.rounds.push("hit")
-  return this.fightCrime(opponent)
+    return this.fightCrimeBattle(opponent, results);
+  } else opponent.currentFirewall -= this.cpu;
+  results.rounds.push("hit");
+  return this.fightCrimeBattle(opponent, results);
 };
 
 module.exports = mongoose.model("User", userSchema);

@@ -10,9 +10,8 @@
     <th>Bonus</th>
   </tr>
 
-  
-  
-  {{#each items}}
+
+  {{#each cpuItems}}
 
   <tr>
     <td>{{this.name}} </td>
@@ -20,8 +19,49 @@
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td><form action="" method="POST">
-                <button class="button-buy">BUY</button></td>
+    <button class="button-buy">BUY</button></td>
   </tr>
+
+  {{/each}}
+
+  {{#each firewallItems}}
+
+  <tr>
+    <td>{{this.name}} </td>
+    <td>{{this.type}} </td>
+    <td>{{this.price}} </td>
+    <td>{{this.bonus}} </td>
+    <td><form action="" method="POST">
+    <button class="button-buy">BUY</button></td>
+  </tr>
+
+  {{/each}}
+
+  {{#each avsItems}}
+
+  <tr>
+    <td>{{this.name}} </td>
+    <td>{{this.type}} </td>
+    <td>{{this.price}} </td>
+    <td>{{this.bonus}} </td>
+    <td><form action="" method="POST">
+    <button class="button-buy">BUY</button></td>
+  </tr>
+
+  {{/each}}
+  
+
+  {{#each encryptionItems}}
+
+  <tr>
+    <td>{{this.name}} </td>
+    <td>{{this.type}} </td>
+    <td>{{this.price}} </td>
+    <td>{{this.bonus}} </td>
+    <td><form action="" method="POST">
+    <button class="button-buy">BUY</button></td>
+  </tr>
+
   {{/each}}
   
 </table>

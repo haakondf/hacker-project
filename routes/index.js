@@ -46,10 +46,8 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   let crimeIdThing = Crime.findById(req.params.id)
 
   Promise.all([userIdThing, crimeIdThing]).then((result) => {
-    let player = result[0];
-    let crimeToCommit = result[1];
-    let resultCrime = player.fightCrime(crimeToCommit);
-    console.log(resultCrime); 
+    let resultCrime = result[0].fightCrime(result[1]);
+    res.render("menu/hack-crimes-id", {result: JSON.stringify(resultCrime)})
   })
 
 

@@ -14,6 +14,9 @@ const userSchema = new Schema({
 
     //Character information
     name: String,
+    // Player picture
+    imgName: String,
+    imgPath: String,
     //Player stats
     maxFirewall: Number,
     currentFirewall: Number,
@@ -30,7 +33,11 @@ const userSchema = new Schema({
 
     //Figth accessories
     inCombat: Boolean,
-})
+},{
+    timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" }
+  });
+  
+
 
 userSchema.methods.fightCrime = function (opponent) {
     fight(this, opponent);

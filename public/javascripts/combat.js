@@ -1,4 +1,6 @@
 console.log("Combat-stuff");
+console.log(result)
+// console.log(result)
 const Crime = function(name, dodge, hp, maxHp, difficulty) {
   this.name = name;
   this.dodge = dodge;

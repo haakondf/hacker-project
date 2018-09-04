@@ -1,0 +1,53 @@
+//Crime:
+const newCrimeOne = Crime({
+    name: "Internet Troll",
+    difficulty: 1,
+    dodge: 15,
+    currentFirewall: 120,
+    maxFirewall: 120,
+  })
+  newCrimeOne.save();
+
+  const newCrimeTwo = Crime({
+    name: "Internet Scam",
+    difficulty: 1.5,
+    dodge: 20,
+    currentFirewall: 200,
+    maxFirewall: 200,
+  })
+  newCrimeTwo.save()
+
+const newCrimeThree = Crime({
+    name: "ID Theft",
+    difficulty: 2.5,
+    dodge: 30,
+    currentFirewall: 300,
+    maxFirewall: 300,
+  })
+  newCrimeThree.save()
+
+  const newCrimeFour = Crime({
+    name: "DDOS",
+    difficulty: 4,
+    dodge: 50,
+    currentFirewall: 400,
+    maxFirewall: 400,
+  })
+  newCrimeFour.save()
+
+  const newCrime = Crime({
+    name: "Logic Bomb",
+    difficulty: 7,
+    dodge: 60,
+    currentFirewall: 700,
+    maxFirewall: 700,
+  })
+  newCrime.save()
+
+
+  //Alliance
+
+
+  //User
+
+

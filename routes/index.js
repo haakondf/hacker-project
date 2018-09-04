@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require("../models/User");
+const Crime = require("../models/Crime")
 
 /* GET all routes. */
 router.get('/index', (req, res, next) => {
@@ -20,8 +21,30 @@ router.get("/home", (req,res, next) => {
 })
 
 router.get("/hack/crimes", (req,res, next) => {
+  // TODO list all crimes with link to GET /hack/crimes/:id
   res.render("menu/hack-crimes")
 })
+
+router.get("/hack/crimes/:id", (req,res, next) => {
+  let crimeToCommit;
+  let player = req.user;
+  console.log(player);
+  Crime.findById(req.params.id).then((result)=>{
+    crimeToCommit = result;
+    res.render("menu/hack-crimes-id", {result: JSON.stringify(crimeToCommit)});
+  });
+});
+
+
+  // TODO get the user from req.user
+  // get the crime from db
+  // do the actual fight: let result = fight()
+  // render the result page with the result
+
+//   res.render("menu/hack-crimes", {
+//     result: JSON.stringify({ rounds: [{dodged: true}], won: true})
+//   })
+// })
 
 router.get("/hack/hack-player", (req,res, next) => {
   res.render("menu/hack-player")

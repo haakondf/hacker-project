@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const crimeSchema = new Schema({
     name: String,
+    difficulty: Number,
     dodge: Number,
     currentFirewall: Number,
     maxFirewall: Number,
-    difficulty: Number,
-})
+});
 
-module.exports = mongoose.model('Crime', userSchema)
+module.exports = mongoose.model('Crime', crimeSchema);

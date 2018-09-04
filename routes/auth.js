@@ -17,11 +17,15 @@ router.post('/sign-up', (req, res, next) => {
     new User({ email, password: encrypted })
         .save()
         .then(result => {
-            console.log('User account was created')
-            res.render('create-hacker')
+            console.log('User account was created', result)
+            passport.authenticate('local')(req, res, function() {
+                res.redirect('/create-hacker');
+            })
+            // res.render('sign-in')
         })
         .catch(err => {
             if (err.code === 11000) {
+                console.log('there was an error', err.code)
                 return res.render('sign-up', { error: 'user exists already' })
             }
             console.error(err)
@@ -60,7 +64,7 @@ router.get(
     })
 )
 
-router.get('/sign-out', (req, res) => {
+router.get('/logout', (req, res) => {
     req.logout()
     res.redirect('/auth/sign-in')
 })

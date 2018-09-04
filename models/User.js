@@ -15,25 +15,58 @@ const userSchema = new Schema({
     //Character information
     name: String,
     //Player stats
-    maxFirewall: Number,
-    currentFirewall: Number,
-    cpu: Number,
-    antiVirus: Number,
-    dodge: Number,
+    maxFirewall: {
+        type: Number,
+        default: 100,
+    },
+    currentFirewall: {
+        type: Number,
+        default: 100,
+    },
+    cpu: {
+        type: Number,
+        default: 10,
+    },
+    antiVirus: {
+        type: Number,
+        default: 3,
+    },
+    dodge: {
+        type: Number,
+        default: 10
+    },
 
 
     //Player possessions
-    bitCoins: Number,
-    bounty: Number,
+    bitCoins: {
+        type: Number,
+        default: 0,
+    },
+    bounty: {
+        type: Number,
+        default: 0,
+    },
 
     //Player information
-    rank: String,
+    rank: {
+        type: String,
+        default: 0,
+    },
     alliance: String,
-    shutdowns: Number,
-    networth: Number,
+    shutdowns: {
+        type: Number,
+        default: 0,
+    },
+    networth: {
+        type: Number,
+        default: 0,
+    },
 
     //Figth accessories
-    inCombat: Boolean,
+    inCombat: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 userSchema.methods.fightCrime = function (opponent) {

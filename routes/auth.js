@@ -17,7 +17,8 @@ router.post('/sign-up', (req, res, next) => {
     new User({ email, password: encrypted })
         .save()
         .then(result => {
-            res.send('User account was created')
+            console.log('User account was created')
+            res.render('create-hacker')
         })
         .catch(err => {
             if (err.code === 11000) {

@@ -14,7 +14,7 @@ passport.deserializeUser((id, cb) => {
         if (err) {
             return cb(err)
         }
-
+        
         const cleanUser = user.toObject()
         delete cleanUser.password
 

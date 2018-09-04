@@ -13,6 +13,8 @@ const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
 const flash = require('connect-flash')
 
+hbs.registerPartials(__dirname + '/views/partials/');
+
 mongoose.Promise = Promise
 mongoose
     .connect(

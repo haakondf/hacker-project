@@ -340,6 +340,17 @@ a {
     font-size: 1vw;
 }
 
+.button-buy {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 0.5vw 1vw;
+    text-align: center;
+    display: inline-block;
+    font-size: 1vw;
+}
+
+
  /* end of cards */
 
  .flex-columns{

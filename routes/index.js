@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const User = require("../models/User");
 const Crime = require("../models/Crime")
+const Alliance = require("../models/Alliance")
+const Item = require("../models/Item")
 const uploadCloud = require('../utils/cloudinary.js');
 
 /* GET all routes. */
@@ -84,8 +86,14 @@ router.get("/alliance/hideout", (req,res, next) => {
 })
 
 router.get("/marketplace", (req,res, next) => {
-  res.render("menu/marketplace")
-})
+  Item.find()
+  .then(items => {
+    res.render("menu/marketplace", { items });
+  })
+  .catch(error => {
+    console.log(error)
+  })
+});
 
 router.get("/system-repair", (req,res, next) => {
   res.render("menu/system-repair")

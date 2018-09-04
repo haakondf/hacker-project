@@ -53,8 +53,6 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   })
 
 
-
-
   // Crime.findById(req.params.id).then(result => {
   //   crimeToCommit = result;
   //   res.render("menu/hack-crimes-id", {

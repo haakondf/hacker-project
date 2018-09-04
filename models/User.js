@@ -73,6 +73,14 @@ const userSchema = new Schema(
       type: Number,
       default: 0
     },
+    exp: {
+        type: Number,
+        default: 0,
+    },
+    expToLevel: {
+        type: Number,
+        default: 0,
+    },
 
     //Figth accessories
     inCombat: {
@@ -96,12 +104,15 @@ const userSchema = new Schema(
 userSchema.methods.fightCrime = function(opponent) {
   let results = {
     rounds: [],
+    currentHp: [],
+    maxHp: opponent.maxFirewall,
     won: false,
     gains: {
       exp: 0,
       bitCoins: 0,
       battery: 0,
-      crime: 0
+      crime: 0,
+      expToLevel: this.expToLevel,
     }
   };
   updatedResults = this.fightCrimeBattle(opponent, results);
@@ -140,12 +151,14 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     this.failedAttempts = 0;
     this.save();
     return results;
-  } else if (dodgeOccurance >= 1) {
+  } else if (dodgeOccurance >= 0.9) {
     this.failedAttempts += 1;
     results.rounds.push("dodge");
+    results.currentHp.push(opponent.currentFirewall);
     return this.fightCrimeBattle(opponent, results);
   } else opponent.currentFirewall -= this.cpu;
   results.rounds.push("hit");
+  results.currentHp.push(opponent.currentFirewall);
   return this.fightCrimeBattle(opponent, results);
 };
 

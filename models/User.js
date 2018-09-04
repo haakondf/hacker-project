@@ -35,6 +35,14 @@ const userSchema = new Schema({
         type: Number,
         default: 10
     },
+    crimeSkill: {
+        type: Number,
+        default: 100
+    },
+    battery: {
+        type: Number,
+        default: 100
+    },
 
 
     //Player possessions
@@ -64,6 +72,11 @@ const userSchema = new Schema({
 
     //Figth accessories
     inCombat: {
+        type: Boolean,
+        default: false,
+    },
+
+    inHideout: {
         type: Boolean,
         default: false,
     },

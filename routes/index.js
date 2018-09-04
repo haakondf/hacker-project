@@ -51,7 +51,7 @@ router.get("/hack/crimes/:id", (req, res, next) => {
     let resultCrime = result[0].fightCrime(result[1]);
     res.render("menu/hack-crimes-id", {result: JSON.stringify(resultCrime)})
   })
-
+});
 
   // Crime.findById(req.params.id).then(result => {
   //   crimeToCommit = result;
@@ -59,7 +59,6 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   //     result: JSON.stringify(crimeToCommit)
   //   });
   // });
-});
 
 // TODO get the user from req.user
 // get the crime from db
@@ -72,7 +71,20 @@ router.get("/hack/crimes/:id", (req, res, next) => {
 // })
 
 router.get("/hack/hack-player", (req, res, next) => {
-  res.render("menu/hack-player");
+  User.find({}).then((user) => {
+    res.render("menu/hack-player", {user});
+  })
+});
+
+router.get("/hack/hack-player/:id", (req, res, next) => {
+  let newReq = req.params.id.slice(1)
+  let userIdThing = User.findById(req.user._id)
+  let opponentIdThing = User.findById(newReq)
+
+  Promise.all([userIdThing, opponentIdThing]).then((result) => {
+   // let resultHack = result[0].hackPlayer(result[1]);
+    res.render("menu/hack-player-id", {result: JSON.stringify(resultHack)})
+  })
 });
 
 router.get("/hack/wanted-list", (req, res, next) => {

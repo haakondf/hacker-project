@@ -101,6 +101,8 @@ const userSchema = new Schema(
   }
 );
 
+
+//Hack Crime
 userSchema.methods.fightCrime = function(opponent) {
   let results = {
     rounds: [],
@@ -151,15 +153,39 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     this.failedAttempts = 0;
     this.save();
     return results;
-  } else if (dodgeOccurance >= 0.9) {
+    //Combat won over
+  } else if (dodgeOccurance >= (0.9 + (this.crimeSkill/100))) {
     this.failedAttempts += 1;
     results.rounds.push("dodge");
     results.currentHp.push(opponent.currentFirewall);
     return this.fightCrimeBattle(opponent, results);
-  } else opponent.currentFirewall -= this.cpu;
+  } else 
+  opponent.currentFirewall -= this.cpu + (this.crimeSkill/10);
   results.rounds.push("hit");
+  if (opponent.currentFirewall < 0) opponent.currentFirewall = 0;
   results.currentHp.push(opponent.currentFirewall);
   return this.fightCrimeBattle(opponent, results);
 };
+
+//Hack players PvP
+userSchema.methods.hackPlayer = function(opponent) {
+    let results = {
+        rounds: [],
+        gains: {
+            exp: 0,
+            bitCoins: 0,
+            battery: 0,
+            crime: 0,
+            expToLevel: this.expToLevel,
+          }
+    }
+
+    this.hackPlayerBattle(opponent, results)
+}
+
+userSchema.methods.hackPlayerBattle = function(opponent, results) {
+    
+}
+
 
 module.exports = mongoose.model("User", userSchema);

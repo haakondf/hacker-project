@@ -179,6 +179,58 @@ a {
 
 .success {
     color: blue;
+}
+
+/* create hacker  */
+
+#CRtitle {
+    text-align: center;
+}
+
+#create-hacker {
+    background-color:  rgb(71, 223, 71);
+    width: 910px;
+    height: 800px;
+}
+
+#left-box {
+    background-color:red;
+    float: left;
+    height: 300px;
+    width: 30%;
+    margin: 10px;
+}
+
+#center-box {
+    background-color:red;
+    float: left;
+    height: 300px;
+    width: 30%;
+    margin: 10px;
+}
+
+#right-box {
+    background-color:red;
+    float: left;
+    height: 300px;
+    width: 30%;
+    margin: 10px;
+} 
+
+/* picture items */
+
+.users-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .user-item {
+    width: 30%;
+    margin: 15px;
+  }
+  
+  .user-item img {
+    width: 50%;
     line-height: 1.2vw;
 }
 

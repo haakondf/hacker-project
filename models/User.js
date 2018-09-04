@@ -14,6 +14,10 @@ const userSchema = new Schema({
 
     //Character information
     name: String,
+    
+    // Player picture
+    imgName: String,
+    imgPath: String,
     //Player stats
     maxFirewall: {
         type: Number,
@@ -79,7 +83,11 @@ const userSchema = new Schema({
     inHideout: {
         type: Boolean,
         default: false,
-    },
+    }
+}, {
+    timestamps:{ 
+        createdAt: "createdAt", updatedAt: "updatedAt" 
+    }
 })
 
 userSchema.methods.fightCrime = function (opponent) {

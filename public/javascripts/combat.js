@@ -1,6 +1,5 @@
 let index = 0;
 
-
 //Combat Crime
 
 let randomCrimeString = [

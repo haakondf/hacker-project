@@ -207,6 +207,16 @@ a {
 
 /*Combat text styling*/
 
+.insufficient-combat-stuff {
+    width: 80%;
+    margin: 0px auto;
+    font-size: 1.9vw;
+    line-height: 2.1vw;
+    color: rgb(71, 223, 71);
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 5vw;
+}
+
 #writing {
     width: 35vw;
     margin: 0px auto;
@@ -393,7 +403,7 @@ a {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    padding: 1vw 2vw;
+    padding: 0.6vw 1.6vw;
     text-align: center;
     display: inline-block;
     font-size: 1vw;

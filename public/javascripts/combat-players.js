@@ -24,7 +24,7 @@ let errorEncryptionDots =
 //Combat Players
 
 function fight(result, index) {
-  if (result.rounds[index] === "dodge") {
+  if (result.rounds[index] === "encryption") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
       "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
@@ -82,9 +82,12 @@ function combatFinished(result) {
     " bitcoins<br>" +
     result.gains.battery +
     "% battery</div>";
-    if (result.gains.bounty > 0) {
-        document.getElementById("writing").innerHTML += "<br><div id='bounty'>You also recieved a bounty of $" + result.gains.bounty + "!</div>"
-    }
+  if (result.gains.bounty > 0) {
+    document.getElementById("writing").innerHTML +=
+      "<br><div id='bounty'>You also recieved a bounty of $" +
+      result.gains.bounty +
+      "!</div>";
+  }
   if (result.gains.exp >= result.gains.expToLevel) {
     document.getElementById("writing").innerHTML +=
       "<br><br><a href='/home' class='level-up-text'>Congratulations, you have gained a new rank!</a>";

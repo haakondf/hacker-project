@@ -53,7 +53,7 @@ const userSchema = new Schema(
       type: Number,
       default: 5
     },
-    dodge: {
+    encryption: {
       type: Number,
       default: 10
     },
@@ -134,6 +134,7 @@ const userSchema = new Schema(
 
 //Hack Crime
 userSchema.methods.fightCrime = function(opponent) {
+  console.log(opponent);
   this.battery -= 7;
   let results = {
     rounds: [],
@@ -153,7 +154,8 @@ userSchema.methods.fightCrime = function(opponent) {
 };
 
 userSchema.methods.fightCrimeBattle = function(opponent, results) {
-  let dodgeOccurance = Math.random() * (opponent.dodge / this.dodge);
+  let encryptionOccurance =
+    Math.random() * (opponent.encryption / this.encryption);
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
@@ -184,9 +186,9 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     this.save();
     return results;
     //Combat won over
-  } else if (dodgeOccurance >= 0.9 + this.crimeSkill / 100) {
+  } else if (encryptionOccurance >= 0.9 + this.crimeSkill / 100) {
     this.failedAttempts += 1;
-    results.rounds.push("dodge");
+    results.rounds.push("encryption");
     results.currentHp.push(opponent.currentFirewall);
     return this.fightCrimeBattle(opponent, results);
   } else opponent.currentFirewall -= this.cpu + this.crimeSkill / 10;
@@ -217,8 +219,8 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
 };
 
 userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
-  let dodgeOccurance =
-    Math.random() + (opponentPlayer.dodge / this.dodge) * 0.4;
+  let encryptionOccurance =
+    Math.random() + (opponentPlayer.encryption / this.encryption) * 0.4;
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
@@ -257,9 +259,9 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     opponentPlayer.save();
     this.save();
     return results;
-  } else if (dodgeOccurance >= 1) {
+  } else if (encryptionOccurance >= 1) {
     this.failedAttempts += 1;
-    results.rounds.push("dodge");
+    results.rounds.push("encryption");
     results.currentHp.push(opponentPlayer.currentFirewall);
     return this.hackPlayerBattle(opponentPlayer, results);
   } else

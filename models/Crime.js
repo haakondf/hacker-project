@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const crimeSchema = new Schema({
-    name: String,
-    difficulty: Number,
-    dodge: Number,
-    currentFirewall: Number,
-    maxFirewall: Number,
+  name: String,
+  difficulty: Number,
+  encryption: Number,
+  currentFirewall: Number,
+  maxFirewall: Number
 });
 
-module.exports = mongoose.model('Crime', crimeSchema);
+module.exports = mongoose.model("Crime", crimeSchema);

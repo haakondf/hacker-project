@@ -29,8 +29,7 @@ let errorEncryptionDots =
   "....................................................... 4";
 
 function fight(result, index) {
-
-  if (result.rounds[index] === "dodge") {
+  if (result.rounds[index] === "encryption") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
       "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
@@ -71,7 +70,7 @@ function combatLog(array, result, index) {
     }
   } else {
     document.getElementById("loading-bar").style.width =
-    100 - (result.currentHp[index] / result.maxHp) * 100 + "%";
+      100 - (result.currentHp[index] / result.maxHp) * 100 + "%";
     return fight(result, index);
   }
 }
@@ -94,7 +93,7 @@ function combatFinished(result) {
     document.getElementById("writing").innerHTML +=
       "<br><br><a href='/home' class='level-up-text'>Congratulations, you have gained a new rank!</a>";
   }
-  return
+  return;
 }
 
 function combatFailed(result) {

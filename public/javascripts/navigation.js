@@ -5,7 +5,7 @@ axios.get('/user/details')
   .then(function (response) {
     console.log(response);
     $('#nav-username').text(response.data.name)
-    $('#nav-userrank').text(response.data.rank) // GIVES A NUMBER VALUE, NOT NAME OF RANK... YET
+    $('#nav-userrank').text(response.data.rankName) // GIVES A NUMBER VALUE, NOT NAME OF RANK... YET
     $('#nav-useralliance').text(response.data.role) // THIS IS NOT CORRECT. GET FROM OTHER DOCUMENT
     $('#nav-userbitcoins').text(response.data.bitCoins + "$")
     $('#nav-userbattery').text("BTRY: "+response.data.battery + "%")

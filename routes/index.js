@@ -168,7 +168,11 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
 
+<<<<<<< HEAD
 router.get("/user/details", ensureAuthenticated, (req,res, next) => {
+=======
+router.get("/user/details", (req,res, next) => {
+>>>>>>> 1df159237a65406ebfaac9960fa5cbbc77146d4d
     res.json(req.user)
 });
 

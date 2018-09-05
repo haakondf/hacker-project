@@ -1,4 +1,4 @@
-console.log("hohoh")
+
 
 $(document).ready(function() {
 axios.get('/user/details')

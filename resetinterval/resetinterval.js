@@ -5,7 +5,6 @@ const User = require("../models/User");
 function resetInterval() {
     User.find({}).then((users) => {
         users.map((user) => {
-            console.log("Battery gains!: " + user)
             user.battery += 10;
             if (user.battery > 100) user.battery = 100;
             user.save();

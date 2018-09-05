@@ -117,6 +117,7 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
     if (result[0].currentFirewall <= 0) return res.render("menu/hack-player-id-error", {error:"You need a firewall to be able to hack other players!"})
     if (result[1].gracePeriod === true) return res.render("menu/hack-player-id-error", {error:"The person is under the influence of graceperiod (which last for up to 12 hours)"});
     if (result[1].currentFirewall <= 0) return res.render("menu/hack-player-id-error", {error:"You can't kill what's already dead!"})
+    if (result[1].rank < (result[0].rank)/2) return res.render("menu/hack-player-id-error", {error:"You can't hack players that are lower than half of your rank"})
     let resultHack = result[0].hackPlayer(result[1]);
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
   });

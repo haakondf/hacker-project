@@ -14,6 +14,7 @@ const passport = require('passport')
 const flash = require('connect-flash')
 const fileUpload = require("express-fileupload")
 const axios = require('axios');
+const resetInterval = require("./resetinterval/resetinterval");
 
 mongoose.Promise = Promise
 mongoose
@@ -23,6 +24,7 @@ mongoose
     )
     .then(() => {
         console.log('Connected to Mongo!')
+        resetInterval();
     })
     .catch(err => {
         console.error('Error connecting to mongo', err)

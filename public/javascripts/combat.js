@@ -1,6 +1,5 @@
-console.log("Combat-stuff");
-console.log(result);
 let index = 0;
+
 //Combat Crime
 
 let randomCrimeString = [
@@ -54,25 +53,6 @@ function fight(result, index) {
     }, 1000);
   }
 }
-
-//Combat Players
-
-let randomCombatLogComments = [
-  "Accessing files... struct ip_config_file_uploader = function(password) {console.log(debug_report); return ip}...1",
-  "Rehosting server to accesspoint... Function denied, relocating host point to ip...1",
-  "Ip config. 15.345.1.508 annihilating system software extras and extracting new data to disc. Reallocating new Malware to system disc.1",
-  "Typescript system activated and transferred to new directory encrypted with an IBAN number of 19029839.1",
-  "Console logging that bitch to see if there is an end_result: var type_in_user = {aku += 10} to user: 'Some_basement_guy'. Response awaiting...1",
-  "Searching the depths of web to solve an algorithm by applying the known map, filter => reduce technique.1",
-  "Deploying repository and git commit -m 'Advanced Update': Functioning: 1002.10002. 333 updated!1",
-  "Userinterface activated by struct ip_hbs_active = resolution => return array[1223, 9532, 2846]. Looking for new updates to system-ware and hiking.1",
-  "Constructing a VPN to server: 100%, connecting through active_flow_chart123 and deploying mechanism... Active and responsive!1",
-  "Advanced css => upload ??? and activating decomposition to resolve Promise sent by FBI.1",
-  "Git push origin_encrypted_secret master. Activating git pull request... Waiting for server to respond... Access granted on specific terms1",
-  "Origin base requested from server: 1.119.1337.923. Accepted!1",
-  "101010111010100011111010010010010101010101010101001011 01010110101010101010010101110101010100101010011001",
-  "Running around the house trying to find the battery charger, but it failed to commit... System reboots: external_battery_source = True1"
-];
 
 //Combat log
 

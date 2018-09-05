@@ -36,6 +36,7 @@ th, td {
 }
 
 
+
 /*For the index page (Haakon) */
 
 .container {
@@ -207,6 +208,16 @@ a {
 
 /*Combat text styling*/
 
+.insufficient-combat-stuff {
+    width: 80%;
+    margin: 0px auto;
+    font-size: 1.9vw;
+    line-height: 2.1vw;
+    color: rgb(71, 223, 71);
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 5vw;
+}
+
 #writing {
     width: 35vw;
     margin: 0px auto;
@@ -237,6 +248,12 @@ a {
 
 .success {
     color: blue;
+}
+
+#bounty {
+    font-size: 0.9vw;
+    color: aqua;
+    font-weight: bold;
 }
 
 /* create hacker  */
@@ -387,7 +404,7 @@ a {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    padding: 1vw 2vw;
+    padding: 0.6vw 1.6vw;
     text-align: center;
     display: inline-block;
     font-size: 1vw;
@@ -412,4 +429,24 @@ a {
 	justify-content: center;
 	align-items: stretch;
 	align-content: stretch;
+}
+
+#information-text {
+    color: rgb(236, 253, 220);
+    text-align: center;
+    padding-top: 4vh;
+    font-size: 1vw;
+    font-weight: bold;
+    text-shadow: 2px 2px #145700;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#event-text {
+    color: rgb(236, 253, 220);
+    text-align: left;
+    padding-top: 4vh;
+    font-size: 1vw;
+    font-weight: bold;
+    text-shadow: 1px 1px #145700;
+    font-family: 'Courier New', Courier, monospace;
 }

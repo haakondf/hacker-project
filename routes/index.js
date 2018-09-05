@@ -91,8 +91,9 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   let crimeIdThing = Crime.findById(req.params.id);
 
   Promise.all([userIdThing, crimeIdThing]).then(result => {
+    if (result[0].battery < 7) return res.render("menu/hack-crimes-id-error", {error: "Insufficient battery!"});
+    if (result[0].currentFirewall <= 0) return res.render("menu/hack-crimes-id-error", {error:"You need a firewall to be able to commit crimes!"})
     let resultCrime = result[0].fightCrime(result[1]);
-    if (!resultCrime) return res.send("Insufficient battery, or firewall, or the enemy is already dead!");
     res.render("menu/hack-crimes-id", {
       result: JSON.stringify(resultCrime)
     });
@@ -110,16 +111,23 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
   let userIdThing = User.findById(req.user._id);
   let opponentIdThing = User.findById(newReq);
   Promise.all([userIdThing, opponentIdThing]).then(result => {
+    if (result[0].name === result[1].name) return res.render("menu/hack-player-id-error", {error:"You can't hack yourself!"});
+    if (result[0].battery < 7) return res.render("menu/hack-player-id-error", {error:"Insufficient battery!"});
+    if (result[0].currentFirewall <= 0) return res.render("menu/hack-player-id-error", {error:"You need a firewall to be able to hack other players!"})
+    if (result[1].gracePeriod === true) return res.render("menu/hack-player-id-error", {error:"The person is under the influence of graceperiod (which last for up to 12 hours)"});
+    if (result[1].currentFirewall <= 0) return res.render("menu/hack-player-id-error", {error:"You can't kill what's already dead!"})
+    if (result[1].rank < (result[0].rank)/2) return res.render("menu/hack-player-id-error", {error:"You can't hack players that are lower than half of your rank"})
     let resultHack = result[0].hackPlayer(result[1]);
-    if (!resultHack) return res.send("Insufficient battery");
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
   });
 });
 
 router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
   User.find({})
-    .then(user => {
-      res.render("menu/hack-wanted-list", { user });
+    .then(users => {
+      let bountyUsers = users.filter((user) => user.bounty > 0)
+      console.log(bountyUsers)
+        res.render("menu/hack-wanted-list", { bountyUsers });
     })
     .catch(console.error);
 });
@@ -151,12 +159,20 @@ router.get("/marketplace", ensureAuthenticated, (req,res, next) => {
       console.log(error);
     });
 });
+
+// BUYING ITEMS IN THE MARKETPLACE?
+/* User.findByIdAndUpdate(id, { $set: { cpu: +=5  THIS WONT WORK probably   }}, function (err, user) {
+  if (err) return handleError(err);
+  res.send(user);
+});
+ */
+
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
 
 router.get("/user/details", (req,res, next) => {
-  res.json(req.user)
+    res.json(req.user)
 });
 
 router.get("/ladder", (req, res, next) => {
@@ -169,6 +185,10 @@ router.get("/ladder", (req, res, next) => {
 
 router.get("/information", (req, res, next) => {
   res.render("menu/information");
+});
+
+router.get("/events", (req, res, next) => {
+  res.render("menu/events");
 });
 
 router.get("/arcade", (req, res, next) => {

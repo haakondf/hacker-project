@@ -1,4 +1,5 @@
 <h1>WANTED LIST</h1>
+<div class="flex-container">
 
 <table cellspacing="0">
   <tr>
@@ -22,3 +23,12 @@
   </tr>
   {{/each}}
 </table>
+
+
+<form action="/hack/wanted-list" method="POST" id="wanted-list-form">
+  <h2>Add player and bounty</h2>
+  <input type="text" name="name" id="wanted-list-input" placeholder="Add player to wanted" required> <br>
+  <input type="number" name="bounty" id="wanted-list-input-bounty" placeholder="Add bounty" required>
+  <input type="submit" id="wanted-list-submit">
+</form>
+</div>

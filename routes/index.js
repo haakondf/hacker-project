@@ -10,19 +10,40 @@ const uploadCloud = require('../utils/cloudinary.js');
 router.get("/index", (req, res, next) => {
   res.render("index", { title: "Express" });
 });
-// npm install ensureLogin see 
-//atm ensureAuthenticated is not doing anything
-router.get("/create-hacker", ensureAuthenticated, (req, res, next) => { // ensure user is logged in
-  res.render("create-hacker", { title: "Express" });
-});
+
+// Legg til funksjonen "ensureAuthenticated" til alle GET sidene man må være pålogget for å se
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
-    res.redirect('/sign-in')
+    res.redirect('/auth/sign-in')
   }
 }
+
+// TODO add isSetup to user model, defautls to false
+  // TODO maybe log req.user to see what the object is and if we have the value for isSetup
+function ensureIsSetup (req, res, next) {
+  if (req.user.isSetup()) {
+    return next();
+  } else {
+    res.redirect('create-hacker')
+  }
+}
+
+// function demanding that character is created, otherwise it will redirect to create hacker page
+function ensureIsSetup(req, res, next) {
+  
+  if (req.user.isSetup) {
+    return next();
+  } else {
+    res.redirect('/create-hacker')
+  }
+}
+router.get("/create-hacker", ensureAuthenticated, (req, res, next) => { // ensure user is logged in
+  res.render("create-hacker", { title: "Express" });
+});
+
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
   const { title, description } = req.body;
@@ -31,7 +52,8 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
 
   console.log('req user consolelog',req.user)
   //User.findById /// add { title, description, imgPath, imgName });
-  User.findByIdAndUpdate(req.user._id, { title, description, imgPath, imgName }).then((result) => {
+  // now isSetup is changed to true upon image upload. This should be changed to play/create button
+  User.findByIdAndUpdate(req.user._id, { title, description, imgPath, imgName, isSetup: true }).then((result) => {
     console.log(result);
     res.render('index')
   })
@@ -49,19 +71,23 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
 });
 
 router.get("/", (req, res, next) => {
-  res.render("menu/home");
+
+  if (req.user) {
+
+    res.render("menu/home");
+  } else {
+    res.render("homeinfo")
+
+  }
 });
 
-router.get("/home", (req, res, next) => {
-  res.render("menu/home");
-});
 
-router.get("/hack/crimes", (req, res, next) => {
+router.get("/hack/crimes", ensureAuthenticated,(req, res, next) => {
   // TODO list all crimes with link to GET /hack/crimes/:id
   res.render("menu/hack-crimes");
 });
 
-router.get("/hack/crimes/:id", (req, res, next) => {
+router.get("/hack/crimes/:id", ensureAuthenticated, (req, res, next) => {
   let userIdThing = User.findById(req.user._id)
   let crimeIdThing = Crime.findById(req.params.id)
 
@@ -90,13 +116,13 @@ router.get("/hack/crimes/:id", (req, res, next) => {
 //   })
 // })
 
-router.get("/hack/hack-player", (req, res, next) => {
+router.get("/hack/hack-player", ensureAuthenticated, (req, res, next) => {
   User.find({}).then((user) => {
     res.render("menu/hack-player", {user});
   })
 });
 
-router.get("/hack/hack-player/:id", (req, res, next) => {
+router.get("/hack/hack-player/:id", ensureAuthenticated, (req, res, next) => {
   let newReq = req.params.id.slice(1)
   let userIdThing = User.findById(req.user._id)
   let opponentIdThing = User.findById(newReq)
@@ -107,7 +133,7 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
   })
 });
 
-router.get("/hack/wanted-list", (req, res, next) => {
+router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
   User.find({})
     .then(user => {
       res.render("menu/hack-wanted-list", { user });
@@ -115,19 +141,19 @@ router.get("/hack/wanted-list", (req, res, next) => {
     .catch(console.error);
 });
 
-router.get("/alliance/forum", (req, res, next) => {
+router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-forum");
 });
 
-router.get("/alliance/group-kill", (req, res, next) => {
+router.get("/alliance/group-kill", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-group-kill");
 });
 
-router.get("/alliance/hideout", (req, res, next) => {
+router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-hideout");
 });
 
-router.get("/marketplace", (req,res, next) => {
+router.get("/marketplace", ensureAuthenticated, (req,res, next) => {
   Item.find()
   .then(items => {
     res.render("menu/marketplace", { 
@@ -143,7 +169,7 @@ router.get("/marketplace", (req,res, next) => {
     console.log(error)
   })
 });
-router.get("/system-repair", (req, res, next) => {
+router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
 

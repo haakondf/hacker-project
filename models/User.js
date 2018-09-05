@@ -7,6 +7,11 @@ const userSchema = new Schema(
     email: String,
     password: String,
     googleId: String,
+    //user can be created before character creation, then isSetup = false, after setup, isSetup should be true
+    isSetup: {
+      type: Boolean,
+      default: false
+    },
     role: {
       type: String,
       enum: ["user", "admin"],

@@ -14,7 +14,11 @@
     <td>{{this.alliance}} </td>
     <td>{{this.rankName}} </td>
     <td>${{this.bounty}} </td>
-    <td><button class="button">Hack!</button></td>
+    <td>
+      <form action="/hack/hack-player/:{{this.id}}">
+        <button type="submit" class="button">Hack!</button>
+      </form>
+    </td>
   </tr>
   {{/each}}
 </table>

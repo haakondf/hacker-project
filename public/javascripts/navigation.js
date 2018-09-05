@@ -1,4 +1,4 @@
-
+console.log("hohoh")
 
 $(document).ready(function() {
 axios.get('/user/details')
@@ -11,7 +11,6 @@ axios.get('/user/details')
     $('#nav-userbattery').text("BTRY: "+response.data.battery + "%")
     $('#nav-userfirewall').text("FW: "+ Math.floor(response.data.currentFirewall*100/response.data.maxFirewall) + "%")
     $('#nav-userexp').text(response.data.exp)// DOES NOT HAVE REMAINING EXP UNTIL NEXT LEVEL UP 
-
   })
   .catch(function (error) {
     console.log(error);

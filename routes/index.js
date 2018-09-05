@@ -156,6 +156,11 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
 
+router.get("/user/details", (req,res, next) => {
+  console.log(req.user)
+    res.json(req.user)
+});
+
 router.get("/ladder", (req, res, next) => {
   User.find({})
     .then(user => {

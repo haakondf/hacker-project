@@ -17,9 +17,10 @@ router.post('/sign-up', (req, res, next) => {
     new User({ email, password: encrypted })
         .save()
         .then(result => {
-            console.log('User account was created', result)
             passport.authenticate('local')(req, res, function() {
+                console.log('sign-up was successfull')
                 res.redirect('/create-hacker');
+                
             })
             // res.render('sign-in')
         })

@@ -22,13 +22,12 @@ let randomCrimeString = [
   "Stealing login credentials to Mt. Gox Bitcoin exchange...1",
   "Spreading Wannacry ransomware... Login: Wanna_cry, Password: ran_some_where. Access granted!1",
   "Stealing personal information from Equifax...1",
-  "Breaking into Pentagon and selling their software on ebay1"
+  "Breaking into Pentagon and selling their software on ebay1",
+  "Trading Chartreuse on the black market: A shady guy named mc100s is willing to sell it!1"
 ];
 let errorEncryptionText = "ERROR: Problem detected, have to solve encryption";
 let errorEncryptionDots =
   "....................................................... 4";
-let successCombatLogText =
-  "Hack successful!! <br><br><div class='success'>You gained:<br>100 exp<br> 50 bitcoins<br>-5% battery</div>";
 
 function fight(result, index) {
 

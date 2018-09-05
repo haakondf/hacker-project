@@ -27,22 +27,28 @@ function ensureIsSetup (req, res, next) {
   if (req.user.isSetup()) {
     return next();
   } else {
-    res.redirect('create-hacker')
-  }
-}
-
-// function demanding that character is created, otherwise it will redirect to create hacker page
-function ensureIsSetup(req, res, next) {
-  
-  if (req.user.isSetup) {
-    return next();
-  } else {
     res.redirect('/create-hacker')
   }
 }
+
+
 router.get("/create-hacker", ensureAuthenticated, (req, res, next) => { // ensure user is logged in
   res.render("create-hacker", { title: "Express" });
 });
+
+//upload photo 
+// router.post("/upload-photo", uploadCloud.single("photo"), (req, res, next) => {
+//   const imgPath = req.file.url;
+//   const imgName = req.file.originalname;
+//   User.findByIdAndUpdate(req.user._id, { imgPath, imgName }).then((result) => {
+//     console.log(result)
+//   })
+//   .catch(error => {
+//     console.log(error);
+//     res.redirect("error");
+    
+//   })
+// })
 
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
@@ -57,13 +63,6 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
     console.log(result);
     res.render('index')
   })
-
-  // const newUser = new User({ title, description, imgPath, imgName });
-  // newUser
-  //   .save()
-  //   .then(user => {
-  //     res.redirect("/");
-  //   })
     .catch(error => {
       console.log(error);
       res.redirect("error");
@@ -154,6 +153,10 @@ router.get("/marketplace", ensureAuthenticated, (req,res, next) => {
 });
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
+});
+
+router.get("/user/details", (req,res, next) => {
+  res.json(req.user)
 });
 
 router.get("/ladder", (req, res, next) => {

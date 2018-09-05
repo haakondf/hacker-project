@@ -92,8 +92,8 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   let crimeIdThing = Crime.findById(req.params.id);
 
   Promise.all([userIdThing, crimeIdThing]).then(result => {
+    if (result[0].battery < 7) return res.send("Insufficient battery!");
     let resultCrime = result[0].fightCrime(result[1]);
-    if (!resultCrime) return res.send("Insufficient battery, or firewall, or the enemy is already dead!");
     res.render("menu/hack-crimes-id", {
       result: JSON.stringify(resultCrime)
     });
@@ -111,6 +111,10 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
   let userIdThing = User.findById(req.user._id);
   let opponentIdThing = User.findById(newReq);
   Promise.all([userIdThing, opponentIdThing]).then(result => {
+    if (result[0].name === result[1].name) return res.send("You can't hack yourself!");
+    if (result[0].battery < 7) return res.send("Insufficient battery!");
+    if (result[1].gracePeriod === true) return res.send("The person is under the influence of graceperiod (which last for up to 12 hours)");
+    if (result[1].currentFirewall <= 0) return res.send("You can't kill what's already dead!")
     let resultHack = result[0].hackPlayer(result[1]);
     if (!resultHack) return res.send("Insufficient battery");
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
@@ -157,7 +161,6 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/user/details", (req,res, next) => {
-  console.log(req.user)
     res.json(req.user)
 });
 

@@ -239,6 +239,12 @@ a {
     color: blue;
 }
 
+#bounty {
+    font-size: 0.9vw;
+    color: aqua;
+    font-weight: bold;
+}
+
 /* create hacker  */
 
 #CRtitle {

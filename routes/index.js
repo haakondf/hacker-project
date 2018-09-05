@@ -51,6 +51,7 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
 });
 
 router.get("/", (req, res, next) => {
+
   res.render("menu/home");
 });
 
@@ -128,6 +129,14 @@ router.get("/marketplace", (req, res, next) => {
       console.log(error);
     });
 });
+
+router.get("/user/details", (req,res, next) => {
+  console.log(req.user)
+    res.json(req.user)
+
+});
+
+
 router.get("/system-repair", (req, res, next) => {
   res.render("menu/system-repair");
 });

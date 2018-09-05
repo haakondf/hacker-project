@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div id="background-image-green">
+     <div id="background-image-green">
     </div>
     <!-- SIDE MENU -->
     <div id="side-bar">
@@ -52,19 +52,19 @@
                 CyberHacker WarFare Ultimate 3000!
             </div>
         </div>
-        <div id="navbar">
-            <ul>
-                <li><a>FENREW</a></li>
-                <li><a>BASEMENT DWELLER</a></li>
-                <li><a>WHITE HAT</a></li>
-                <li><a>5000$</a></li>
-                <li><a>BTRY: 80 %</a></li>
-                <li><a>FW: 100 %</a></li>
-                {{!-- <li><a>EXP 90/100 {{> userName}} </a></li> --}}
-
-                <li><a href="/events">EVENTS</a></li>
-            </ul>
-        </div>
+        <div id="navbar"> 
+  <ul > 
+	<li id="nav-username"></li>
+	<li id="nav-userrank"></li>
+	<li id="nav-useralliance"></li>
+	<li id="nav-userbitcoins"></li>
+	<li id="nav-userbattery"></li>
+	<li id="nav-userfirewall"></li>
+    <li id="nav-userexp"></li>
+    <li><a href="/events">EVENTS</a></li>
+</div>
+  </ul> 
+</div> 
     </div>
     </div>
 
@@ -75,6 +75,9 @@
         {{{body}}}
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/javascripts/navigation.js"></script>
+
 </body>
 
 </html>

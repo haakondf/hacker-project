@@ -19,13 +19,12 @@ const resetInterval = require("./resetinterval/resetinterval");
 mongoose.Promise = Promise
 mongoose
     .connect(
-        'mongodb://localhost/hacker-project',
+        process.env.MONGODB_URI,
         { useMongoClient: true }
     )
     .then(() => {
         console.log('Connected to Mongo!')
         setInterval(resetInterval, 1200000)
-        resetInterval();
     })
     .catch(err => {
         console.error('Error connecting to mongo', err)
@@ -59,13 +58,7 @@ app.use(passport.session())
 
 // Express View engine setup
 
-app.use(
-    require('node-sass-middleware')({
-        src: path.join(__dirname, 'public'),
-        dest: path.join(__dirname, 'public'),
-        sourceMap: true,
-    })
-)
+
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')

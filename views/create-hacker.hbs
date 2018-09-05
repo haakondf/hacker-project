@@ -2,87 +2,40 @@
     <div id="create-hacker">
         <h1 id="CRtitle">Character creation</h1>
         <br>
-        <br>
-        <br>
-        <br>
+        
         <br>
         <div id="left-box">
             <h2>Upload a new User photo</h2>
+
+            <form action="/upload-photo" method="POST" enctype="multipart/form-data">
+                <label>Profile picture</label>
+                <input type="file" name="photo">
+                <input type="submit" value="save">
+            </form>
+
             <form action="/create-hacker" method="POST" enctype="multipart/form-data">
                 <label>Title</label>
                 <input type="text" name="title">
-                <br>
-                <br>
-                <br>
+               
 
                 <label>Description</label>
                 <input type="text" name="description">
-                <br>
-                <br>
-                <br>
+                
 
                 <label>Poster</label>
                 <input type="file" name="photo">
-                <br>
-                <br>
-                <br>
+                
 
+                <p>Click Save to Create Hacker</p>
                 <input type="submit" value="SAVE">
             </form>
         </div>
         <div id="center-box">
             <input type="text" required="true" placeholder="Type in your hax0r name">
         </div>
-        <div id="right-box">
-            <div class="user-wrapper">
-                {{#each users}}
-                <div class="user-item">
-                    <img src="{{this.imgPath}}" alt="">
-                    <h4>{{this.title}}</h4>
-                    <p>{{this.description}}</p>
-                </div>
-                {{else}}
-                <p>There is no user here :/</p>
-                {{/each}}
-            </div>
-        </div>
-        <button>Go play =></button>
+        
     </div>
 
 </div>
 
 
-{{!--
-<div class="container">
-    <div id="create-hacker">
-        <h1 id="CRtitle">Character creation</h1>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div id="left-box">
-            <h2>Upload your photo</h2>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <form action="/upload" method="POST" encType="multipart/form-data">
-                <input type="text" name="name" required='true' placeholder="Your name">
-                <input type="file" name="picture" required='true'>
-                <input type="submit">
-            </form>
-        </div>
-        <div id="center-box">
-            <input type="text" required="true" placeholder="Type in your hax0r name">
-        </div>
-        <div id="right-box"></div>
-        <button>Go play =></button>
-    </div>
-
-</div> --}}

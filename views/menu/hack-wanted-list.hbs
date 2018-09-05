@@ -8,13 +8,17 @@
     <th>Bounty</th>
     <th>Hack</th>
   </tr>
-  {{#each user}}
+  {{#each bountyUsers}}
   <tr>
     <td>{{this.name}} </td>
     <td>{{this.alliance}} </td>
     <td>{{this.rankName}} </td>
     <td>${{this.bounty}} </td>
-    <td><a href="/">Hack</a></td>
+    <td>
+      <form action="/hack/hack-player/:{{this.id}}">
+        <button type="submit" class="button">Hack!</button>
+      </form>
+    </td>
   </tr>
   {{/each}}
 </table>

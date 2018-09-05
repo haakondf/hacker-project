@@ -27,22 +27,28 @@ function ensureIsSetup(req, res, next) {
   if (req.user.isSetup()) {
     return next();
   } else {
-    res.redirect("create-hacker");
-  }
-}
-
-// function demanding that character is created, otherwise it will redirect to create hacker page
-function ensureIsSetup(req, res, next) {
-  if (req.user.isSetup) {
-    return next();
-  } else {
     res.redirect("/create-hacker");
   }
 }
+
 router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
   // ensure user is logged in
   res.render("create-hacker", { title: "Express" });
 });
+
+//upload photo
+// router.post("/upload-photo", uploadCloud.single("photo"), (req, res, next) => {
+//   const imgPath = req.file.url;
+//   const imgName = req.file.originalname;
+//   User.findByIdAndUpdate(req.user._id, { imgPath, imgName }).then((result) => {
+//     console.log(result)
+//   })
+//   .catch(error => {
+//     console.log(error);
+//     res.redirect("error");
+
+//   })
+// })
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
   const { title, description } = req.body;
@@ -58,22 +64,10 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
     imgPath,
     imgName,
     isSetup: true
-  })
-    .then(result => {
-      console.log(result);
-      res.render("index");
-    })
-
-    // const newUser = new User({ title, description, imgPath, imgName });
-    // newUser
-    //   .save()
-    //   .then(user => {
-    //     res.redirect("/");
-    //   })
-    .catch(error => {
-      console.log(error);
-      res.redirect("error");
-    });
+  }).catch(error => {
+    console.log(error);
+    res.redirect("error");
+  });
 });
 
 router.get("/", (req, res, next) => {
@@ -94,7 +88,14 @@ router.get("/hack/crimes/:id", (req, res, next) => {
   let crimeIdThing = Crime.findById(req.params.id);
 
   Promise.all([userIdThing, crimeIdThing]).then(result => {
-    if (result[0].battery < 7) return res.send("Insufficient battery!");
+    if (result[0].battery < 7)
+      return res.render("menu/hack-crimes-id-error", {
+        error: "Insufficient battery!"
+      });
+    if (result[0].currentFirewall <= 0)
+      return res.render("menu/hack-crimes-id-error", {
+        error: "You need a firewall to be able to commit crimes!"
+      });
     let resultCrime = result[0].fightCrime(result[1]);
     res.render("menu/hack-crimes-id", {
       result: JSON.stringify(resultCrime)
@@ -114,24 +115,41 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
   let opponentIdThing = User.findById(newReq);
   Promise.all([userIdThing, opponentIdThing]).then(result => {
     if (result[0].name === result[1].name)
-      return res.send("You can't hack yourself!");
-    if (result[0].battery < 7) return res.send("Insufficient battery!");
+      return res.render("menu/hack-player-id-error", {
+        error: "You can't hack yourself!"
+      });
+    if (result[0].battery < 7)
+      return res.render("menu/hack-player-id-error", {
+        error: "Insufficient battery!"
+      });
+    if (result[0].currentFirewall <= 0)
+      return res.render("menu/hack-player-id-error", {
+        error: "You need a firewall to be able to hack other players!"
+      });
     if (result[1].gracePeriod === true)
-      return res.send(
-        "The person is under the influence of graceperiod (which last for up to 12 hours)"
-      );
+      return res.render("menu/hack-player-id-error", {
+        error:
+          "The person is under the influence of graceperiod (which last for up to 12 hours)"
+      });
     if (result[1].currentFirewall <= 0)
-      return res.send("You can't kill what's already dead!");
+      return res.render("menu/hack-player-id-error", {
+        error: "You can't kill what's already dead!"
+      });
+    if (result[1].rank < result[0].rank / 2)
+      return res.render("menu/hack-player-id-error", {
+        error: "You can't hack players that are lower than half of your rank"
+      });
     let resultHack = result[0].hackPlayer(result[1]);
-    if (!resultHack) return res.send("Insufficient battery");
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
   });
 });
 
 router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
   User.find({})
-    .then(user => {
-      res.render("menu/hack-wanted-list", { user });
+    .then(users => {
+      let bountyUsers = users.filter(user => user.bounty > 0);
+      console.log(bountyUsers);
+      res.render("menu/hack-wanted-list", { bountyUsers });
     })
     .catch(console.error);
 });
@@ -206,7 +224,7 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
 
-router.get("/user/details", ensureAuthenticated, (req, res, next) => {
+router.get("/user/details", (req, res, next) => {
   res.json(req.user);
 });
 

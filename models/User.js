@@ -218,7 +218,7 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
 
 userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
   let dodgeOccurance =
-    Math.random() + (opponentPlayer.dodge / this.dodge) * 0.3;
+    Math.random() + (opponentPlayer.dodge / this.dodge) * 0.4;
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
@@ -264,7 +264,7 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     return this.hackPlayerBattle(opponentPlayer, results);
   } else
     opponentPlayer.currentFirewall -=
-      this.cpu / (opponentPlayer.antiVirus * 0.4);
+      this.cpu / (opponentPlayer.antiVirus * 0.5);
   results.rounds.push("hit");
   if (opponentPlayer.currentFirewall < 0) opponentPlayer.currentFirewall = 0;
   results.currentHp.push(opponentPlayer.currentFirewall);
@@ -276,7 +276,7 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
     opponent.gracePeriod = false;
     opponent.currentFirewall = opponent.maxFirewall;
     opponent.save();
-  }, 43200000);
+  }, 18000000);
 };
 
 module.exports = mongoose.model("User", userSchema);

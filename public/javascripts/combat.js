@@ -29,7 +29,7 @@ let errorEncryptionDots =
   "....................................................... 4";
 
 function fight(result, index) {
-
+  pageScroll()
   if (result.rounds[index] === "dodge") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
@@ -103,6 +103,11 @@ function combatFailed(result) {
     "Hack failure! Your internet was compromised by the Police CyberForce 2000...<br><br><br><br><div class='failure'>You lost:<br>" +
     result.gains.battery +
     "% battery</div>";
+}
+
+function pageScroll() {
+  window.scrollBy(0,1);
+  scrolldelay = setTimeout(pageScroll,10);
 }
 
 fight(result, index);

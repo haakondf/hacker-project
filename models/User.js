@@ -276,7 +276,7 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
     opponent.gracePeriod = false;
     opponent.currentFirewall = opponent.maxFirewall;
     opponent.save();
-  }, 18000000);
+  }, 2 * 3600 * 1000);
 };
 
 module.exports = mongoose.model("User", userSchema);

@@ -129,7 +129,7 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
     if (result[1].gracePeriod === true)
       return res.render("menu/hack-player-id-error", {
         error:
-          "The person is under the influence of graceperiod (which last for up to 12 hours)"
+          "The person is under the influence of graceperiod (which last for up to 2 hours)"
       });
     if (result[1].currentFirewall <= 0)
       return res.render("menu/hack-player-id-error", {
@@ -153,6 +153,22 @@ router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
     })
     .catch(console.error);
 });
+
+router.post("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
+  let namePlayer = req.body.name;
+  let bountyPlayer = req.body.bounty;
+  const findUser = User.findById(req.user._id);
+  const findTarget = User.findOne({name: namePlayer})
+  Promise.all([findUser, findTarget]).then((result) => {
+    if (!result[1]) return res.send("No player is named: " + namePlayer);
+    if (result[0].bitCoins < bountyPlayer) return res.send("You dont have that many bitcoins!");
+    result[1].bounty += parseInt(bountyPlayer);
+    result[0].bitCoins -= parseInt(bountyPlayer);
+    result[0].save();
+    result[1].save();
+    res.redirect("/hack/wanted-list")
+  })
+})
 
 router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-forum");

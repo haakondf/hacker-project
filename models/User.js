@@ -5,8 +5,8 @@ const userSchema = new Schema(
   {
     //Account information
     email: {
-        type: String,
-        unique: true,
+      type: String,
+      unique: true
     },
     password: String,
     googleId: String,
@@ -23,8 +23,8 @@ const userSchema = new Schema(
 
     //Character information
     name: {
-        type: String,
-        unique: true,
+      type: String,
+      unique: true
     },
     alliance: {
       type: String,
@@ -59,7 +59,7 @@ const userSchema = new Schema(
     },
     crimeSkill: {
       type: Number,
-      default: 0,
+      default: 0
     },
     battery: {
       type: Number,
@@ -76,6 +76,11 @@ const userSchema = new Schema(
       default: 0
     },
 
+    items: {
+      type: Array,
+      default: []
+    },
+
     //Player information
     rank: {
       type: Number,
@@ -83,8 +88,8 @@ const userSchema = new Schema(
     },
 
     rankName: {
-        type: String,
-        default: "Script kiddie",
+      type: String,
+      default: "Script kiddie"
     },
     shutdowns: {
       type: Number,
@@ -115,9 +120,9 @@ const userSchema = new Schema(
     },
 
     gracePeriod: {
-        type: Boolean,
-        default: false,
-    },
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: {
@@ -204,7 +209,7 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
       bitCoins: 0,
       bounty: 0,
       battery: 0,
-      expToLevel: this.expToLevel,
+      expToLevel: this.expToLevel
     }
   };
   let updatedResults = this.hackPlayerBattle(opponentPlayer, results);
@@ -212,7 +217,8 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
 };
 
 userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
-  let dodgeOccurance = Math.random() + ((opponentPlayer.dodge/this.dodge)*0.3);
+  let dodgeOccurance =
+    Math.random() + (opponentPlayer.dodge / this.dodge) * 0.3;
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
@@ -227,7 +233,10 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     let moneyChange = opponentPlayer.bitCoins;
     let expChange = Math.floor(
       Math.random() * 300 +
-        (opponentPlayer.rank + 1)* 15 * ((opponentPlayer.rank +1) / (this.rank + 1)) * 100 +
+        (opponentPlayer.rank + 1) *
+          15 *
+          ((opponentPlayer.rank + 1) / (this.rank + 1)) *
+          100 +
         100
     );
     this.bitCoins += moneyChange;
@@ -245,7 +254,7 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     this.failedAttempts = 0;
     opponentPlayer.gracePeriod = true;
     this.gracePeriodFunction(opponentPlayer);
-    opponentPlayer.save()
+    opponentPlayer.save();
     this.save();
     return results;
   } else if (dodgeOccurance >= 1) {
@@ -253,7 +262,9 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     results.rounds.push("dodge");
     results.currentHp.push(opponentPlayer.currentFirewall);
     return this.hackPlayerBattle(opponentPlayer, results);
-  } else opponentPlayer.currentFirewall -= this.cpu / (opponentPlayer.antiVirus * 0.4);
+  } else
+    opponentPlayer.currentFirewall -=
+      this.cpu / (opponentPlayer.antiVirus * 0.4);
   results.rounds.push("hit");
   if (opponentPlayer.currentFirewall < 0) opponentPlayer.currentFirewall = 0;
   results.currentHp.push(opponentPlayer.currentFirewall);
@@ -261,11 +272,11 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
 };
 
 userSchema.methods.gracePeriodFunction = function(opponent) {
-    setTimeout(() => {
-        opponent.gracePeriod = false;
-        opponent.currentFirewall = opponent.maxFirewall;
-        opponent.save()
-    }, 43200000)
-}
+  setTimeout(() => {
+    opponent.gracePeriod = false;
+    opponent.currentFirewall = opponent.maxFirewall;
+    opponent.save();
+  }, 43200000);
+};
 
 module.exports = mongoose.model("User", userSchema);

@@ -17,33 +17,32 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
-    res.redirect('/auth/sign-in')
+    res.redirect("/auth/sign-in");
   }
 }
 
 // TODO add isSetup to user model, defautls to false
-  // TODO maybe log req.user to see what the object is and if we have the value for isSetup
-function ensureIsSetup (req, res, next) {
+// TODO maybe log req.user to see what the object is and if we have the value for isSetup
+function ensureIsSetup(req, res, next) {
   if (req.user.isSetup()) {
     return next();
   } else {
-    res.redirect('create-hacker')
+    res.redirect("create-hacker");
   }
 }
 
 // function demanding that character is created, otherwise it will redirect to create hacker page
 function ensureIsSetup(req, res, next) {
-  
   if (req.user.isSetup) {
     return next();
   } else {
-    res.redirect('/create-hacker')
+    res.redirect("/create-hacker");
   }
 }
-router.get("/create-hacker", ensureAuthenticated, (req, res, next) => { // ensure user is logged in
+router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
+  // ensure user is logged in
   res.render("create-hacker", { title: "Express" });
 });
-
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
   const { title, description } = req.body;
@@ -53,17 +52,24 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
   console.log("req user consolelog", req.user);
   //User.findById /// add { title, description, imgPath, imgName });
   // now isSetup is changed to true upon image upload. This should be changed to play/create button
-  User.findByIdAndUpdate(req.user._id, { title, description, imgPath, imgName, isSetup: true }).then((result) => {
-    console.log(result);
-    res.render('index')
+  User.findByIdAndUpdate(req.user._id, {
+    title,
+    description,
+    imgPath,
+    imgName,
+    isSetup: true
   })
+    .then(result => {
+      console.log(result);
+      res.render("index");
+    })
 
-  // const newUser = new User({ title, description, imgPath, imgName });
-  // newUser
-  //   .save()
-  //   .then(user => {
-  //     res.redirect("/");
-  //   })
+    // const newUser = new User({ title, description, imgPath, imgName });
+    // newUser
+    //   .save()
+    //   .then(user => {
+    //     res.redirect("/");
+    //   })
     .catch(error => {
       console.log(error);
       res.redirect("error");
@@ -71,18 +77,14 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
 });
 
 router.get("/", (req, res, next) => {
-
   if (req.user) {
-
     res.render("menu/home");
   } else {
-    res.render("homeinfo")
-
+    res.render("homeinfo");
   }
 });
 
-
-router.get("/hack/crimes", ensureAuthenticated,(req, res, next) => {
+router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   // TODO list all crimes with link to GET /hack/crimes/:id
   res.render("menu/hack-crimes");
 });
@@ -111,10 +113,15 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
   let userIdThing = User.findById(req.user._id);
   let opponentIdThing = User.findById(newReq);
   Promise.all([userIdThing, opponentIdThing]).then(result => {
-    if (result[0].name === result[1].name) return res.send("You can't hack yourself!");
+    if (result[0].name === result[1].name)
+      return res.send("You can't hack yourself!");
     if (result[0].battery < 7) return res.send("Insufficient battery!");
-    if (result[1].gracePeriod === true) return res.send("The person is under the influence of graceperiod (which last for up to 12 hours)");
-    if (result[1].currentFirewall <= 0) return res.send("You can't kill what's already dead!")
+    if (result[1].gracePeriod === true)
+      return res.send(
+        "The person is under the influence of graceperiod (which last for up to 12 hours)"
+      );
+    if (result[1].currentFirewall <= 0)
+      return res.send("You can't kill what's already dead!");
     let resultHack = result[0].hackPlayer(result[1]);
     if (!resultHack) return res.send("Insufficient battery");
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
@@ -141,7 +148,7 @@ router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-hideout");
 });
 
-router.get("/marketplace", ensureAuthenticated, (req,res, next) => {
+router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
   Item.find()
     .then(items => {
       res.render("menu/marketplace", {
@@ -157,23 +164,50 @@ router.get("/marketplace", ensureAuthenticated, (req,res, next) => {
     });
 });
 
-// BUYING ITEMS IN THE MARKETPLACE?
-/* User.findByIdAndUpdate(id, { $set: { cpu: +=5  THIS WONT WORK probably   }}, function (err, user) {
-  if (err) return handleError(err);
-  res.send(user);
+router.post("/marketplace/:itemId", (req, res) => {
+  let item, user;
+  Item.findById(req.params.itemId)
+    .then(i => {
+      item = i;
+      return User.findById(req.user._id);
+    })
+    .then(u => {
+      user = u;
+      // TODO use the item to update the user
+      // DOES NOT TAKE EXISTING ITEM INTO CONSIDERATION
+
+      if (item.price > user.bitcoins) {
+        console.log("insufficent funds..");
+      } else if (item.type === "cpu") {
+        user.cpu += item.bonus;
+        user.bitCoins -= item.price;
+      } else if (item.type === "firewall") {
+        user.maxFirewall += item.bonus;
+        user.bitCoins -= item.price;
+      } else if (item.type === "avs") {
+        user.antiVirus += item.bonus;
+        user.bitCoins -= item.price;
+      } else if (item.type === "encryption") {
+        user.dodge += item.bonus;
+        user.bitCoins -= item.price;
+      } else {
+        console.log("What did you do...?");
+      }
+      return user.save();
+    })
+    .then(updatedUser => {
+      // TODO render or redirect
+      // JQUERY "YOU JUST BOUGHT item.name "
+      res.send("you just bought an item!");
+    });
 });
- */
 
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
 
-<<<<<<< HEAD
-router.get("/user/details", ensureAuthenticated, (req,res, next) => {
-=======
-router.get("/user/details", (req,res, next) => {
->>>>>>> 1df159237a65406ebfaac9960fa5cbbc77146d4d
-    res.json(req.user)
+router.get("/user/details", ensureAuthenticated, (req, res, next) => {
+  res.json(req.user);
 });
 
 router.get("/ladder", (req, res, next) => {

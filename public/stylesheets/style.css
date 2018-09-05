@@ -244,6 +244,17 @@ a {
   transition: width 1s;
 }
 
+.padding-underneath {
+  padding-bottom: 5vw;
+}
+
+.gamepad-fixed-adjuster-two {
+  height: 15vh;
+  background-color: black;
+  width: 70vw;
+  position: fixed;
+}
+
 .success {
   color: blue;
 }

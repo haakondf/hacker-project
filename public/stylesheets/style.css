@@ -36,6 +36,7 @@ th, td {
 }
 
 
+
 /*For the index page (Haakon) */
 
 .container {
@@ -428,4 +429,24 @@ a {
 	justify-content: center;
 	align-items: stretch;
 	align-content: stretch;
+}
+
+#information-text {
+    color: rgb(236, 253, 220);
+    text-align: center;
+    padding-top: 4vh;
+    font-size: 1vw;
+    font-weight: bold;
+    text-shadow: 2px 2px #145700;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#event-text {
+    color: rgb(236, 253, 220);
+    text-align: left;
+    padding-top: 4vh;
+    font-size: 1vw;
+    font-weight: bold;
+    text-shadow: 1px 1px #145700;
+    font-family: 'Courier New', Courier, monospace;
 }

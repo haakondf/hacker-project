@@ -1,6 +1,11 @@
 <h1>MARKETPLACE</h1>
 
-<!-- buy function instead this.buy -->
+<!-- TODO:
+-  BUY FUNCTION
+-  SORT BY PRICE
+-  USER CAN ONLY HOLD ONE ITEM OF EACH GROUP: CPU, FIREWALL, CPU, ENCRYPTION
+-  CREATE NEATER TABLES
+-->
 
 <table cellspacing="0">
   <tr>
@@ -12,7 +17,6 @@
 
 
   {{#each cpuItems}}
-
   <tr>
     <td>{{this.name}} </td>
     <td>{{this.type}} </td>
@@ -21,11 +25,11 @@
     <td><form action="" method="POST">
     <button class="button-buy">BUY</button></td>
   </tr>
-
   {{/each}}
+
+
 
   {{#each firewallItems}}
-
   <tr>
     <td>{{this.name}} </td>
     <td>{{this.type}} </td>
@@ -34,11 +38,11 @@
     <td><form action="" method="POST">
     <button class="button-buy">BUY</button></td>
   </tr>
-
   {{/each}}
+
+
 
   {{#each avsItems}}
-
   <tr>
     <td>{{this.name}} </td>
     <td>{{this.type}} </td>
@@ -47,12 +51,11 @@
     <td><form action="" method="POST">
     <button class="button-buy">BUY</button></td>
   </tr>
-
   {{/each}}
   
+
 
   {{#each encryptionItems}}
-
   <tr>
     <td>{{this.name}} </td>
     <td>{{this.type}} </td>
@@ -61,8 +64,7 @@
     <td><form action="" method="POST">
     <button class="button-buy">BUY</button></td>
   </tr>
-
   {{/each}}
   
-</table>
+
 

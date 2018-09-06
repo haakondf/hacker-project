@@ -17,6 +17,8 @@ h1 {
   text-decoration: underline;
 }
 
+
+
 table,
 th,
 td {
@@ -212,7 +214,7 @@ a {
 }
 
 #nav-userbattery {
-  color: pink;
+  color: rosybrown;
 }
 
 #nav-userfirewall {
@@ -587,8 +589,18 @@ h2 {
   color: orange;
 }
 .yellow{
-  color: yellow
+  color: yellow;
 }
-.pink{
-  color: pink
+.rosybrown{
+  color: rosybrown;
+}
+
+
+.success{
+color: green;
+
+}
+
+.fail{
+color: red;
 }

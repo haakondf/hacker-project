@@ -252,7 +252,10 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
         firewallItems: items.filter(i => i.type === "firewall"),
         avsItems: items.filter(i => i.type === "avs"),
         encryptionItems: items.filter(i => i.type === "encryption"),
-        newItemName: req.query.newItemName
+        newItemName: req.query.newItemName,
+        existingItemName: req.query.existingItemName,
+        insufficentBitcoins: req.query.insufficentBitcoins,
+
       });
     })
     .catch(error => {
@@ -269,15 +272,15 @@ router.post("/marketplace/:itemId", (req, res) => {
     })
     .then(u => {
       user = u
-
-      if (user.bitcoin < item.price) {
-        return res.send("Insufficent bitcoins"); // TODO redirect to /marketplace with correct query to display that message
+    if (user.bitCoins < item.price) {
+        console.log("insufficent bitcoins")
+        res.redirect("/marketplace?insufficentBitcoins=" + item.name);
       }
+      
 
       // TODO check if the new item is either the same or has less bonus, end here and redirect to /marketplace with a message: Does not make sense to buy it
 
       user.bitCoins -= item.price;
-      
       return user.addItem(item)
     })
     .then(updatedUser => {

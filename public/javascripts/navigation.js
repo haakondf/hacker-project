@@ -22,7 +22,7 @@ $(document).ready(function() {
           ) +
           "%"
       );
-      $("#nav-userexp").text("EXP: " + response.data.exp);
+      $("#nav-userexp").text("EXP: " + response.data.exp + "/" + response.data.expToLevel);
 
       if(!response.data) [
         $("#navbar").hide()

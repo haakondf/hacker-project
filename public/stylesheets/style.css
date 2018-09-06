@@ -375,6 +375,13 @@ a {
   margin-left: 1vw;
 }
 
+.stat-points {
+  font-size: 1.2vw;
+  line-height: 3vw;
+  color: rgb(71, 223, 71);
+  font-family: "Courier New", Courier, monospace;
+}
+
 
 /* Crime-page css layout */
 

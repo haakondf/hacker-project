@@ -88,17 +88,22 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
 
 router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
   let statUpgrade = Object.keys(req.body);
-  console.log(statUpgrade[0])
   User.findById(req.user._id).then(result => {
     let createdAtDate = result.createdAt.toString().substring(4, 15);
     if (result.statPoints < 1) return res.render("menu/my-profile", {message: "You have no stat points. Obtain a higher rank to get more", user: result, createdAtDate})
     result.statPoints -= 1;
-    console.log(statUpgrade)
-    console.log(statUpgrade[0])
-    let xr = Object.keys(result).find(key => console.log(key));
-    //=== statUpgrade[0]
-    console.log(Object.keys(result))
-    //result.statUpgrade[0] += 1;
+    if (statUpgrade[0] === "firewall") {
+      result.maxFirewall += 5;
+      result.currentFirewall += 5;
+    } else if (statUpgrade[0] === "cpu") {
+      result.cpu += 2;
+    } else if (statUpgrade[0] === "antiVirus") {
+      result.antiVirus += 1;
+    } else if (statUpgrade[0] === "encryption") {
+      result.encryption += 2;
+    }
+    result.save();
+    return res.render("menu/my-profile", {message: "You enhanced your " + statUpgrade[0], user: result, createdAtDate})
   });
 });
 

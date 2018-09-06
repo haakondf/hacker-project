@@ -68,7 +68,7 @@
         </table>
     </div>
 
-    {{!-- HACK STATS --}}
+    {{!-- HACK SKILLS --}}
     <div class="my-profile my-profile-hack-stats upgrade-table">
         <table cellspacing="0">
             <tr>
@@ -113,9 +113,10 @@
                 </td>
             </tr>
         </table>
+        <div class="stat-points">You have {{user.statPoints}} available!</div>
     </div>
 </div>
 
     {{#if message}}
-    <div id="writing">ERROR: {{message}}</div>
+    <div id="writing">{{message}}</div>
     {{/if}}

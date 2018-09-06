@@ -12,7 +12,7 @@ const newCrimeOne = Crime({
 
   const newCrimeTwo = Crime({
     name: "Internet Scam",
-    difficulty: 1.5,
+    difficulty: 2.5,
     encryption: 20,
     currentFirewall: 200,
     maxFirewall: 200,
@@ -21,7 +21,7 @@ const newCrimeOne = Crime({
 
 const newCrimeThree = Crime({
     name: "ID Theft",
-    difficulty: 2.5,
+    difficulty: 5,
     encryption: 30,
     currentFirewall: 300,
     maxFirewall: 300,
@@ -30,7 +30,7 @@ const newCrimeThree = Crime({
 
   const newCrimeFour = Crime({
     name: "DDOS",
-    difficulty: 4,
+    difficulty: 10,
     encryption: 50,
     currentFirewall: 400,
     maxFirewall: 400,
@@ -39,7 +39,7 @@ const newCrimeThree = Crime({
 
   const newCrime = Crime({
     name: "Logic Bomb",
-    difficulty: 7,
+    difficulty: 15,
     encryption: 60,
     currentFirewall: 700,
     maxFirewall: 700,

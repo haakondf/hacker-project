@@ -1,9 +1,14 @@
 <h1>MARKETPLACE</h1>
 
 {{#if newItemName}}
-  <h3 style="color: #fff;">You just bought {{newItemName}}</h3>
+  <h3 class="success">You just bought {{newItemName}}</h3>
 {{/if}}
-
+{{#if existingItemName}}
+  <h3 class="fail">You just bought {{existingItemName}}</h3>
+{{/if}}
+{{#if insufficentBitcoins}}
+  <h3 class="fail">You don't have enough cash to buy {{item.name}}</h3>
+{{/if}}
 <!-- TODO:
 -  BUY FUNCTION
 -  SORT BY PRICE

@@ -25,10 +25,17 @@ td {
   font-size: 1.5vw;
 }
 
+.ladder-padding {
+  line-height: 2vw;
+}
+
 .ladder-wanted {
   width: 65%;
-  margin: 0 auto;
+  margin: 2vw auto;
   padding: 50px 0 0 0;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
 }
 
 th,
@@ -343,12 +350,9 @@ a {
 .my-profile table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
-}
-
-.my-profile td, th {
+    width: 25vw;
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }
 
@@ -358,11 +362,17 @@ a {
 }
 
 .my-profile-status {
-  margin: 3vw 5vw 5vw 5vw;
+  margin: 3vw 5vw 1vw 5vw;
+  line-height: 2vw;
 }
 
 .my-profile-hack-stats {
-  margin: 3vw 5vw 5vw 5vw;
+  margin: 3vw 5vw 1vw 5vw;
+  line-height: 2vw;
+}
+
+.upgrade-table .button {
+  margin-left: 1vw;
 }
 
 
@@ -512,9 +522,13 @@ a {
 }
 
 /* WANTED LIST */
+.wanted-list {
+  margin-top: 5vw;
+}
 
 #wanted-list-form {
   margin-top: 5vw;
+  margin-right: 3vw;
 }
 
 h2 {

@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Crime = require("../models/Crime");
 const Alliance = require("../models/Alliance");
 const Item = require("../models/Item");
+const Rank = require("../models/Rank");
 const uploadCloud = require("../utils/cloudinary.js");
 
 /* GET all routes. */
@@ -79,12 +80,27 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
-  User.findById(req.user._id).then((result) =>{
-    let createdAtDate = result.createdAtDate
-    console.log(createdAtDate)
-    res.render("menu/my-profile", {user: result, createdAtDate});
-  })
-})
+  User.findById(req.user._id).then(result => {
+    let createdAtDate = result.createdAt.toString().substring(4, 15);
+    res.render("menu/my-profile", { user: result, createdAtDate });
+  });
+});
+
+router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
+  let statUpgrade = Object.keys(req.body);
+  console.log(statUpgrade[0])
+  User.findById(req.user._id).then(result => {
+    let createdAtDate = result.createdAt.toString().substring(4, 15);
+    if (result.statPoints < 1) return res.render("menu/my-profile", {message: "You have no stat points. Obtain a higher rank to get more", user: result, createdAtDate})
+    result.statPoints -= 1;
+    console.log(statUpgrade)
+    console.log(statUpgrade[0])
+    let xr = Object.keys(result).find(key => console.log(key));
+    //=== statUpgrade[0]
+    console.log(Object.keys(result))
+    //result.statUpgrade[0] += 1;
+  });
+});
 
 router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let internetTroll;
@@ -92,24 +108,28 @@ router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let idTheft;
   let ddos;
   let logicBomb;
-  Crime.find({}).then((result) => {
-    result.map((x) => {
-      console.log(x.name);
-      console.log(x._id);
-      if (x.name == "Internet Troll"){
-        internetTroll = x._id
+  Crime.find({}).then(result => {
+    result.map(x => {
+      if (x.name == "Internet Troll") {
+        internetTroll = x._id;
       } else if (x.name == "Internet Scam") {
-        internetScam = x._id
+        internetScam = x._id;
       } else if (x.name == "ID Theft") {
-        idTheft = x._id
+        idTheft = x._id;
       } else if (x.name == "DDOS") {
-        ddos = x._id
+        ddos = x._id;
       } else if (x.name == "Logic Bomb") {
-        logicBomb = x._id
+        logicBomb = x._id;
       }
-    })
-    res.render("menu/hack-crimes", {internetTroll, internetScam, idTheft, ddos, logicBomb});
-  })
+    });
+    res.render("menu/hack-crimes", {
+      internetTroll,
+      internetScam,
+      idTheft,
+      ddos,
+      logicBomb
+    });
+  });
 });
 
 router.get("/hack/crimes/:id", (req, res, next) => {
@@ -126,6 +146,7 @@ router.get("/hack/crimes/:id", (req, res, next) => {
         error: "You need a firewall to be able to commit crimes!"
       });
     let resultCrime = result[0].fightCrime(result[1]);
+
     res.render("menu/hack-crimes-id", {
       result: JSON.stringify(resultCrime)
     });
@@ -212,14 +233,21 @@ router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
+  console.log(req.user.items)
   Item.find()
+  .sort({
+    type: 1,
+    bonus: 1
+  })
     .then(items => {
+      // TODO highlight the items you already have (hint map items, if you that item from the list has the same id (item._id.toString() === req.user.items[item.type].toString()) --> set item.owned: true)
       res.render("menu/marketplace", {
         items,
         cpuItems: items.filter(i => i.type === "cpu"),
         firewallItems: items.filter(i => i.type === "firewall"),
         avsItems: items.filter(i => i.type === "avs"),
-        encryptionItems: items.filter(i => i.type === "encryption")
+        encryptionItems: items.filter(i => i.type === "encryption"),
+        newItemName: req.query.newItemName
       });
     })
     .catch(error => {
@@ -227,53 +255,30 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
     });
 });
 
-/* router.post("/marketplace/:itemId", (req, res) => {
+router.post("/marketplace/:itemId", (req, res) => {
   let item, user;
   Item.findById(req.params.itemId)
     .then(i => {
       item = i;
-      return .UserfindById(req.user._id);
-    }).then(u => {
-      user = u;
-    }).then(() => {
-      if (user.bitcoin < item.price) {
-        return res.send("Insufficent bitcoins")
-        }
-        let itemType = user.items.filter(item => item.type === item.type)
-          else if (!itemType) {
-            user.bitCoins -= item.price;
-            user.items.push(item);
-            if (item.type === "cpu") {
-                user.cpu += item.bonus;
-            } else if (item.type === "firewall") {
-                  user.maxFirewall += item.bonus;
-            } else if (item.type === "avs") {
-                  user.antiVirus += item.bonus;
-            } else if (item.type === "encryption") {
-                  user.encryption += item.bonus;
-            }
-         } else 
-      user.bitCoins -= item.price;
-      let indexItem = user.items.indexOf(itemType);
-      user.items.splice(indexItem, 1);
-      user.items.push(item);
+      return User.findById(req.user._id)
     })
-
     .then(u => {
-      // TODO use the item to update the user
-      // DOES NOT TAKE EXISTING ITEM INTO CONSIDERATION
+      user = u
 
-      if (item.price > user.bitcoins) {
-        console.log("insufficent funds..");
-      } 
-      return user.save();
+      if (user.bitcoin < item.price) {
+        return res.send("Insufficent bitcoins"); // TODO redirect to /marketplace with correct query to display that message
+      }
+
+      // TODO check if the new item is either the same or has less bonus, end here and redirect to /marketplace with a message: Does not make sense to buy it
+
+      user.bitCoins -= item.price;
+      
+      return user.addItem(item)
     })
     .then(updatedUser => {
-      // TODO render or redirect
-      // JQUERY "YOU JUST BOUGHT item.name FOR item.price"
-      res.send("you just bought an item!");
+      res.redirect("/marketplace?newItemName=" + item.name);
     });
-}); */
+});
 
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
@@ -281,19 +286,41 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
 
 router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  User.findById(userPerson).then((result) => {
+  if (userPerson.bitCoins < 10000) {
+    return res.render("menu/system-repair", { message: "Insufficient funds" });
+  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
+    return res.render("menu/system-repair", {
+      message: "Your computer is already working just fine!"
+    });
+  }
+  User.findById(userPerson).then(result => {
     result.partialRepair();
-    res.redirect("menu/system-repair")
-  })
-})
+    res.render("menu/system-repair", {
+      message:
+        "You successfully glued together some loose parts from your computer"
+    });
+  });
+});
 
-router.get("repair/full", ensureAuthenticated, (req, res, next) => {
+router.get("/repair/full", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  User.findById(userPerson).then((result) => {
+  if (userPerson.bitCoins < 50000) {
+    return res.render("menu/system-repair", { message: "Insufficient funds" });
+  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
+    return res.render("menu/system-repair", {
+      message: "Your computer is already working just fine!"
+    });
+  }
+  User.findById(userPerson).then(result => {
+    if (result.bitCoins < 50000) {
+      res.render("menu/system-repair", { message: "Insufficient funds" });
+    }
     result.systemFullRepair();
-    res.redirect("menu/system-repair")
-  })
-})
+    res.render("menu/system-repair", {
+      message: "The kittens successfully repaired your crappy computer"
+    });
+  });
+});
 
 router.get("/user/details", (req, res, next) => {
   res.json(req.user);
@@ -320,8 +347,8 @@ router.get("/arcade", (req, res, next) => {
 });
 
 router.get("/arcade/squirt-derby", (req, res, next) => {
-  res.sendfile("arcade/squirt-derby/index.html")
-})
+  res.sendfile("arcade/squirt-derby/index.html");
+});
 
 router.get("/logout", (req, res, next) => {
   res.render("menu/logout");

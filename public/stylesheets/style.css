@@ -9,7 +9,7 @@
 h1 {
   color: rgb(205, 252, 161);
   text-align: center;
-  padding-top: 4vh;
+  padding-top: 5vh;
   font-size: 3.5vw;
   font-weight: bold;
   text-shadow: 3px 1px #145700;
@@ -25,14 +25,14 @@ td {
   font-size: 1.5vw;
 }
 
-table {
-  width: 80%;
+.ladder-wanted {
+  width: 65%;
   margin: 0 auto;
   padding: 50px 0 0 0;
 }
 
 th,
-td {
+td, {
   text-align: center;
   padding: 0.4vw;
 }
@@ -332,6 +332,40 @@ a {
   text-decoration: underline;
 }
 
+/* My Profile Style */
+
+.flex-container-profile {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+.my-profile table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.my-profile td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.my-profile tr:nth-child(even) {
+    background-color: #4d4848;
+    color: #000;
+}
+
+.my-profile-status {
+  margin: 3vw 5vw 5vw 5vw;
+}
+
+.my-profile-hack-stats {
+  margin: 3vw 5vw 5vw 5vw;
+}
+
+
 /* Crime-page css layout */
 
 .container-flex {
@@ -386,7 +420,17 @@ a {
 
 .flex-container {
   display: flex;
+  justify-content: center;
 }
+
+.flex-container .card {
+  text-align: center;
+}
+
+.flex-container img {
+  margin: 0 auto;
+}
+
 .card {
   transition: 0.3s;
   width: 29vw;
@@ -436,8 +480,6 @@ a {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  align-items: stretch;
-  align-content: stretch;
 }
 
 #information-text {
@@ -458,6 +500,15 @@ a {
   font-weight: bold;
   text-shadow: 1px 1px #145700;
   font-family: "Courier New", Courier, monospace;
+}
+
+.flex-columns img {
+  margin: 0 auto;
+}
+
+.flex-columns .description {
+  text-align: center;
+  line-height: 1vw;
 }
 
 /* WANTED LIST */

@@ -29,8 +29,8 @@ let errorEncryptionDots =
   "....................................................... 4";
 
 function fight(result, index) {
-  pageScroll();
-  if (result.rounds[index] === "encryption") {
+pageScroll()  
+if (result.rounds[index] === "encryption") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
       "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
@@ -92,7 +92,7 @@ function combatFinished(result) {
     "% battery</div>";
   if (result.gains.exp >= result.gains.expToLevel) {
     document.getElementById("writing").innerHTML +=
-      "<br><br><a href='/home' class='level-up-text'>Congratulations, you have gained a new rank!</a>";
+      "<br><br><a href='/my-profile' class='level-up-text'>Congratulations, you have gained a new rank!</a>";
   }
   return;
 }

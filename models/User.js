@@ -281,4 +281,26 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
   }, 2 * 3600 * 1000);
 };
 
+userSchema.methods.partialRepair = function() {
+  if (this.bitCoins <= 10000) {
+  } else if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
+    this.bitCoins -= 10000;
+    this.currentFirewall = this.maxFirewall;
+  } else {
+    this.bitCoins -= 10000;
+    this.currentFirewall += (15 * this.maxFirewall) / 100;
+  }
+  return this.save()
+}
+
+userSchema.methods.systemFullRepair = function () {
+  if (this.bitCoins <= 50000) {
+  } else {
+    this.bitCoins -= 50000;
+    this.currentFirewall = this.maxFirewall;
+  }
+  return this.save()
+}
+
+
 module.exports = mongoose.model("User", userSchema);

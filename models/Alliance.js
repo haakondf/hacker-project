@@ -8,5 +8,3 @@ const allianceSchema = new Schema({
 })
 
 module.exports = mongoose.model('Alliance', allianceSchema)
-
-

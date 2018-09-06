@@ -80,11 +80,27 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
-  User.findById(req.user._id).then((result) =>{
+  User.findById(req.user._id).then(result => {
     let createdAtDate = result.createdAt.toString().substring(4, 15);
-    res.render("menu/my-profile", {user: result, createdAtDate});
-  })
-})
+    res.render("menu/my-profile", { user: result, createdAtDate });
+  });
+});
+
+router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
+  let statUpgrade = Object.keys(req.body);
+  console.log(statUpgrade[0])
+  User.findById(req.user._id).then(result => {
+    let createdAtDate = result.createdAt.toString().substring(4, 15);
+    if (result.statPoints < 1) return res.render("menu/my-profile", {message: "You have no stat points. Obtain a higher rank to get more", user: result, createdAtDate})
+    result.statPoints -= 1;
+    console.log(statUpgrade)
+    console.log(statUpgrade[0])
+    let xr = Object.keys(result).find(key => console.log(key));
+    //=== statUpgrade[0]
+    console.log(Object.keys(result))
+    //result.statUpgrade[0] += 1;
+  });
+});
 
 router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let internetTroll;
@@ -92,22 +108,28 @@ router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let idTheft;
   let ddos;
   let logicBomb;
-  Crime.find({}).then((result) => {
-    result.map((x) => {
-      if (x.name == "Internet Troll"){
-        internetTroll = x._id
+  Crime.find({}).then(result => {
+    result.map(x => {
+      if (x.name == "Internet Troll") {
+        internetTroll = x._id;
       } else if (x.name == "Internet Scam") {
-        internetScam = x._id
+        internetScam = x._id;
       } else if (x.name == "ID Theft") {
-        idTheft = x._id
+        idTheft = x._id;
       } else if (x.name == "DDOS") {
-        ddos = x._id
+        ddos = x._id;
       } else if (x.name == "Logic Bomb") {
-        logicBomb = x._id
+        logicBomb = x._id;
       }
-    })
-    res.render("menu/hack-crimes", {internetTroll, internetScam, idTheft, ddos, logicBomb});
-  })
+    });
+    res.render("menu/hack-crimes", {
+      internetTroll,
+      internetScam,
+      idTheft,
+      ddos,
+      logicBomb
+    });
+  });
 });
 
 router.get("/hack/crimes/:id", (req, res, next) => {
@@ -227,7 +249,6 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
     });
 });
 
-
 router.post("/marketplace/:itemId", (req, res) => {
   let item, user;
   Item.findById(req.params.itemId)
@@ -245,7 +266,7 @@ router.post("/marketplace/:itemId", (req, res) => {
       if (user.bitcoin < item.price) {
         return res.send("Insufficent bitcoins");
       }
-       
+
       user.bitCoins -= item.price;
 
       // TODO check if the user already has an item of that given type
@@ -254,10 +275,9 @@ router.post("/marketplace/:itemId", (req, res) => {
       // TODO replace that item with the new item (add it, if there was no item of that given type before)
       // TODO increase the stats of the user by item stats
 
-
       if (item.price > user.bitcoins) {
         console.log("insufficerepair/partial?nt funds..");
-      } 
+      }
       return user.save();
     })
     .then(updatedUser => {
@@ -275,31 +295,40 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
 router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
   if (userPerson.bitCoins < 10000) {
-    return res.render("menu/system-repair", {message: "Insufficient funds"})
+    return res.render("menu/system-repair", { message: "Insufficient funds" });
   } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
-    return res.render("menu/system-repair", {message: "Your computer is already working just fine!"})
+    return res.render("menu/system-repair", {
+      message: "Your computer is already working just fine!"
+    });
   }
-  User.findById(userPerson).then((result) => {
+  User.findById(userPerson).then(result => {
     result.partialRepair();
-    res.render("menu/system-repair", {message: "You successfully glued together some loose parts from your computer"})
-  })
-})
+    res.render("menu/system-repair", {
+      message:
+        "You successfully glued together some loose parts from your computer"
+    });
+  });
+});
 
 router.get("/repair/full", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
   if (userPerson.bitCoins < 50000) {
-    return res.render("menu/system-repair", {message: "Insufficient funds"})
+    return res.render("menu/system-repair", { message: "Insufficient funds" });
   } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
-    return res.render("menu/system-repair", {message: "Your computer is already working just fine!"})
+    return res.render("menu/system-repair", {
+      message: "Your computer is already working just fine!"
+    });
   }
-  User.findById(userPerson).then((result) => {
+  User.findById(userPerson).then(result => {
     if (result.bitCoins < 50000) {
-      res.render("menu/system-repair", {message: "Insufficient funds"})
+      res.render("menu/system-repair", { message: "Insufficient funds" });
     }
     result.systemFullRepair();
-    res.render("menu/system-repair", {message: "The kittens successfully repaired your crappy computer"})
-  })
-})
+    res.render("menu/system-repair", {
+      message: "The kittens successfully repaired your crappy computer"
+    });
+  });
+});
 
 router.get("/user/details", (req, res, next) => {
   res.json(req.user);
@@ -326,8 +355,8 @@ router.get("/arcade", (req, res, next) => {
 });
 
 router.get("/arcade/squirt-derby", (req, res, next) => {
-  res.sendfile("arcade/squirt-derby/index.html")
-})
+  res.sendfile("arcade/squirt-derby/index.html");
+});
 
 router.get("/logout", (req, res, next) => {
   res.render("menu/logout");

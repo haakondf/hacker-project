@@ -38,6 +38,10 @@ const userSchema = new Schema(
     imgPath: String,
 
     //Player stats
+    statPoints: {
+      type: Number,
+      default: 5,
+    },
     maxFirewall: {
       type: Number,
       default: 100

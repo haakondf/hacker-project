@@ -523,6 +523,8 @@ h2 {
   font-family: "Courier New", Courier, monospace;
 }
 
+/* END OF HOMEINFO  */
+
 .green {
   color: green
 }
@@ -561,3 +563,18 @@ color: green;
 .fail{
 color: red;
 }
+
+/* SIGN IN PAGE */
+
+.card-signin {
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-signin img {
+  height: 15vw;
+  width: 15vw;
+}
+

@@ -566,6 +566,10 @@ color: red;
 
 /* SIGN IN PAGE */
 
+#sign-in {
+  margin: 10%;
+  width: 100%;
+}
 .card-signin {
   padding: 25px;
   background-color: #fff;
@@ -575,6 +579,9 @@ color: red;
 
 .card-signin img {
   height: 15vw;
-  width: 15vw;
 }
+
+
+
+/* END SIGN IN PAGE */
 

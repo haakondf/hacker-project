@@ -1,5 +1,9 @@
 <h1>MARKETPLACE</h1>
 
+{{#if newItemName}}
+  <h3 style="color: #fff;">You just bought {{newItemName}}</h3>
+{{/if}}
+
 <!-- TODO:
 -  BUY FUNCTION
 -  SORT BY PRICE
@@ -7,7 +11,7 @@
 -  CREATE NEATER TABLES
 -->
 
-<table cellspacing="0">
+<table cellspacing="1" class="marketplace">
   <tr>
     <th>Name</th>
     <th>Type</th>
@@ -19,7 +23,7 @@
   {{#each cpuItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="red">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
@@ -31,7 +35,7 @@
   {{/each}} {{#each firewallItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="green">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
@@ -43,7 +47,7 @@
   {{/each}} {{#each avsItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="blue">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
@@ -53,7 +57,7 @@
   {{/each}} {{#each encryptionItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="purple">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>

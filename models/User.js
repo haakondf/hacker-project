@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Rank = require("./Rank");
+const Item = require("./Item");
 
 const userSchema = new Schema(
   {
@@ -80,19 +81,23 @@ const userSchema = new Schema(
     items: {
       cpu: {
         type: Schema.Types.ObjectId,
-        ref: "Item"
+        ref: "Item",
+        default: null
       },
       firewall: {
         type: Schema.Types.ObjectId,
-        ref: "Item"
+        ref: "Item",
+        default: null
       },
       avs: {
         type: Schema.Types.ObjectId,
-        ref: "Item"
+        ref: "Item",
+        default: null,
       },
       encryption: {
         type: Schema.Types.ObjectId,
-        ref: "Item"
+        ref: "Item",
+        default: null
       }
     },
 
@@ -321,6 +326,60 @@ userSchema.methods.systemFullRepair = function () {
   this.bitCoins -= 50000;
   this.currentFirewall = this.maxFirewall;
   return this.save()
+}
+
+userSchema.methods.addItem = function(item) {
+  const currentItem = this.items[item.type]
+  let p = Promise.resolve(null)
+  if(currentItem) {
+    if(currentItem.bonus) {
+      p = Promise.resolve(currentItem)
+    } else {
+      p = Item.findById(currentItem)
+    }
+  }
+
+  p.then(currentItem => {
+    if(currentItem) {
+      // lower the stats
+       switch(currentItem.type) {
+        case "cpu":
+            this.cpu -= currentItem.bonus
+          break;
+        case "avs":
+            this.antiVirus -= currentItem.bonus
+          break;
+        case "firewall":
+            this.maxFirewall -= currentItem.bonus
+            this.currentFirewall -= currentItem.bonus
+          break;
+        case "encryption":
+            this.encryption -= currentItem.bonus
+          break;
+      }
+    }
+
+    this.items[item.type] = item
+
+    switch(item.type) {
+      case "cpu":
+          this.cpu += item.bonus
+        break;
+      case "avs":
+          this.antiVirus += item.bonus
+        break;
+      case "firewall":
+          this.maxFirewall += item.bonus
+          this.currentFirewall += item.bonus
+        break;
+      case "encryption":
+          this.encryption += item.bonus
+        break;
+    }
+
+    return this.save()
+  })
+
 }
 
 

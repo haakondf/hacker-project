@@ -211,15 +211,21 @@ router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
-  // TODO get new item id from req.query, if existing
+  console.log(req.user.items)
   Item.find()
+  .sort({
+    type: 1,
+    bonus: 1
+  })
     .then(items => {
+      // TODO highlight the items you already have (hint map items, if you that item from the list has the same id (item._id.toString() === req.user.items[item.type].toString()) --> set item.owned: true)
       res.render("menu/marketplace", {
         items,
         cpuItems: items.filter(i => i.type === "cpu"),
         firewallItems: items.filter(i => i.type === "firewall"),
         avsItems: items.filter(i => i.type === "avs"),
-        encryptionItems: items.filter(i => i.type === "encryption")
+        encryptionItems: items.filter(i => i.type === "encryption"),
+        newItemName: req.query.newItemName
       });
     })
     .catch(error => {
@@ -233,38 +239,23 @@ router.post("/marketplace/:itemId", (req, res) => {
   Item.findById(req.params.itemId)
     .then(i => {
       item = i;
-      return User.findById(req.user._id);
-
-      // TODO populate user items
+      return User.findById(req.user._id)
     })
     .then(u => {
-      user = u;
-      return user;
-    })
-    .then(user => {
+      user = u
+
       if (user.bitcoin < item.price) {
-        return res.send("Insufficent bitcoins");
+        return res.send("Insufficent bitcoins"); // TODO redirect to /marketplace with correct query to display that message
       }
-       
+
+      // TODO check if the new item is either the same or has less bonus, end here and redirect to /marketplace with a message: Does not make sense to buy it
+
       user.bitCoins -= item.price;
-
-      // TODO check if the user already has an item of that given type
-      // TODO if so, lower the stats from that item
-
-      // TODO replace that item with the new item (add it, if there was no item of that given type before)
-      // TODO increase the stats of the user by item stats
-
-
-      if (item.price > user.bitcoins) {
-        console.log("insufficerepair/partial?nt funds..");
-      } 
-      return user.save();
+      
+      return user.addItem(item)
     })
     .then(updatedUser => {
-      // TODO render or redirect
-      res.redirect("/marketplace?newItem=" + item._id);
-      // JQUERY "YOU JUST BOUGHT item.name FOR item.price"
-      res.send("you just bought an item!");
+      res.redirect("/marketplace?newItemName=" + item.name);
     });
 });
 

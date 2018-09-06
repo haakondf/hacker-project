@@ -24,6 +24,18 @@ td {
   border-bottom: 1px solid white;
   font-size: 1.5vw;
 }
+.marketplace
+{
+  margin: 5vw auto;
+}
+
+.marketplace
+td {
+    border-bottom: 1px solid white;
+    font-size: 1.5vw;
+    text-align: center;
+    line-height: 2
+}
 
 .ladder-wanted {
   width: 65%;
@@ -193,11 +205,11 @@ a {
 }
 
 #nav-userbattery {
-  color: green;
+  color: pink;
 }
 
 #nav-userfirewall {
-  color: lightblue;
+  color: green;
 }
 
 #nav-userexp {
@@ -540,6 +552,10 @@ h2 {
 
 .blue{
   color: lightblue;
+}
+
+.lime{
+  color: limegreen;
 }
 
 .purple{

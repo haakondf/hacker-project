@@ -282,8 +282,7 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
 };
 
 userSchema.methods.partialRepair = function() {
-  if (this.bitCoins <= 10000) {
-  } else if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
+if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
     this.bitCoins -= 10000;
     this.currentFirewall = this.maxFirewall;
   } else {
@@ -294,11 +293,8 @@ userSchema.methods.partialRepair = function() {
 }
 
 userSchema.methods.systemFullRepair = function () {
-  if (this.bitCoins <= 50000) {
-  } else {
-    this.bitCoins -= 50000;
-    this.currentFirewall = this.maxFirewall;
-  }
+  this.bitCoins -= 50000;
+  this.currentFirewall = this.maxFirewall;
   return this.save()
 }
 

@@ -227,7 +227,7 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
     });
 });
 
-/* router.post("/marketplace/:itemId", (req, res) => {
+/* router.post("/marketplace/:repair/partial?itemId", (req, res) => {
   let item, user;
   Item.findById(req.params.itemId)
     .then(i => {
@@ -246,7 +246,7 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
             if (item.type === "cpu") {
                 user.cpu += item.bonus;
             } else if (item.type === "firewall") {
-                  user.maxFirewall += item.bonus;
+                  user.maxFirerepair/partial?wall += item.bonus;
             } else if (item.type === "avs") {
                   user.antiVirus += item.bonus;
             } else if (item.type === "encryption") {
@@ -264,8 +264,8 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
       // DOES NOT TAKE EXISTING ITEM INTO CONSIDERATION
 
       if (item.price > user.bitcoins) {
-        console.log("insufficent funds..");
-      } 
+        console.log("insufficerepair/partial?nt funds..");
+      } repair/partial?
       return user.save();
     })
     .then(updatedUser => {
@@ -281,17 +281,30 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
 
 router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
+  if (userPerson.bitCoins < 10000) {
+    return res.render("menu/system-repair", {message: "Insufficient funds"})
+  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
+    return res.render("menu/system-repair", {message: "Your computer is already working just fine!"})
+  }
   User.findById(userPerson).then((result) => {
     result.partialRepair();
-    res.redirect("menu/system-repair")
+    res.render("menu/system-repair", {message: "You successfully glued together some loose parts from your computer"})
   })
 })
 
-router.get("repair/full", ensureAuthenticated, (req, res, next) => {
+router.get("/repair/full", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
+  if (userPerson.bitCoins < 50000) {
+    return res.render("menu/system-repair", {message: "Insufficient funds"})
+  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
+    return res.render("menu/system-repair", {message: "Your computer is already working just fine!"})
+  }
   User.findById(userPerson).then((result) => {
+    if (result.bitCoins < 50000) {
+      res.render("menu/system-repair", {message: "Insufficient funds"})
+    }
     result.systemFullRepair();
-    res.redirect("menu/system-repair")
+    res.render("menu/system-repair", {message: "The kittens successfully repaired your crappy computer"})
   })
 })
 

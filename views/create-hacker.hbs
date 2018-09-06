@@ -36,6 +36,53 @@
         
     </div>
 
+    <div class="my-profile my-profile-hack-stats upgrade-table">
+        <table cellspacing="0">
+            <tr>
+                <th>HACK SKILLS</th>
+                <th>Value</th>
+                <th>Upgrade</th>
+            </tr>
+            <tr>
+                <td><b>Firewall:</b></td>
+                <td>{{user.maxFirewall}} </td>
+                <td>
+                    <form action="/my-profile" method="POST">
+                        <input type="submit" name="firewall" class="button" value="+">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><b>CPU:</b></td>
+                <td>{{user.cpu}} </td>
+                <td>
+                    <form action="/create-hacker" method="POST">
+                        <input type="submit" name="cpu" class="button" value="+">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><b>AntiVirus:</b></td>
+                <td>{{user.antiVirus}} </td>
+                <td>
+                    <form action="/create-hacker" method="POST">
+                        <input type="submit" name="antivirus" class="button" value="+">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Encryption:</b></td>
+                <td>{{user.encryption}} </td>
+                <td>
+                    <form action="/create-hacker" method="POST">
+                        <input type="submit" name="encryption" class="button" value="+">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div class="stat-points">You have {{user.statPoints}} available!</div>
+    </div>
+
 </div>
 
 

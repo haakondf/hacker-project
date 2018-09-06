@@ -1,27 +1,68 @@
-<h1>LADDER</h1>
+<h1>My Profile</h1>
 
-<table cellspacing="0">
-  <tr>
-    <th>STATUS</th>
-  </tr>
-  <tr>
-      <td>Name</td>
-    <td>{{user.name}} </td>
-    </tr>
-    <tr>
-<td>Alliance</td>
-    <td>{{user.alliance}} </td>
-    </tr>
-    <tr>
-        <td>Rank</td>
-    <td>{{user.rankName}} </td>
-    </tr>
-    <tr>
-        <td>Networth</td>
-    <td>${{user.networth}} </td>
-    </tr>
-    <tr>
-        <td>Start date</td>
-    <td>{{user.createdAt}} </td>
-  </tr>
-</table>
+<div class="flex-container-profile">
+    
+    {{!-- STATUS --}}
+    <div class="my-profile my-profile-status">
+        <table cellspacing="0">
+            <tr>
+                <th>STATUS</th>
+            </tr>
+            <tr>
+                <td><b>Name:</b></td>
+                <td>{{user.name}} </td>
+            </tr>
+            <tr>
+                <td><b>Alliance:</b></td>
+                <td>{{user.alliance}} </td>
+            </tr>
+            <tr>
+                <td><b>Rank:</b></td>
+                <td>{{user.rankName}} </td>
+            </tr>
+            <tr>
+                <td><b>Networth:</b></td>
+                <td>${{user.networth}} </td>
+            </tr>
+            <tr>
+                <td><b>Start date:</b></td>
+                <td>{{createdAtDate}} </td>
+            </tr>
+        </table>
+    </div>
+
+
+    {{!-- HACK STATS --}}
+    <div class="my-profile my-profile-hack-stats">
+        <table cellspacing="0">
+            <tr>
+                <th>HACK STATS</th>
+            </tr>
+            <tr>
+                <td><b>Exp:</b></td>
+                <td>{{user.exp}} </td>
+            </tr>
+            <tr>
+                <td><b>Exp to new Rank:</b></td>
+                <td>{{user.expToLevel}} </td>
+            </tr>
+            <tr>
+                <td><b>Shutdowns:</b></td>
+                <td>{{user.shutdowns}} </td>
+            </tr>
+            <tr>
+                <td><b>Crime Skills:</b></td>
+                <td>{{user.crimeSkill}} </td>
+            </tr>
+            {{!--
+            <tr>
+                <td><b>Networth:</b></td>
+                <td>${{user.networth}} </td>
+            </tr>
+            <tr>
+                <td><b>Start date:</b></td>
+                <td>{{createdAtDate}} </td>
+            </tr> --}}
+        </table>
+    </div>
+</div>

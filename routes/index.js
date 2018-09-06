@@ -80,8 +80,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
   User.findById(req.user._id).then((result) =>{
-    let createdAtDate = result.createdAtDate
-    console.log(createdAtDate)
+    let createdAtDate = result.createdAt.toString().substring(4, 15);
     res.render("menu/my-profile", {user: result, createdAtDate});
   })
 })

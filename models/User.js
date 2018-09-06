@@ -129,7 +129,7 @@ const userSchema = new Schema(
     },
     expToLevel: {
       type: Number,
-      default: 0
+      default: 10000
     },
 
     //Figth accessories
@@ -220,7 +220,7 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     this.save();
     return results;
     //Combat won over
-  } else if (encryptionOccurance >= 0.9 + this.crimeSkill / 100) {
+  } else if (encryptionOccurance >= 0.80 + this.crimeSkill / 100) {
     this.failedAttempts += 1;
     results.rounds.push("encryption");
     results.currentHp.push(opponent.currentFirewall);

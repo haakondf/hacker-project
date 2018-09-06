@@ -4,9 +4,9 @@
 const newCrimeOne = Crime({
     name: "Internet Troll",
     difficulty: 1,
-    encryption: 15,
-    currentFirewall: 120,
-    maxFirewall: 120,
+    encryption: 10,
+    currentFirewall: 140,
+    maxFirewall: 140,
   })
   newCrimeOne.save();
 

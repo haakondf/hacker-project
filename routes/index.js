@@ -97,12 +97,12 @@ router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
       result.currentFirewall += 5;
     } else if (statUpgrade[0] === "cpu") {
       result.cpu += 2;
-    } else if (statUpgrade[0] === "antiVirus") {
+    } else if (statUpgrade[0] === "antivirus") {
       result.antiVirus += 1;
     } else if (statUpgrade[0] === "encryption") {
       result.encryption += 2;
     }
-    result.save();
+    result.save()
     return res.render("menu/my-profile", {message: "You enhanced your " + statUpgrade[0], user: result, createdAtDate})
   });
 });

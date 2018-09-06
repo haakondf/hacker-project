@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Rank = require("./Rank");
+const Item = require("./Item");
 
 const userSchema = new Schema(
   {
@@ -37,6 +39,10 @@ const userSchema = new Schema(
     imgPath: String,
 
     //Player stats
+    statPoints: {
+      type: Number,
+      default: 5,
+    },
     maxFirewall: {
       type: Number,
       default: 100
@@ -77,8 +83,26 @@ const userSchema = new Schema(
     },
 
     items: {
-      type: Array,
-      default: []
+      cpu: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null
+      },
+      firewall: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null
+      },
+      avs: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null,
+      },
+      encryption: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null
+      }
     },
 
     //Player information
@@ -134,13 +158,13 @@ const userSchema = new Schema(
 
 //Hack Crime
 userSchema.methods.fightCrime = function(opponent) {
-  console.log(opponent);
   this.battery -= 7;
   let results = {
     rounds: [],
     currentHp: [],
     maxHp: opponent.maxFirewall,
     won: false,
+    levelUp: false,
     gains: {
       exp: 0,
       bitCoins: 0,
@@ -150,6 +174,16 @@ userSchema.methods.fightCrime = function(opponent) {
     }
   };
   updatedResults = this.fightCrimeBattle(opponent, results);
+  if (this.exp >= this.expToLevel) {
+    //FILL INN LEVEL-UP LEVEL UP REMBER TO PUT IT IN FIGHT PLAYERS AS WELL
+    updatedResults.levelUp = true;
+    this.rank += 1;
+    Rank.findOne({rank: this.rank}).then((newRank) => {
+      this.rankName = newRank.name;
+      this.expToLevel = newRank.expToNewRank;
+      this.save()
+    })
+  }
   return updatedResults;
 };
 
@@ -282,8 +316,7 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
 };
 
 userSchema.methods.partialRepair = function() {
-  if (this.bitCoins <= 10000) {
-  } else if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
+if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
     this.bitCoins -= 10000;
     this.currentFirewall = this.maxFirewall;
   } else {
@@ -294,12 +327,63 @@ userSchema.methods.partialRepair = function() {
 }
 
 userSchema.methods.systemFullRepair = function () {
-  if (this.bitCoins <= 50000) {
-  } else {
-    this.bitCoins -= 50000;
-    this.currentFirewall = this.maxFirewall;
-  }
+  this.bitCoins -= 50000;
+  this.currentFirewall = this.maxFirewall;
   return this.save()
+}
+
+userSchema.methods.addItem = function(item) {
+  const currentItem = this.items[item.type]
+  let p = Promise.resolve(null)
+  if(currentItem) {
+    if(currentItem.bonus) {
+      p = Promise.resolve(currentItem)
+    } else {
+      p = Item.findById(currentItem)
+    }
+  }
+
+  p.then(currentItem => {
+    if(currentItem) {
+      // lower the stats
+       switch(currentItem.type) {
+        case "cpu":
+            this.cpu -= currentItem.bonus
+          break;
+        case "avs":
+            this.antiVirus -= currentItem.bonus
+          break;
+        case "firewall":
+            this.maxFirewall -= currentItem.bonus
+            this.currentFirewall -= currentItem.bonus
+          break;
+        case "encryption":
+            this.encryption -= currentItem.bonus
+          break;
+      }
+    }
+
+    this.items[item.type] = item
+
+    switch(item.type) {
+      case "cpu":
+          this.cpu += item.bonus
+        break;
+      case "avs":
+          this.antiVirus += item.bonus
+        break;
+      case "firewall":
+          this.maxFirewall += item.bonus
+          this.currentFirewall += item.bonus
+        break;
+      case "encryption":
+          this.encryption += item.bonus
+        break;
+    }
+
+    return this.save()
+  })
+
 }
 
 

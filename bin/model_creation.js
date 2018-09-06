@@ -242,38 +242,79 @@ const newItemTwenty = Item({
   newItemTwenty.save();
 
 
+// Ranks
+ const newRankOne = Rank({
+    name: "Script Kiddie",
+    rank: 0,
+    expToNewRank: 10000
+  })
+  newRankOne.save();
+
+  const newRankTwo = Rank({
+    name: "Family IT-Support",
+    rank: 1,
+    expToNewRank: 25000,
+  })
+  newRankTwo.save();
+
+  const newRankThree = Rank({
+    name: "Blog Writer",
+    rank: 2,
+    expToNewRank: 45000
+  })
+  newRankThree.save();
+
+  const newRankFour = Rank({
+    name: "HTML 'programmer'",
+    rank: 3,
+    expToNewRank: 70000
+  })
+  newRankFour.save();
+
+  const newRankFive = Rank({
+    name: "Jr. Web Dev",
+    rank: 4,
+    expToNewRank: 100000
+  })
+  newRankFive.save();
+
+  const newRankSix = Rank({
+    name: "Sr. Web Dev",
+    rank: 5,
+    expToNewRank: 140000
+  })
+  newRankSix.save();
+
+  const newRankSeven = Rank({
+    name: "System Dev",
+    rank: 6,
+    expToNewRank: 200000
+  })
+  newRankSeven.save();
+
+  const newRankEight = Rank({
+    name: "Syber Security Dev",
+    rank: 7,
+    expToNewRank: 300000
+  })
+  newRankEight.save();
+
+  const newRankNine = Rank({
+    name: "Basement Dweller",
+    rank: 8,
+    expToNewRank: 500000
+  })
+  newRankNine.save();
+
+  const newRankTen = Rank({
+    name: "Anonymous",
+    rank: 9,
+    expToNewRank: 9999999999999
+  })
+  newRankTen.save();
+
+
+
 
 
   
-
-// SYSTEM REPAIR BACKUP
-// 15% repair
-function partialRepair (player){
-    console.log("systemRepairQuick was called");
-    console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-    if ( player.money <= 10000 ){ 
-        console.log("insufficent funds") 
-    } else if ( (player.hp * 100 / player.maxHp) > 85 ){
-        player.money -= 10000;
-        player.hp = player.maxHp 
-    } else {
-        player.money -= 10000;
-        player.hp += (15 * player.maxHp / 100); 
-    }
-    console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-}
-
-
-    // Full repair
-
-    function systemRepairFull (player){
-        console.log("systemRepairFull was called");
-        console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-        if ( player.money <= 50000 ){ 
-            console.log("insufficent funds")
-        } else {
-            player.money -= 50000;
-            player.hp = player.maxHp;
-        }
-        console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-        }

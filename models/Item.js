@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
   name: String,
-  type: String,
+  type: {
+    type: String,
+    enum: ['cpu', 'firewall', 'avs', 'encryption']
+    },
   price: Number,
   bonus: Number
 });

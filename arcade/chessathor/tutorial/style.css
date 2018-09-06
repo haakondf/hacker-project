@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+.container {
+    padding: 25px calc((100vw - 960px) / 2);
+}
+.container:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(180, 180, 180);
+    min-height: 100vh;
+}
+#game {
+    width: 640px;
+    height: 640px;
+    position: relative;
+    background-color: #fff;
+}
+#player {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: RGB(231, 65, 58);
+    transition: all 40ms ease-out;
+}

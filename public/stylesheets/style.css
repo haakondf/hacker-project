@@ -156,6 +156,8 @@ a {
 
 #navbar ul li {
   display: inline;
+  margin: 0vw 3vw 0 0;
+  font-family: "Courier New", Courier, monospace;
 }
 
 #navbar ul li a {
@@ -187,7 +189,7 @@ a {
 }
 
 #nav-userbitcoins {
-  color: white;
+  color: yellow;
 }
 
 #nav-userbattery {
@@ -199,7 +201,7 @@ a {
 }
 
 #nav-userexp {
-  color: yellow;
+  color: orange;
 }
 
 /*Combat text styling*/

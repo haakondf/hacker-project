@@ -12,7 +12,6 @@ $(document).ready(function() {
       console.log(response)
       $("#nav-username").text(response.data.name);
       $("#nav-userrank").text(response.data.rankName);
-      $("#nav-useralliance").text(response.data.role);
       $("#nav-userbitcoins").text(response.data.bitCoins + "$");
       $("#nav-userbattery").text("BATTERY: " + response.data.battery + "%");
       $("#nav-userfirewall").text(
@@ -22,7 +21,7 @@ $(document).ready(function() {
           ) +
           "%"
       );
-      $("#nav-userexp").text("EXP: " + response.data.exp);
+      $("#nav-userexp").text("EXP: " + response.data.exp + "/" + response.data.expToLevel);
 
       if(!response.data) [
         $("#navbar").hide()

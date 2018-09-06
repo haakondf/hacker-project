@@ -56,15 +56,6 @@
                 <td><b>Crime Skill:</b></td>
                 <td>{{user.crimeSkill}} </td>
             </tr>
-            {{!--
-            <tr>
-                <td><b>Networth:</b></td>
-                <td>${{user.networth}} </td>
-    div        </tr>
-            <tr>
-                <td><b>Start date:</b></td>
-                <td>{{createdAtDate}} </td>
-            </tr> --}}
         </table>
     </div>
 
@@ -114,6 +105,32 @@
             </tr>
         </table>
         <div class="stat-points">You have {{user.statPoints}} available!</div>
+    </div>
+
+    {{!-- ITEMS --}}
+    <div class="my-profile my-profile-hack-stats">
+        <table cellspacing="0">
+            <tr>
+                <th>ITEMS</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td><b>Firewall:</b></td>
+                <td>{{firewall}} </td>
+            </tr>
+            <tr>
+                <td><b>CPU:</b></td>
+                <td>{{cpu}} </td>
+            </tr>
+            <tr>
+                <td><b>AntiVirus:</b></td>
+                <td>{{avs}} </td>
+            </tr>
+            <tr>
+                <td><b>Encryption:</b></td>
+                <td>{{encryption}} </td>
+            </tr>
+        </table>
     </div>
 </div>
 

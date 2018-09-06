@@ -595,8 +595,9 @@ h2 {
 .info {
   color: rgb(255, 230, 230);
   text-align: left;
-  padding-top: 4vh;
+  padding: 3vw 10vw 0vw 10vw;
   font-size: 1vw;
+  line-height: 1.2vw;
   font-family: "Courier New", Courier, monospace;
 }
 

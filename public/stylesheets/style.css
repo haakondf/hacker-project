@@ -337,7 +337,6 @@ a {
 .flex-container-profile {
   display: flex;
   flex-flow: wrap;
-  align-items: center;
   justify-content: center;
 }
 
@@ -359,11 +358,11 @@ a {
 }
 
 .my-profile-status {
-  margin: 5vw 5vw 5vw 5vw;
+  margin: 3vw 5vw 5vw 5vw;
 }
 
 .my-profile-hack-stats {
-  margin: 5vw 5vw 5vw 5vw;
+  margin: 3vw 5vw 5vw 5vw;
 }
 
 

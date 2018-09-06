@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Rank = require("./Rank");
 
 const userSchema = new Schema(
   {
@@ -134,13 +135,13 @@ const userSchema = new Schema(
 
 //Hack Crime
 userSchema.methods.fightCrime = function(opponent) {
-  console.log(opponent);
   this.battery -= 7;
   let results = {
     rounds: [],
     currentHp: [],
     maxHp: opponent.maxFirewall,
     won: false,
+    levelUp: false,
     gains: {
       exp: 0,
       bitCoins: 0,
@@ -150,6 +151,16 @@ userSchema.methods.fightCrime = function(opponent) {
     }
   };
   updatedResults = this.fightCrimeBattle(opponent, results);
+  if (this.exp >= this.expToLevel) {
+    //FILL INN LEVEL-UP LEVEL UP REMBER TO PUT IT IN FIGHT PLAYERS AS WELL
+    updatedResults.levelUp = true;
+    this.rank += 1;
+    Rank.findOne({rank: this.rank}).then((newRank) => {
+      this.rankName = newRank.name;
+      this.expToLevel = newRank.expToNewRank;
+      this.save()
+    })
+  }
   return updatedResults;
 };
 

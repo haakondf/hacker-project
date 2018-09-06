@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Crime = require("../models/Crime");
 const Alliance = require("../models/Alliance");
 const Item = require("../models/Item");
+const Rank = require("../models/Rank");
 const uploadCloud = require("../utils/cloudinary.js");
 
 /* GET all routes. */
@@ -93,8 +94,6 @@ router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let logicBomb;
   Crime.find({}).then((result) => {
     result.map((x) => {
-      console.log(x.name);
-      console.log(x._id);
       if (x.name == "Internet Troll"){
         internetTroll = x._id
       } else if (x.name == "Internet Scam") {
@@ -125,6 +124,7 @@ router.get("/hack/crimes/:id", (req, res, next) => {
         error: "You need a firewall to be able to commit crimes!"
       });
     let resultCrime = result[0].fightCrime(result[1]);
+
     res.render("menu/hack-crimes-id", {
       result: JSON.stringify(resultCrime)
     });

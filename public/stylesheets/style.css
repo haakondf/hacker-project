@@ -648,3 +648,25 @@ color: green;
 .fail{
 color: red;
 }
+
+/* SIGN IN PAGE */
+
+#sign-in {
+  margin: 10%;
+  width: 100%;
+}
+.card-signin {
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-signin img {
+  height: 15vw;
+}
+
+
+
+/* END SIGN IN PAGE */
+

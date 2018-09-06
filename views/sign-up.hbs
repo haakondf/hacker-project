@@ -1,23 +1,41 @@
 
 
+
 <div class="container">
+    <h1>Sign Up</h1>
+    <div id="sign-in">
 
-    <div class="card">
-        <h1>Sign Up</h1>
+    </div>
 
-        <form action="/auth/sign-up" method='POST'>
-            <input type="email" name='email' required='true'>
-            <br>
-            <input type="password" name='password' required='true'>
-            <br>
-            <br>
-            <button type='submit'>Create user account</button>
-            <br>
-            <br> {{#if error}}
-            <p>ERROR: {{error}}</p>
-            {{/if}}
-        </form>
+    <div class="flex-columns-notwrap">
 
-        <a href="/auth/google"><button>Sign up with Google</button></a>
+
+        <div class="card-signin">
+            <p>Sign up with email</p>
+            <img src="/images/email.png" alt="email">
+            
+            <form action="/auth/sign-up" method='POST'>
+                <input type="email" name='email' required='true'>
+                <br>
+                <input type="password" name='password'>
+                <br>
+                <br>
+                <button type='submit'>Sign a hacker up</button>
+
+                <br>
+                <br> {{#if error}}
+                <p>ERROR: {{error}}</p>
+                {{/if}}
+            </form>
+
+            <br>
+            <br>
+        </div>
+        <div class="card">
+            <a href="/auth/google">
+            <img src="/images/google-flat.png" alt="googlesymbol">
+                
+            </a>
+        </div>
     </div>
 </div>

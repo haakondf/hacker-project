@@ -24,12 +24,7 @@ let errorEncryptionDots =
 //Combat Players
 
 function fight(result, index) {
-<<<<<<< HEAD
   if (result.rounds[index] === "encryption") {
-=======
-  pageScroll()
-  if (result.rounds[index] === "dodge") {
->>>>>>> 6f245fd47f5851e44d0cb79651c6cac19e42a324
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
       "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";
@@ -109,8 +104,8 @@ function combatFailed(result) {
 }
 
 function pageScroll() {
-  window.scrollBy(0,1);
-  scrolldelay = setTimeout(pageScroll,10);
+  window.scrollBy(0, 1);
+  scrolldelay = setTimeout(pageScroll, 10);
 }
 
 fight(result, index);

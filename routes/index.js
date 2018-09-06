@@ -283,12 +283,16 @@ router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
   User.findById(userPerson).then((result) => {
     result.partialRepair();
-    res.send("Repaired! ")
+    res.redirect("menu/system-repair")
   })
 })
 
 router.get("repair/full", ensureAuthenticated, (req, res, next) => {
-
+  let userPerson = req.user._id;
+  User.findById(userPerson).then((result) => {
+    result.systemFullRepair();
+    res.redirect("menu/system-repair")
+  })
 })
 
 router.get("/user/details", (req, res, next) => {

@@ -80,9 +80,43 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
+  let createdAtDate;
+  let userIdThing;
+  let cpu;
+  let firewall;
+  let antivirus;
+  let encryption;
   User.findById(req.user._id).then(result => {
-    let createdAtDate = result.createdAt.toString().substring(4, 15);
-    res.render("menu/my-profile", { user: result, createdAtDate });
+    userIdThing = result;
+    createdAtDate = result.createdAt.toString().substring(4, 15);
+    return Item.findById(userIdThing.items.cpu).then(resultTwo => {
+      if (resultTwo) {
+        cpu = resultTwo.name;
+      }
+      return Item.findById(userIdThing.items.firewall).then(resultThree => {
+        if (resultThree) {
+          firewall = resultThree.name;
+        }
+        return Item.findById(userIdThing.items.avs).then(resultFour => {
+          if (resultFour) {
+            avs = resultFour.name;
+          }
+          return Item.findById(userIdThing.items.encryption).then(resultFive => {
+            if (resultFive) {
+              encryption = resultFive.name;
+            }
+            return res.render("menu/my-profile", {
+              user: userIdThing,
+              createdAtDate,
+              cpu,
+              firewall,
+              antivirus,
+              encryption
+            });
+          });
+        });
+      });
+    });
   });
 });
 
@@ -90,7 +124,12 @@ router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
   let statUpgrade = Object.keys(req.body);
   User.findById(req.user._id).then(result => {
     let createdAtDate = result.createdAt.toString().substring(4, 15);
-    if (result.statPoints < 1) return res.render("menu/my-profile", {message: "You have no stat points. Obtain a higher rank to get more", user: result, createdAtDate})
+    if (result.statPoints < 1)
+      return res.render("menu/my-profile", {
+        message: "You have no stat points. Obtain a higher rank to get more",
+        user: result,
+        createdAtDate
+      });
     result.statPoints -= 1;
     if (statUpgrade[0] === "firewall") {
       result.maxFirewall += 5;
@@ -102,8 +141,12 @@ router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
     } else if (statUpgrade[0] === "encryption") {
       result.encryption += 2;
     }
-    result.save()
-    return res.render("menu/my-profile", {message: "You enhanced your " + statUpgrade[0], user: result, createdAtDate})
+    result.save();
+    return res.render("menu/my-profile", {
+      message: "You enhanced your " + statUpgrade[0],
+      user: result,
+      createdAtDate
+    });
   });
 });
 
@@ -238,12 +281,12 @@ router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
-  console.log(req.user.items)
+  console.log(req.user.items);
   Item.find()
-  .sort({
-    type: 1,
-    bonus: 1
-  })
+    .sort({
+      type: 1,
+      bonus: 1
+    })
     .then(items => {
       // TODO highlight the items you already have (hint map items, if you that item from the list has the same id (item._id.toString() === req.user.items[item.type].toString()) --> set item.owned: true)
       res.render("menu/marketplace", {
@@ -254,8 +297,7 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
         encryptionItems: items.filter(i => i.type === "encryption"),
         newItemName: req.query.newItemName,
         existingItemName: req.query.existingItemName,
-        insufficentBitcoins: req.query.insufficentBitcoins,
-
+        insufficentBitcoins: req.query.insufficentBitcoins
       });
     })
     .catch(error => {
@@ -268,20 +310,19 @@ router.post("/marketplace/:itemId", (req, res) => {
   Item.findById(req.params.itemId)
     .then(i => {
       item = i;
-      return User.findById(req.user._id)
+      return User.findById(req.user._id);
     })
     .then(u => {
-      user = u
-    if (user.bitCoins < item.price) {
-        console.log("insufficent bitcoins")
+      user = u;
+      if (user.bitCoins < item.price) {
+        console.log("insufficent bitcoins");
         res.redirect("/marketplace?insufficentBitcoins=" + item.name);
       }
-      
 
       // TODO check if the new item is either the same or has less bonus, end here and redirect to /marketplace with a message: Does not make sense to buy it
 
       user.bitCoins -= item.price;
-      return user.addItem(item)
+      return user.addItem(item);
     })
     .then(updatedUser => {
       res.redirect("/marketplace?newItemName=" + item.name);

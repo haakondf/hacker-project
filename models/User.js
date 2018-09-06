@@ -173,10 +173,10 @@ userSchema.methods.fightCrime = function(opponent) {
       expToLevel: this.expToLevel
     }
   };
-  updatedResults = this.fightCrimeBattle(opponent, results);
+  let updatedResults = this.fightCrimeBattle(opponent, results);
   if (this.exp >= this.expToLevel) {
-    //FILL INN LEVEL-UP LEVEL UP REMBER TO PUT IT IN FIGHT PLAYERS AS WELL
     updatedResults.levelUp = true;
+    this.statPoints += 5;
     this.rank += 1;
     Rank.findOne({rank: this.rank}).then((newRank) => {
       this.rankName = newRank.name;
@@ -205,7 +205,7 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
       Math.floor(Math.random() * (opponent.difficulty * 1000)) +
       opponent.difficulty * 500;
     let expChange =
-      Math.floor(Math.random() * 300) + opponent.difficulty * 100 + 100;
+      Math.floor(Math.random() * 300) + opponent.difficulty * 200 + 100;
     let crimeChange = Math.floor(Math.random() * opponent.difficulty) + 1;
     this.bitCoins += moneyChange;
     this.networth += moneyChange;
@@ -249,6 +249,16 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
     }
   };
   let updatedResults = this.hackPlayerBattle(opponentPlayer, results);
+  if (this.exp >= this.expToLevel) {
+    updatedResults.levelUp = true;
+    this.statPoints += 5;
+    this.rank += 1;
+    Rank.findOne({rank: this.rank}).then((newRank) => {
+      this.rankName = newRank.name;
+      this.expToLevel = newRank.expToNewRank;
+      this.save()
+    })
+  }
   return updatedResults;
 };
 
@@ -272,7 +282,7 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
         (opponentPlayer.rank + 1) *
           15 *
           ((opponentPlayer.rank + 1) / (this.rank + 1)) *
-          100 +
+          500 +
         100
     );
     this.bitCoins += moneyChange;

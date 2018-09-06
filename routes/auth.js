@@ -9,6 +9,7 @@ router.get('/sign-up', (req, res, next) => {
     res.render('sign-up')
 })
 
+//user sign-up
 router.post('/sign-up', (req, res, next) => {
     const { email, password } = req.body
 
@@ -22,7 +23,7 @@ router.post('/sign-up', (req, res, next) => {
                 res.redirect('/create-hacker');
                 
             })
-            // res.render('sign-in')
+    
         })
         .catch(err => {
             if (err.code === 11000) {
@@ -56,12 +57,12 @@ router.get(
         ],
     })
 )
-
+//signup with google -> create hacker page
 router.get(
     '/google/cb',
     passport.authenticate('google', {
         failureRedirect: '/auth/sign-in',
-        successRedirect: '/',
+        successRedirect: '/create-hacker',
     })
 )
 

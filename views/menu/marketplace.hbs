@@ -1,20 +1,13 @@
 <h1>MARKETPLACE</h1>
 
 {{#if newItemName}}
-  <h3 class="success">You just bought {{newItemName}}</h3>
+  <h3 id="writing">You just bought {{newItemName}}</h3>
 {{/if}}
-{{#if existingItemName}}
-  <h3 class="fail">You just bought {{existingItemName}}</h3>
-{{/if}}
+
 {{#if insufficentBitcoins}}
-  <h3 class="fail">You don't have enough cash to buy {{item.name}}</h3>
+  <h3 id="writing">You don't have enough cash to buy {{insufficentBitcoins}}</h3>
 {{/if}}
-<!-- TODO:
--  BUY FUNCTION
--  SORT BY PRICE
--  USER CAN ONLY HOLD ONE ITEM OF EACH GROUP: CPU, FIREWALL, CPU, ENCRYPTION
--  CREATE NEATER TABLES
--->
+
 
 <table cellspacing="1" class="marketplace">
   <tr>
@@ -56,8 +49,9 @@
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
-      <form action="" method="POST">
-        <button class="button-buy">BUY</button></td>
+      <form action="/marketplace/{{this._id}}" method="POST">
+        <button class="button-buy">BUY</button>
+      </form>
   </tr>
   {{/each}} {{#each encryptionItems}}
   <tr>
@@ -66,7 +60,9 @@
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
-      <form action="" method="POST">
-        <button class="button-buy">BUY</button></td>
+      <form action="/marketplace/{{this._id}}" method="POST">
+        <button class="button-buy">BUY</button>
+      </form>
   </tr>
   {{/each}}
+

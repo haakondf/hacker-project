@@ -273,13 +273,9 @@ router.post("/marketplace/:itemId", (req, res) => {
     .then(u => {
       user = u
     if (user.bitCoins < item.price) {
-        console.log("insufficent bitcoins")
         res.redirect("/marketplace?insufficentBitcoins=" + item.name);
-      }
-      
-
-      // TODO check if the new item is either the same or has less bonus, end here and redirect to /marketplace with a message: Does not make sense to buy it
-
+        return null;
+      } 
       user.bitCoins -= item.price;
       return user.addItem(item)
     })

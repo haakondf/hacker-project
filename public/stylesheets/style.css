@@ -179,18 +179,20 @@ a {
   display: inline;
   margin: 0vw 3vw 0 0;
   font-family: "Courier New", Courier, monospace;
+  font-size: 1vw;
 }
 
 #navbar ul li a {
   display: inline;
   color: white;
+  
 }
 
 #navbar ul li a {
   text-decoration: none;
   padding: 0.2em 1em;
   background-color: #000;
-  font-size: 0.6em;
+  font-size: 1vw;
 }
 
 #navbar ul li a :hover {

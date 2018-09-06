@@ -29,12 +29,8 @@ let errorEncryptionDots =
   "....................................................... 4";
 
 function fight(result, index) {
-<<<<<<< HEAD
-  if (result.rounds[index] === "encryption") {
-=======
-  pageScroll()
-  if (result.rounds[index] === "dodge") {
->>>>>>> 6f245fd47f5851e44d0cb79651c6cac19e42a324
+pageScroll()  
+if (result.rounds[index] === "encryption") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
       "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";

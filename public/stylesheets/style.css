@@ -471,3 +471,36 @@ h2 {
   color: aqua;
   font-weight: bold;
 }
+
+.info {
+  color: rgb(255, 230, 230);
+  text-align: left;
+  padding-top: 4vh;
+  font-size: 1vw;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.green {
+  color: green
+}
+.red{
+  color: rgb(255,0,0)
+}
+
+.blue{
+  color: lightblue;
+}
+
+.purple{
+  color: purple;
+}
+
+.orange{
+  color: orange;
+}
+.yellow{
+  color: yellow
+}
+.pink{
+  color: pink
+}

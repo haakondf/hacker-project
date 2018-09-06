@@ -184,6 +184,7 @@ router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
+  // TODO get new item id from req.query, if existing
   Item.find()
     .then(items => {
       res.render("menu/marketplace", {
@@ -199,53 +200,40 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
     });
 });
 
-/* router.post("/marketplace/:itemId", (req, res) => {
+router.post("/marketplace/:itemId", (req, res) => {
   let item, user;
   Item.findById(req.params.itemId)
     .then(i => {
       item = i;
-      return .UserfindById(req.user._id);
-    }).then(u => {
-      user = u;
-    }).then(() => {
-      if (user.bitcoin < item.price) {
-        return res.send("Insufficent bitcoins")
-        }
-        let itemType = user.items.filter(item => item.type === item.type)
-          else if (!itemType) {
-            user.bitCoins -= item.price;
-            user.items.push(item);
-            if (item.type === "cpu") {
-                user.cpu += item.bonus;
-            } else if (item.type === "firewall") {
-                  user.maxFirewall += item.bonus;
-            } else if (item.type === "avs") {
-                  user.antiVirus += item.bonus;
-            } else if (item.type === "encryption") {
-                  user.encryption += item.bonus;
-            }
-         } else 
-      user.bitCoins -= item.price;
-      let indexItem = user.items.indexOf(itemType);
-      user.items.splice(indexItem, 1);
-      user.items.push(item);
+      return User.findById(req.user._id);
+
+      // TODO populate user items
     })
-
     .then(u => {
-      // TODO use the item to update the user
-      // DOES NOT TAKE EXISTING ITEM INTO CONSIDERATION
+      user = u;
+      return user;
+    })
+    .then(user => {
+      if (user.bitcoin < item.price) {
+        return res.send("Insufficent bitcoins");
+      }
+      user.bitCoins -= item.price;
 
-      if (item.price > user.bitcoins) {
-        console.log("insufficent funds..");
-      } 
+      // TODO check if the user already has an item of that given type
+      // TODO if so, lower the stats from that item
+
+      // TODO replace that item with the new item (add it, if there was no item of that given type before)
+      // TODO increase the stats of the user by item stats
+
       return user.save();
     })
     .then(updatedUser => {
       // TODO render or redirect
+      res.redirect("/marketplace?newItem=" + item._id);
       // JQUERY "YOU JUST BOUGHT item.name FOR item.price"
       res.send("you just bought an item!");
     });
-}); */
+});
 
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");

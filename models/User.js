@@ -77,8 +77,22 @@ const userSchema = new Schema(
     },
 
     items: {
-      type: Array,
-      default: []
+      cpu: {
+        type: Schema.Types.ObjectId,
+        ref: "Item"
+      },
+      firewall: {
+        type: Schema.Types.ObjectId,
+        ref: "Item"
+      },
+      avs: {
+        type: Schema.Types.ObjectId,
+        ref: "Item"
+      },
+      encryption: {
+        type: Schema.Types.ObjectId,
+        ref: "Item"
+      }
     },
 
     //Player information

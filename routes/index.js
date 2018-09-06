@@ -33,8 +33,9 @@ function ensureIsSetup(req, res, next) {
 }
 
 router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
+  if(req.user.isSetup) return res.redirect("/")
   // ensure user is logged in
-  res.render("create-hacker", { title: "Express" });
+  res.render("create-hacker", { title: "Express", statPoints: req.user.statPoints });
 });
 
 //upload photo
@@ -52,28 +53,50 @@ router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
 // })
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
-  const { title, description } = req.body;
-  const imgPath = req.file.url;
-  const imgName = req.file.originalname;
+  if(req.user.isSetup) return res.redirect("/")
 
-  console.log("req user consolelog", req.user);
-  //User.findById /// add { title, description, imgPath, imgName });
-  // now isSetup is changed to true upon image upload. This should be changed to play/create button
-  User.findByIdAndUpdate(req.user._id, {
-    title,
-    description,
-    imgPath,
-    imgName,
-    isSetup: true
-  }).catch(error => {
-    console.log(error);
-    res.redirect("error");
-  });
+  if(!req.body.name) {
+    User.findById(req.user._id).then(result => {
+      if(result.statPoints <= 0 ) return res.redirect("/create-hacker")
+
+      result.statPoints -= 1;
+      if (req.body.firewall) {
+        result.maxFirewall += 5;
+        result.currentFirewall += 5;
+      } else if (req.body.cpu) {
+        result.cpu += 2;
+      } else if (req.body.antivirus) {
+        result.antiVirus += 1;
+      } else if (req.body.encryption) {
+        result.encryption += 2;
+      }
+
+      return result.save()
+    }).then(updatedUser => {
+      res.redirect("/create-hacker")
+    })
+  } else {
+    const imgPath = req.file.url;
+    const imgName = req.file.originalname;
+  
+    User.findByIdAndUpdate(req.user._id, {
+      imgPath,
+      imgName,
+      isSetup: true,
+      name: req.body.name
+    }).then(() => {
+      res.redirect("/my-profile")
+    }).catch(error => {
+      console.log(error);
+      res.redirect("error");
+    });
+  }
+
 });
 
 router.get("/", (req, res, next) => {
   if (req.user) {
-    res.render("menu/home");
+    res.redirect("/my-profile");
   } else {
     res.render("homeinfo");
   }

@@ -297,34 +297,25 @@ a {
 }
 
 #create-hacker {
-  background-color: rgb(71, 223, 71);
   width: 910px;
   height: 800px;
 }
 
 #left-box {
-  background-color: red;
   float: left;
-  height: 300px;
   width: 30%;
-  margin: 10px;
+  margin: 4vw;
 }
 
-#center-box {
-  background-color: red;
+
+
+#right-box {  
   float: left;
-  height: 300px;
   width: 30%;
-  margin: 10px;
+  margin: 1vw;
 }
 
-#right-box {
-  background-color: red;
-  float: left;
-  height: 300px;
-  width: 30%;
-  margin: 10px;
-}
+/* END CREATE HACKER */
 
 /* picture items */
 

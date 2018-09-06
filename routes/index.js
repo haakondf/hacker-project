@@ -110,7 +110,7 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
               createdAtDate,
               cpu,
               firewall,
-              antivirus,
+              avs,
               encryption
             });
           });

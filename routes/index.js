@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Crime = require("../models/Crime");
 const Alliance = require("../models/Alliance");
 const Item = require("../models/Item");
+const Rank = require("../models/Rank");
 const uploadCloud = require("../utils/cloudinary.js");
 
 /* GET all routes. */
@@ -32,8 +33,9 @@ function ensureIsSetup(req, res, next) {
 }
 
 router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
+  if(req.user.isSetup) return res.redirect("/")
   // ensure user is logged in
-  res.render("create-hacker", { title: "Express" });
+  res.render("create-hacker", { title: "Express", statPoints: req.user.statPoints });
 });
 
 //upload photo
@@ -51,40 +53,125 @@ router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
 // })
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
-  const { title, description } = req.body;
-  const imgPath = req.file.url;
-  const imgName = req.file.originalname;
+  if(req.user.isSetup) return res.redirect("/")
 
-  console.log("req user consolelog", req.user);
-  //User.findById /// add { title, description, imgPath, imgName });
-  // now isSetup is changed to true upon image upload. This should be changed to play/create button
-  User.findByIdAndUpdate(req.user._id, {
-    title,
-    description,
-    imgPath,
-    imgName,
-    isSetup: true
-  }).catch(error => {
-    console.log(error);
-    res.redirect("error");
-  });
+  if(!req.body.name) {
+    User.findById(req.user._id).then(result => {
+      if(result.statPoints <= 0 ) return res.redirect("/create-hacker")
+
+      result.statPoints -= 1;
+      if (req.body.firewall) {
+        result.maxFirewall += 5;
+        result.currentFirewall += 5;
+      } else if (req.body.cpu) {
+        result.cpu += 2;
+      } else if (req.body.antivirus) {
+        result.antiVirus += 1;
+      } else if (req.body.encryption) {
+        result.encryption += 2;
+      }
+
+      return result.save()
+    }).then(updatedUser => {
+      res.redirect("/create-hacker")
+    })
+  } else {
+    const imgPath = req.file.url;
+    const imgName = req.file.originalname;
+  
+    User.findByIdAndUpdate(req.user._id, {
+      imgPath,
+      imgName,
+      isSetup: true,
+      name: req.body.name
+    }).then(() => {
+      res.redirect("/my-profile")
+    }).catch(error => {
+      console.log(error);
+      res.redirect("error");
+    });
+  }
+
 });
 
 router.get("/", (req, res, next) => {
   if (req.user) {
-    res.render("menu/home");
+    res.redirect("/my-profile");
   } else {
     res.render("homeinfo");
   }
 });
 
 router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
-  User.findById(req.user._id).then((result) =>{
-    let createdAtDate = result.createdAtDate
-    console.log(createdAtDate)
-    res.render("menu/my-profile", {user: result, createdAtDate});
-  })
-})
+  let createdAtDate;
+  let userIdThing;
+  let cpu;
+  let firewall;
+  let antivirus;
+  let encryption;
+  User.findById(req.user._id).then(result => {
+    userIdThing = result;
+    createdAtDate = result.createdAt.toString().substring(4, 15);
+    return Item.findById(userIdThing.items.cpu).then(resultTwo => {
+      if (resultTwo) {
+        cpu = resultTwo.name;
+      }
+      return Item.findById(userIdThing.items.firewall).then(resultThree => {
+        if (resultThree) {
+          firewall = resultThree.name;
+        }
+        return Item.findById(userIdThing.items.avs).then(resultFour => {
+          if (resultFour) {
+            avs = resultFour.name;
+          }
+          return Item.findById(userIdThing.items.encryption).then(resultFive => {
+            if (resultFive) {
+              encryption = resultFive.name;
+            }
+            return res.render("menu/my-profile", {
+              user: userIdThing,
+              createdAtDate,
+              cpu,
+              firewall,
+              avs,
+              encryption
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
+  let statUpgrade = Object.keys(req.body);
+  User.findById(req.user._id).then(result => {
+    let createdAtDate = result.createdAt.toString().substring(4, 15);
+    if (result.statPoints < 1)
+      return res.render("menu/my-profile", {
+        message: "You have no stat points. Obtain a higher rank to get more",
+        user: result,
+        createdAtDate
+      });
+    result.statPoints -= 1;
+    if (statUpgrade[0] === "firewall") {
+      result.maxFirewall += 5;
+      result.currentFirewall += 5;
+    } else if (statUpgrade[0] === "cpu") {
+      result.cpu += 2;
+    } else if (statUpgrade[0] === "antivirus") {
+      result.antiVirus += 1;
+    } else if (statUpgrade[0] === "encryption") {
+      result.encryption += 2;
+    }
+    result.save();
+    return res.render("menu/my-profile", {
+      message: "You enhanced your " + statUpgrade[0],
+      user: result,
+      createdAtDate
+    });
+  });
+});
 
 router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let internetTroll;
@@ -92,24 +179,28 @@ router.get("/hack/crimes", ensureAuthenticated, (req, res, next) => {
   let idTheft;
   let ddos;
   let logicBomb;
-  Crime.find({}).then((result) => {
-    result.map((x) => {
-      console.log(x.name);
-      console.log(x._id);
-      if (x.name == "Internet Troll"){
-        internetTroll = x._id
+  Crime.find({}).then(result => {
+    result.map(x => {
+      if (x.name == "Internet Troll") {
+        internetTroll = x._id;
       } else if (x.name == "Internet Scam") {
-        internetScam = x._id
+        internetScam = x._id;
       } else if (x.name == "ID Theft") {
-        idTheft = x._id
+        idTheft = x._id;
       } else if (x.name == "DDOS") {
-        ddos = x._id
+        ddos = x._id;
       } else if (x.name == "Logic Bomb") {
-        logicBomb = x._id
+        logicBomb = x._id;
       }
-    })
-    res.render("menu/hack-crimes", {internetTroll, internetScam, idTheft, ddos, logicBomb});
-  })
+    });
+    res.render("menu/hack-crimes", {
+      internetTroll,
+      internetScam,
+      idTheft,
+      ddos,
+      logicBomb
+    });
+  });
 });
 
 router.get("/hack/crimes/:id", (req, res, next) => {
@@ -126,6 +217,7 @@ router.get("/hack/crimes/:id", (req, res, next) => {
         error: "You need a firewall to be able to commit crimes!"
       });
     let resultCrime = result[0].fightCrime(result[1]);
+
     res.render("menu/hack-crimes-id", {
       result: JSON.stringify(resultCrime)
     });
@@ -212,14 +304,23 @@ router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
+  console.log(req.user.items);
   Item.find()
+    .sort({
+      type: 1,
+      bonus: 1
+    })
     .then(items => {
+      // TODO highlight the items you already have (hint map items, if you that item from the list has the same id (item._id.toString() === req.user.items[item.type].toString()) --> set item.owned: true)
       res.render("menu/marketplace", {
         items,
         cpuItems: items.filter(i => i.type === "cpu"),
         firewallItems: items.filter(i => i.type === "firewall"),
         avsItems: items.filter(i => i.type === "avs"),
-        encryptionItems: items.filter(i => i.type === "encryption")
+        encryptionItems: items.filter(i => i.type === "encryption"),
+        newItemName: req.query.newItemName,
+        existingItemName: req.query.existingItemName,
+        insufficentBitcoins: req.query.insufficentBitcoins
       });
     })
     .catch(error => {
@@ -227,73 +328,68 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
     });
 });
 
-/* router.post("/marketplace/:itemId", (req, res) => {
+router.post("/marketplace/:itemId", (req, res) => {
   let item, user;
   Item.findById(req.params.itemId)
     .then(i => {
       item = i;
-      return .UserfindById(req.user._id);
-    }).then(u => {
-      user = u;
-    }).then(() => {
-      if (user.bitcoin < item.price) {
-        return res.send("Insufficent bitcoins")
-        }
-        let itemType = user.items.filter(item => item.type === item.type)
-          else if (!itemType) {
-            user.bitCoins -= item.price;
-            user.items.push(item);
-            if (item.type === "cpu") {
-                user.cpu += item.bonus;
-            } else if (item.type === "firewall") {
-                  user.maxFirewall += item.bonus;
-            } else if (item.type === "avs") {
-                  user.antiVirus += item.bonus;
-            } else if (item.type === "encryption") {
-                  user.encryption += item.bonus;
-            }
-         } else 
-      user.bitCoins -= item.price;
-      let indexItem = user.items.indexOf(itemType);
-      user.items.splice(indexItem, 1);
-      user.items.push(item);
+      return User.findById(req.user._id);
     })
-
     .then(u => {
-      // TODO use the item to update the user
-      // DOES NOT TAKE EXISTING ITEM INTO CONSIDERATION
-
-      if (item.price > user.bitcoins) {
-        console.log("insufficent funds..");
+      user = u
+    if (user.bitCoins < item.price) {
+        res.redirect("/marketplace?insufficentBitcoins=" + item.name);
+        return null;
       } 
-      return user.save();
+      user.bitCoins -= item.price;
+      return user.addItem(item);
     })
     .then(updatedUser => {
-      // TODO render or redirect
-      // JQUERY "YOU JUST BOUGHT item.name FOR item.price"
-      res.send("you just bought an item!");
+      res.redirect("/marketplace?newItemName=" + item.name);
     });
-}); */
+});
+
 
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");
 });
-
 router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  User.findById(userPerson).then((result) => {
+  if (userPerson.bitCoins < 10000) {
+    return res.render("menu/system-repair", { message: "Insufficient funds" });
+  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
+    return res.render("menu/system-repair", {
+      message: "Your computer is already working just fine!"
+    });
+  }
+  User.findById(userPerson).then(result => {
     result.partialRepair();
-    res.redirect("menu/system-repair")
-  })
-})
+    res.render("menu/system-repair", {
+      message:
+        "You successfully glued together some loose parts from your computer"
+    });
+  });
+});
 
-router.get("repair/full", ensureAuthenticated, (req, res, next) => {
+router.get("/repair/full", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  User.findById(userPerson).then((result) => {
+  if (userPerson.bitCoins < 50000) {
+    return res.render("menu/system-repair", { message: "Insufficient funds" });
+  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
+    return res.render("menu/system-repair", {
+      message: "Your computer is already working just fine!"
+    });
+  }
+  User.findById(userPerson).then(result => {
+    if (result.bitCoins < 50000) {
+      res.render("menu/system-repair", { message: "Insufficient funds" });
+    }
     result.systemFullRepair();
-    res.redirect("menu/system-repair")
-  })
-})
+    res.render("menu/system-repair", {
+      message: "The kittens successfully repaired your crappy computer"
+    });
+  });
+});
 
 router.get("/user/details", (req, res, next) => {
   res.json(req.user);
@@ -320,8 +416,8 @@ router.get("/arcade", (req, res, next) => {
 });
 
 router.get("/arcade/squirt-derby", (req, res, next) => {
-  res.sendfile("arcade/squirt-derby/index.html")
-})
+  res.sendfile("arcade/squirt-derby/index.html");
+});
 
 router.get("/logout", (req, res, next) => {
   res.render("menu/logout");

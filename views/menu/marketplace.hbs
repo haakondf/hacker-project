@@ -1,13 +1,15 @@
 <h1>MARKETPLACE</h1>
 
-<!-- TODO:
--  BUY FUNCTION
--  SORT BY PRICE
--  USER CAN ONLY HOLD ONE ITEM OF EACH GROUP: CPU, FIREWALL, CPU, ENCRYPTION
--  CREATE NEATER TABLES
--->
+{{#if newItemName}}
+  <h3 id="writing">You just bought {{newItemName}}</h3>
+{{/if}}
 
-<table cellspacing="0">
+{{#if insufficentBitcoins}}
+  <h3 id="writing">You don't have enough cash to buy {{insufficentBitcoins}}</h3>
+{{/if}}
+
+
+<table cellspacing="1" class="marketplace">
   <tr>
     <th>Name</th>
     <th>Type</th>
@@ -19,7 +21,7 @@
   {{#each cpuItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="red">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
@@ -31,7 +33,7 @@
   {{/each}} {{#each firewallItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="green">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
@@ -43,21 +45,24 @@
   {{/each}} {{#each avsItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="blue">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
-      <form action="" method="POST">
-        <button class="button-buy">BUY</button></td>
+      <form action="/marketplace/{{this._id}}" method="POST">
+        <button class="button-buy">BUY</button>
+      </form>
   </tr>
   {{/each}} {{#each encryptionItems}}
   <tr>
     <td>{{this.name}} </td>
-    <td>{{this.type}} </td>
+    <td class="purple">{{this.type}} </td>
     <td>{{this.price}} </td>
     <td>{{this.bonus}} </td>
     <td>
-      <form action="" method="POST">
-        <button class="button-buy">BUY</button></td>
+      <form action="/marketplace/{{this._id}}" method="POST">
+        <button class="button-buy">BUY</button>
+      </form>
   </tr>
   {{/each}}
+

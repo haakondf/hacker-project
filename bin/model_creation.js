@@ -4,15 +4,15 @@
 const newCrimeOne = Crime({
     name: "Internet Troll",
     difficulty: 1,
-    encryption: 15,
-    currentFirewall: 120,
-    maxFirewall: 120,
+    encryption: 10,
+    currentFirewall: 140,
+    maxFirewall: 140,
   })
   newCrimeOne.save();
 
   const newCrimeTwo = Crime({
     name: "Internet Scam",
-    difficulty: 1.5,
+    difficulty: 2.5,
     encryption: 20,
     currentFirewall: 200,
     maxFirewall: 200,
@@ -21,7 +21,7 @@ const newCrimeOne = Crime({
 
 const newCrimeThree = Crime({
     name: "ID Theft",
-    difficulty: 2.5,
+    difficulty: 5,
     encryption: 30,
     currentFirewall: 300,
     maxFirewall: 300,
@@ -30,7 +30,7 @@ const newCrimeThree = Crime({
 
   const newCrimeFour = Crime({
     name: "DDOS",
-    difficulty: 4,
+    difficulty: 10,
     encryption: 50,
     currentFirewall: 400,
     maxFirewall: 400,
@@ -39,7 +39,7 @@ const newCrimeThree = Crime({
 
   const newCrime = Crime({
     name: "Logic Bomb",
-    difficulty: 7,
+    difficulty: 15,
     encryption: 60,
     currentFirewall: 700,
     maxFirewall: 700,
@@ -78,7 +78,7 @@ const newAllianceWhite = Alliance({
 const newItemOne = Item({
     name: "Intel celeron G3930",
     type: "cpu",
-    price: 10000,
+    price: 15000,
     bonus: 3,
   })
   newItemOne.save();
@@ -86,7 +86,7 @@ const newItemOne = Item({
 const newItemTwo = Item({
     name: "Intel i3-8350K",
     type: "cpu",
-    price: 30000,
+    price: 50000,
     bonus: 10,
   })
   newItemTwo.save();
@@ -94,7 +94,7 @@ const newItemTwo = Item({
 const newItemThree = Item({
     name: "AMD Ryzen Threaddripper 1950X",
     type: "cpu",
-    price: 80000,
+    price: 120000,
     bonus: 20,
   })
   newItemThree.save();
@@ -102,7 +102,7 @@ const newItemThree = Item({
 const newItemFour = Item({
     name: "Intel i9-7980 xe",
     type: "cpu",
-    price: 150000,
+    price: 300000,
     bonus: 50,
   })
   newItemFour.save();
@@ -110,7 +110,7 @@ const newItemFour = Item({
 const newItemFive = Item({
     name: "Intel Xeon Platinum 8180",
     type: "cpu",
-    price: 500000,
+    price: 1000000,
     bonus: 100,
   })
   newItemFive.save();
@@ -120,7 +120,7 @@ const newItemFive = Item({
   const newItemSix = Item({
     name: "A lighter and a can of fuel",
     type: "firewall",
-    price: 10000,
+    price: 15000,
     bonus: 3,
   })
   newItemSix.save();
@@ -128,7 +128,7 @@ const newItemFive = Item({
 const newItemSeven = Item({
     name: "Linksys VPN router",
     type: "firewall",
-    price: 30000,
+    price: 50000,
     bonus: 10,
   })
   newItemSeven.save();
@@ -136,7 +136,7 @@ const newItemSeven = Item({
 const newItemEight = Item({
     name: "Zyxel ZYWALL110",
     type: "firewall",
-    price: 80000,
+    price: 120000,
     bonus: 20,
   })
   newItemEight.save();
@@ -144,7 +144,7 @@ const newItemEight = Item({
 const newItemNine = Item({
     name: "Zyxel USG1100 UTM BDL",
     type: "firewall",
-    price: 150000,
+    price: 300000,
     bonus: 50,
   })
   newItemNine.save();
@@ -152,7 +152,7 @@ const newItemNine = Item({
 const newItemTen = Item({
     name: "Cisco PIX 500",
     type: "firewall",
-    price: 500000,
+    price: 1000000,
     bonus: 100,
   })
   newItemTen.save();
@@ -162,7 +162,7 @@ const newItemTen = Item({
   const newItemEleven = Item({
     name: "Windows defender",
     type: "avs",
-    price: 10000,
+    price: 15000,
     bonus: 3,
   })
   newItemEleven.save();
@@ -170,7 +170,7 @@ const newItemTen = Item({
 const newItemTwelve = Item({
     name: "McAfee",
     type: "avs",
-    price: 30000,
+    price: 50000,
     bonus: 10,
   })
   newItemTwelve.save();
@@ -178,7 +178,7 @@ const newItemTwelve = Item({
 const newItemThirteen = Item({
     name: "Norton Antivirus",
     type: "avs",
-    price: 80000,
+    price: 120000,
     bonus: 20,
   })
   newItemThirteen.save();
@@ -186,7 +186,7 @@ const newItemThirteen = Item({
 const newItemFourteen = Item({
     name: "AVG",
     type: "avs",
-    price: 150000,
+    price: 300000,
     bonus: 50,
   })
   newItemFourteen.save();
@@ -194,7 +194,7 @@ const newItemFourteen = Item({
 const newItemFifteen = Item({
     name: "Avast Business Pro",
     type: "avs",
-    price: 500000,
+    price: 1000000,
     bonus: 100,
   })
   newItemFifteen.save();
@@ -204,7 +204,7 @@ const newItemFifteen = Item({
   const newItemSixteen = Item({
     name: "Enigma machine",
     type: "encryption",
-    price: 10000,
+    price: 15000,
     bonus: 3,
   })
   newItemSixteen.save();
@@ -212,7 +212,7 @@ const newItemFifteen = Item({
 const newItemSeventeen = Item({
     name: "Bcrypt npm node",
     type: "encryption",
-    price: 30000,
+    price: 50000,
     bonus: 5,
   })
   newItemSeventeen.save();
@@ -220,7 +220,7 @@ const newItemSeventeen = Item({
 const newItemEighteen = Item({
     name: "IVeraCrypt",
     type: "encryption",
-    price: 80000,
+    price: 120000,
     bonus: 7,
   })
   newItemEighteen.save();
@@ -228,7 +228,7 @@ const newItemEighteen = Item({
 const newItemNineteen = Item({
     name: "CertainSafe",
     type: "encryption",
-    price: 150000,
+    price: 300000,
     bonus: 10,
   })
   newItemNineteen.save();
@@ -236,44 +236,85 @@ const newItemNineteen = Item({
 const newItemTwenty = Item({
     name: "Vernam Cipher",
     type: "encryption",
-    price: 500000,
+    price: 1000000,
     bonus: 15,
   })
   newItemTwenty.save();
 
 
+// Ranks
+ const newRankOne = Rank({
+    name: "Script Kiddie",
+    rank: 0,
+    expToNewRank: 10000
+  })
+  newRankOne.save();
+
+  const newRankTwo = Rank({
+    name: "Family IT-Support",
+    rank: 1,
+    expToNewRank: 25000,
+  })
+  newRankTwo.save();
+
+  const newRankThree = Rank({
+    name: "Blog Writer",
+    rank: 2,
+    expToNewRank: 45000
+  })
+  newRankThree.save();
+
+  const newRankFour = Rank({
+    name: "HTML 'programmer'",
+    rank: 3,
+    expToNewRank: 70000
+  })
+  newRankFour.save();
+
+  const newRankFive = Rank({
+    name: "Jr. Web Dev",
+    rank: 4,
+    expToNewRank: 100000
+  })
+  newRankFive.save();
+
+  const newRankSix = Rank({
+    name: "Sr. Web Dev",
+    rank: 5,
+    expToNewRank: 140000
+  })
+  newRankSix.save();
+
+  const newRankSeven = Rank({
+    name: "System Dev",
+    rank: 6,
+    expToNewRank: 200000
+  })
+  newRankSeven.save();
+
+  const newRankEight = Rank({
+    name: "Syber Security Dev",
+    rank: 7,
+    expToNewRank: 300000
+  })
+  newRankEight.save();
+
+  const newRankNine = Rank({
+    name: "Basement Dweller",
+    rank: 8,
+    expToNewRank: 500000
+  })
+  newRankNine.save();
+
+  const newRankTen = Rank({
+    name: "Anonymous",
+    rank: 9,
+    expToNewRank: 9999999999999
+  })
+  newRankTen.save();
+
+
+
 
 
   
-
-// SYSTEM REPAIR BACKUP
-// 15% repair
-function partialRepair (player){
-    console.log("systemRepairQuick was called");
-    console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-    if ( player.money <= 10000 ){ 
-        console.log("insufficent funds") 
-    } else if ( (player.hp * 100 / player.maxHp) > 85 ){
-        player.money -= 10000;
-        player.hp = player.maxHp 
-    } else {
-        player.money -= 10000;
-        player.hp += (15 * player.maxHp / 100); 
-    }
-    console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-}
-
-
-    // Full repair
-
-    function systemRepairFull (player){
-        console.log("systemRepairFull was called");
-        console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-        if ( player.money <= 50000 ){ 
-            console.log("insufficent funds")
-        } else {
-            player.money -= 50000;
-            player.hp = player.maxHp;
-        }
-        console.log("NAME: " + player.name + " HP: " + (player.hp * 100 / player.maxHp).toFixed(2) + " Max HP: 100" + " Money: " + player.money + " Battery: " + player.battery + " EXP: " + player.exp + " Rank: " + player.rank + " Crimeskill: " + player.crimeSkill)
-        }

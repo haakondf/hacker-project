@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Rank = require("./Rank");
+const Item = require("./Item");
 
 const userSchema = new Schema(
   {
@@ -37,6 +39,10 @@ const userSchema = new Schema(
     imgPath: String,
 
     //Player stats
+    statPoints: {
+      type: Number,
+      default: 5,
+    },
     maxFirewall: {
       type: Number,
       default: 100
@@ -77,8 +83,26 @@ const userSchema = new Schema(
     },
 
     items: {
-      type: Array,
-      default: []
+      cpu: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null
+      },
+      firewall: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null
+      },
+      avs: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null,
+      },
+      encryption: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        default: null
+      }
     },
 
     //Player information
@@ -105,7 +129,7 @@ const userSchema = new Schema(
     },
     expToLevel: {
       type: Number,
-      default: 0
+      default: 10000
     },
 
     //Figth accessories
@@ -134,13 +158,13 @@ const userSchema = new Schema(
 
 //Hack Crime
 userSchema.methods.fightCrime = function(opponent) {
-  console.log(opponent);
   this.battery -= 7;
   let results = {
     rounds: [],
     currentHp: [],
     maxHp: opponent.maxFirewall,
     won: false,
+    levelUp: false,
     gains: {
       exp: 0,
       bitCoins: 0,
@@ -149,7 +173,17 @@ userSchema.methods.fightCrime = function(opponent) {
       expToLevel: this.expToLevel
     }
   };
-  updatedResults = this.fightCrimeBattle(opponent, results);
+  let updatedResults = this.fightCrimeBattle(opponent, results);
+  if (this.exp >= this.expToLevel) {
+    updatedResults.levelUp = true;
+    this.statPoints += 5;
+    this.rank += 1;
+    Rank.findOne({rank: this.rank}).then((newRank) => {
+      this.rankName = newRank.name;
+      this.expToLevel = newRank.expToNewRank;
+      this.save()
+    })
+  }
   return updatedResults;
 };
 
@@ -171,7 +205,7 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
       Math.floor(Math.random() * (opponent.difficulty * 1000)) +
       opponent.difficulty * 500;
     let expChange =
-      Math.floor(Math.random() * 300) + opponent.difficulty * 100 + 100;
+      Math.floor(Math.random() * 300) + opponent.difficulty * 200 + 100;
     let crimeChange = Math.floor(Math.random() * opponent.difficulty) + 1;
     this.bitCoins += moneyChange;
     this.networth += moneyChange;
@@ -186,7 +220,7 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     this.save();
     return results;
     //Combat won over
-  } else if (encryptionOccurance >= 0.9 + this.crimeSkill / 100) {
+  } else if (encryptionOccurance >= 0.80 + this.crimeSkill / 100) {
     this.failedAttempts += 1;
     results.rounds.push("encryption");
     results.currentHp.push(opponent.currentFirewall);
@@ -215,6 +249,16 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
     }
   };
   let updatedResults = this.hackPlayerBattle(opponentPlayer, results);
+  if (this.exp >= this.expToLevel) {
+    updatedResults.levelUp = true;
+    this.statPoints += 5;
+    this.rank += 1;
+    Rank.findOne({rank: this.rank}).then((newRank) => {
+      this.rankName = newRank.name;
+      this.expToLevel = newRank.expToNewRank;
+      this.save()
+    })
+  }
   return updatedResults;
 };
 
@@ -238,7 +282,7 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
         (opponentPlayer.rank + 1) *
           15 *
           ((opponentPlayer.rank + 1) / (this.rank + 1)) *
-          100 +
+          500 +
         100
     );
     this.bitCoins += moneyChange;
@@ -282,8 +326,7 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
 };
 
 userSchema.methods.partialRepair = function() {
-  if (this.bitCoins <= 10000) {
-  } else if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
+if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
     this.bitCoins -= 10000;
     this.currentFirewall = this.maxFirewall;
   } else {
@@ -294,12 +337,63 @@ userSchema.methods.partialRepair = function() {
 }
 
 userSchema.methods.systemFullRepair = function () {
-  if (this.bitCoins <= 50000) {
-  } else {
-    this.bitCoins -= 50000;
-    this.currentFirewall = this.maxFirewall;
-  }
+  this.bitCoins -= 50000;
+  this.currentFirewall = this.maxFirewall;
   return this.save()
+}
+// only level 9 web developers knows what's going on underneath.
+userSchema.methods.addItem = function(item) {
+  const currentItem = this.items[item.type]
+  let p = Promise.resolve(null)
+  if(currentItem) {
+    if(currentItem.bonus) {
+      p = Promise.resolve(currentItem)
+    } else {
+      p = Item.findById(currentItem)
+    }
+  }
+
+  p.then(currentItem => {
+    if(currentItem) {
+      // lower the stats
+       switch(currentItem.type) {
+        case "cpu":
+            this.cpu -= currentItem.bonus
+          break;
+        case "avs":
+            this.antiVirus -= currentItem.bonus
+          break;
+        case "firewall":
+            this.maxFirewall -= currentItem.bonus
+            this.currentFirewall -= currentItem.bonus
+          break;
+        case "encryption":
+            this.encryption -= currentItem.bonus
+          break;
+      }
+    }
+
+    this.items[item.type] = item
+
+    switch(item.type) {
+      case "cpu":
+          this.cpu += item.bonus
+        break;
+      case "avs":
+          this.antiVirus += item.bonus
+        break;
+      case "firewall":
+          this.maxFirewall += item.bonus
+          this.currentFirewall += item.bonus
+        break;
+      case "encryption":
+          this.encryption += item.bonus
+        break;
+    }
+
+    return this.save()
+  })
+
 }
 
 

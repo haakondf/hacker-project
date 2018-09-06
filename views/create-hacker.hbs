@@ -1,41 +1,79 @@
 <div class="container">
     <div id="create-hacker">
-        <h1 id="CRtitle">Character creation</h1>
+        <h1 id="CRtitle">CHARACTER CREATION</h1>
         <br>
-        
         <br>
         <div id="left-box">
-            <h2>Upload a new User photo</h2>
-
-            <form action="/upload-photo" method="POST" enctype="multipart/form-data">
-                <label>Profile picture</label>
-                <input type="file" name="photo">
-                <input type="submit" value="save">
-            </form>
-
             <form action="/create-hacker" method="POST" enctype="multipart/form-data">
-                <label>Title</label>
-                <input type="text" name="title">
-               
-
-                <label>Description</label>
-                <input type="text" name="description">
-                
-
-                <label>Poster</label>
+            <br>
+            <p id="writing">Type in your hax0r name</p>
+            <br>
+            <input type="text" required="true" name="name" placeholder="Your name here">    
+            <br>
+            <br>
+            <p id="writing">Upload your profilepic</h2>
+            <br>
+            <br>
                 <input type="file" name="photo">
-                
+<br>
+<br>
 
-                <p>Click Save to Create Hacker</p>
-                <input type="submit" value="SAVE">
+                <p>Click here when you're ready</p>
+                <input class="button" type="submit" value="Create hacker">
             </form>
-        </div>
-        <div id="center-box">
-            <input type="text" required="true" placeholder="Type in your hax0r name">
         </div>
         
-    </div>
 
+    <div id="right-box">
+
+        <div class="my-profile my-profile-hack-stats upgrade-table">
+            <table cellspacing="0">
+                <tr>
+                    <th>HACK SKILLS</th>
+                    <th>Value</th>
+                    <th>Upgrade</th>
+                </tr>
+                <tr>
+                    <td><b>Firewall:</b></td>
+                    <td>{{user.maxFirewall}} </td>
+                    <td>
+                        <form action="/create-hacker" method="POST">
+                            <input type="submit" name="firewall" class="button" value="+">
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>CPU:</b></td>
+                    <td>{{user.cpu}} </td>
+                    <td>
+                        <form action="/create-hacker" method="POST">
+                            <input type="submit" name="cpu" class="button" value="+">
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>AntiVirus:</b></td>
+                    <td>{{user.antiVirus}} </td>
+                    <td>
+                        <form action="/create-hacker" method="POST">
+                            <input type="submit" name="antivirus" class="button" value="+">
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Encryption:</b></td>
+                    <td>{{user.encryption}} </td>
+                    <td>
+                        <form action="/create-hacker" method="POST">
+                            <input type="submit" name="encryption" class="button" value="+">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <div class="stat-points">You have {{statPoints}} available!</div>
+        </div>
+
+    </div>
 </div>
 
-
+    </div>

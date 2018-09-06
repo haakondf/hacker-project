@@ -9,6 +9,7 @@ $(document).ready(function() {
   axios
     .get("/user/details")
     .then(function(response) {
+      console.log(response)
       $("#nav-username").text(response.data.name);
       $("#nav-userrank").text(response.data.rankName);
       $("#nav-useralliance").text(response.data.role);
@@ -22,6 +23,10 @@ $(document).ready(function() {
           "%"
       );
       $("#nav-userexp").text("EXP: " + response.data.exp);
+
+      if(!response.data) [
+        $("#navbar").hide()
+      ]
     })
     .catch(function(error) {
       console.log(error);

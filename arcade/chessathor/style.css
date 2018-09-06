@@ -1,0 +1,780 @@
+*
+{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+.container {
+    padding: 25px calc((100vw - 960px) / 2);
+
+    
+}
+.container:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    min-height: 100vh;
+}
+.game {
+    width: 640px;
+    height: 640px;
+    position: relative;
+    background-size: contain;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 10px ridge lightslategray;
+    background-color: rgb(180, 180, 180);
+    box-sizing: content-box;
+    margin: 0 auto;
+    
+}
+
+#leftBox {
+    display: flex;
+    height: 600px;
+    width: 300px;
+    position: relative;
+    margin-left: -150px
+}
+
+
+#tutorialGuy {
+    margin-top: 250px;
+    height: 600px;
+    width: 200px;
+	justify-content: center;
+	align-items: center;
+    position: absolute;
+    background-image: url(./pics/tutGuy.png);
+    background-repeat: no-repeat;
+    background-size: 150px 150px;
+    
+    
+}
+
+
+#pawnTut {
+    margin-top: 250px;
+    margin-left: 140px;
+    height: 600px;
+    width: 200px;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+    align-items: flex-end;
+    position: absolute;
+    border-radius: 25px;
+    background-image: url(./pics/pawnTut.png);
+    background-repeat: no-repeat;
+    background-size: 125px 125px;
+    
+    
+}
+
+
+
+
+#bubble {
+    
+        background-color: white;
+        border-radius: 20%;
+        display: flex;
+        padding: 15px 10px 15px 20px;
+        font-size: 20px;
+        line-height: 1.5;
+        margin: 0px 30px 400px 0px;
+        border: 3px solid white;
+        position:absolute;
+        border: 3px solid red;
+     }
+
+    #score{
+         color:white;
+         position: absolute;
+         top: 45%;
+         left: 36%;
+         font-size: 70px
+
+     }
+
+     #scoreText{
+        color:white;
+        position: absolute;
+        top: 40%;
+        left: 35%;
+        font-size: 25px
+
+    }
+
+.player {
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    transition: all 80ms ease-out;
+    
+}
+
+/*pieces*/
+
+.bk {
+    width: 50px;
+    height:50px;
+}
+
+.wq {
+    width: 50px;
+    height:50px;
+}
+
+.wr {
+    width: 50px;
+    height:50px;
+}
+
+.wb {
+    width: 50px;
+    height:50px;
+}
+
+.wn {
+    width: 50px;
+    height:50px;
+}
+
+.wp {
+    flex:1;
+    position: relative;
+    background-image: url(./pics/wp.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 55px 55px;
+
+    
+}
+
+/* GOAL TILE */
+.gt {
+    flex:1;
+    position: relative;
+    background-image: url(./pics/goalTile.png);
+    background-repeat: round;
+    
+}
+
+/* tiles */
+
+#t70 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t60 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t50 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t40 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t30 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t20 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t10 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+
+    
+}
+
+#t00 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t71 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t61 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t51 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t41 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t31 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t21 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t11 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t01 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t72 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t62 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t52 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    
+}
+
+#t42 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t32 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t22 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t12 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    
+}
+
+#t02 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t73 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t63 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    
+}
+
+#t53 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t43 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    
+    
+}
+
+#t33 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t23 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    
+}
+
+#t13 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+    
+}
+
+#t03 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    
+}
+
+#t74 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t64 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t54 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+
+}
+
+#t44 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;   
+}
+
+#t34 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+    /* animation:blink 700ms 3 alternate;
+    animation-play-state: paused; */
+
+}
+
+#t24 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t14 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t04 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t75 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+
+#t65 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t55 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t45 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t35 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t25 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t15 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t05 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t76 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+
+#t66 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t56 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t46 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t36 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t26 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t16 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t06 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t77 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+
+#t67 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t57 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t47 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t37 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t27 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+#t17 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: beige;
+}
+
+#t07 {
+    min-width: 12.5%;
+    min-height: 12.5%;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: burlywood;
+}
+
+.blink {
+    animation:blink 700ms 2 alternate;
+
+}
+
+@keyframes blink {
+    from { opacity:1; }
+    to { opacity:0; }
+}
+
+
+
+
+/* gipsy stuffs */
+/* gipsy classes */
+
+.puff-in-hor {
+	-webkit-animation: puff-in-hor 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+            animation: puff-in-hor 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+            background-color: red !important;
+}
+
+
+
+
+
+/* gipsy keyframes */
+
+/* ----------------------------------------------
+ * Generated by Animista on 2018-8-15 15:46:0
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation puff-in-hor
+ * ----------------------------------------
+ */
+ @-webkit-keyframes puff-in-hor {
+    0% {
+      -webkit-transform: scaleX(2);
+              transform: scaleX(2);
+      -webkit-filter: blur(2px);
+              filter: blur(2px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: scaleX(1);
+              transform: scaleX(1);
+      -webkit-filter: blur(0px);
+              filter: blur(0px);
+      opacity: 1;
+    }
+  }
+  @keyframes puff-in-hor {
+    0% {
+      -webkit-transform: scaleX(2);
+              transform: scaleX(2);
+      -webkit-filter: blur(2px);
+              filter: blur(2px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: scaleX(1);
+              transform: scaleX(1);
+      -webkit-filter: blur(0px);
+              filter: blur(0px);
+      opacity: 1;
+    }
+  }
+  

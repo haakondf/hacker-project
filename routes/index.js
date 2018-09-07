@@ -107,7 +107,7 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
   let userIdThing;
   let cpu;
   let firewall;
-  let antivirus;
+  let antiVirus;
   let encryption;
   User.findById(req.user._id).then(result => {
     userIdThing = result;
@@ -133,7 +133,7 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
               createdAtDate,
               cpu,
               firewall,
-              avs,
+              antiVirus,
               encryption
             });
           });

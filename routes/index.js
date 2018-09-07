@@ -33,9 +33,12 @@ function ensureIsSetup(req, res, next) {
 }
 
 router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
-  if(req.user.isSetup) return res.redirect("/")
+  if (req.user.isSetup) return res.redirect("/");
   // ensure user is logged in
-  res.render("create-hacker", { title: "Express", statPoints: req.user.statPoints });
+  res.render("create-hacker", {
+    title: "Express",
+    statPoints: req.user.statPoints
+  });
 });
 
 //upload photo
@@ -53,45 +56,48 @@ router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
 // })
 
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
-  if(req.user.isSetup) return res.redirect("/")
+  if (req.user.isSetup) return res.redirect("/");
 
-  if(!req.body.name) {
-    User.findById(req.user._id).then(result => {
-      if(result.statPoints <= 0 ) return res.redirect("/create-hacker")
+  if (!req.body.name) {
+    User.findById(req.user._id)
+      .then(result => {
+        if (result.statPoints <= 0) return res.redirect("/create-hacker");
 
-      result.statPoints -= 1;
-      if (req.body.firewall) {
-        result.maxFirewall += 5;
-        result.currentFirewall += 5;
-      } else if (req.body.cpu) {
-        result.cpu += 2;
-      } else if (req.body.antivirus) {
-        result.antiVirus += 1;
-      } else if (req.body.encryption) {
-        result.encryption += 2;
-      }
+        result.statPoints -= 1;
+        if (req.body.firewall) {
+          result.maxFirewall += 5;
+          result.currentFirewall += 5;
+        } else if (req.body.cpu) {
+          result.cpu += 2;
+        } else if (req.body.antivirus) {
+          result.antiVirus += 1;
+        } else if (req.body.encryption) {
+          result.encryption += 2;
+        }
 
-      return result.save()
-    }).then(updatedUser => {
-      res.redirect("/create-hacker")
-    })
+        return result.save();
+      })
+      .then(updatedUser => {
+        res.redirect("/create-hacker");
+      });
   } else {
     const imgPath = req.file.url;
     const imgName = req.file.originalname;
-  
+
     User.findByIdAndUpdate(req.user._id, {
       imgPath,
       imgName,
       isSetup: true,
       name: req.body.name
-    }).then(() => {
-      res.redirect("/my-profile")
-    }).catch(error => {
-      console.log(error);
-      res.redirect("error");
-    });
+    })
+      .then(() => {
+        res.redirect("/my-profile");
+      })
+      .catch(error => {
+        console.log(error);
+        res.redirect("error");
+      });
   }
-
 });
 
 router.get("/", (req, res, next) => {
@@ -107,7 +113,7 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
   let userIdThing;
   let cpu;
   let firewall;
-  let antivirus;
+  let antiVirus;
   let encryption;
   User.findById(req.user._id).then(result => {
     userIdThing = result;
@@ -124,19 +130,21 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
           if (resultFour) {
             avs = resultFour.name;
           }
-          return Item.findById(userIdThing.items.encryption).then(resultFive => {
-            if (resultFive) {
-              encryption = resultFive.name;
+          return Item.findById(userIdThing.items.encryption).then(
+            resultFive => {
+              if (resultFive) {
+                encryption = resultFive.name;
+              }
+              return res.render("menu/my-profile", {
+                user: userIdThing,
+                createdAtDate,
+                cpu,
+                firewall,
+                antiVirus,
+                encryption
+              });
             }
-            return res.render("menu/my-profile", {
-              user: userIdThing,
-              createdAtDate,
-              cpu,
-              firewall,
-              avs,
-              encryption
-            });
-          });
+          );
         });
       });
     });
@@ -336,11 +344,11 @@ router.post("/marketplace/:itemId", (req, res) => {
       return User.findById(req.user._id);
     })
     .then(u => {
-      user = u
-    if (user.bitCoins < item.price) {
+      user = u;
+      if (user.bitCoins < item.price) {
         res.redirect("/marketplace?insufficentBitcoins=" + item.name);
         return null;
-      } 
+      }
       user.bitCoins -= item.price;
       return user.addItem(item);
     })
@@ -348,7 +356,6 @@ router.post("/marketplace/:itemId", (req, res) => {
       res.redirect("/marketplace?newItemName=" + item.name);
     });
 });
-
 
 router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
   res.render("menu/system-repair");

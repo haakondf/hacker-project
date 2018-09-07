@@ -300,6 +300,14 @@ router.post("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
+  res.render("menu/alliance-forum");
+});
+
+router.get("/alliance/group-kill", ensureAuthenticated, (req, res, next) => {
+  res.render("menu/alliance-group-kill");
+});
+
+router.get("/modelcreate123", ensureAuthenticated, (req, res, next) => {
   const newCrimeOne = Crime({
     name: "Internet Troll",
     difficulty: 1,
@@ -607,11 +615,6 @@ router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
     expToNewRank: 9999999999999
   });
   newRankTen.save();
-  res.render("menu/alliance-forum");
-});
-
-router.get("/alliance/group-kill", ensureAuthenticated, (req, res, next) => {
-  res.render("menu/alliance-group-kill");
 });
 
 router.get("/alliance/hideout", ensureAuthenticated, (req, res, next) => {

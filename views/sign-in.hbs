@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Sign In</h1>
+    <h1>SIGN IN</h1>
     <div id="sign-in">
 
     </div>
@@ -7,7 +7,7 @@
 
 
         <div class="card-signin">
-            <p>Sign in with Email</p>
+            <p id="writing">Sign in with Email</p>
             <img src="/images/email.png" alt="email">
             
             <form action="/auth/sign-in" method='POST'>
@@ -16,7 +16,7 @@
                 <input type="password" name='password'>
                 <br>
                 <br>
-                <button type='submit'>Sign in a hacker</button>
+                <button type='submit' class="button">Sign in a hacker</button>
 
                 <br>
                 <br> {{#if error}}
@@ -27,7 +27,8 @@
             <br>
             <br>
         </div>
-        <div class="card">
+        <div class="card-signin">
+            <p id="writing"> Sign in with Google</p>
             <a href="/auth/google">
             <img src="/images/google-flat.png" alt="googlesymbol">
                 

@@ -24,7 +24,7 @@ mongoose
     )
     .then(() => {
         console.log('Connected to Mongo!')
-        setInterval(resetInterval, 1200000)
+        setInterval(resetInterval, 120000)
     })
     .catch(err => {
         console.error('Error connecting to mongo', err)

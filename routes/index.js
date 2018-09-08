@@ -265,10 +265,10 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
       return res.render("menu/hack-player-id-error", {
         error: "You can't kill what's already dead!"
       });
-    if (result[1].rank < result[0].rank / 2)
-      return res.render("menu/hack-player-id-error", {
-        error: "You can't hack players that are lower than half of your rank"
-      });
+    // if (result[1].rank < result[0].rank / 2)
+    //   return res.render("menu/hack-player-id-error", {
+    //     error: "You can't hack players that are lower than half of your rank"
+    //   });
     let resultHack = result[0].hackPlayer(result[1]);
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
   });

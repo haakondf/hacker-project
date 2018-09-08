@@ -278,6 +278,9 @@ router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
   User.find({})
     .then(users => {
       let bountyUsers = users.filter(user => user.bounty > 0);
+      bountyUsers.sort(function (a,b) {
+        return b.bounty - a.bounty
+      })
       res.render("menu/hack-wanted-list", { bountyUsers });
     })
     .catch(console.error);

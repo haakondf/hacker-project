@@ -327,17 +327,17 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
 
 userSchema.methods.partialRepair = function() {
 if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
-    this.bitCoins -= 10000;
+    this.bitCoins -= 3000;
     this.currentFirewall = this.maxFirewall;
   } else {
-    this.bitCoins -= 10000;
+    this.bitCoins -= 3000;
     this.currentFirewall += (15 * this.maxFirewall) / 100;
   }
   return this.save()
 }
 
 userSchema.methods.systemFullRepair = function () {
-  this.bitCoins -= 50000;
+  this.bitCoins -= 12000;
   this.currentFirewall = this.maxFirewall;
   return this.save()
 }

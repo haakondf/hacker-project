@@ -738,6 +738,10 @@ router.get("/user/details", (req, res, next) => {
 router.get("/ladder", (req, res, next) => {
   User.find({})
     .then(user => {
+      user.sort(function (a,b){
+        return b.networth - a.networth
+      })
+      console.log(user)
       res.render("menu/ladder", { user });
     })
     .catch(console.error);

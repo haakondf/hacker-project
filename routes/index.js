@@ -22,8 +22,6 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
-// TODO add isSetup to user model, defautls to false
-// TODO maybe log req.user to see what the object is and if we have the value for isSetup
 function ensureIsSetup(req, res, next) {
   if (req.user.isSetup()) {
     return next();
@@ -629,7 +627,6 @@ router.get("/marketplace", ensureAuthenticated, (req, res, next) => {
       bonus: 1
     })
     .then(items => {
-      // TODO highlight the items you already have (hint map items, if you that item from the list has the same id (item._id.toString() === req.user.items[item.type].toString()) --> set item.owned: true)
       res.render("menu/marketplace", {
         items,
         cpuItems: items.filter(i => i.type === "cpu"),

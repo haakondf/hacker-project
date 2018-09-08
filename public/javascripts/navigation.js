@@ -9,7 +9,6 @@ $(document).ready(function() {
   axios
     .get("/user/details")
     .then(function(response) {
-      console.log(response)
       $("#nav-username").text(response.data.name);
       $("#nav-userrank").text(response.data.rankName);
       $("#nav-userbitcoins").text(response.data.bitCoins + "$");
@@ -21,11 +20,11 @@ $(document).ready(function() {
           ) +
           "%"
       );
-      $("#nav-userexp").text("EXP: " + response.data.exp + "/" + response.data.expToLevel);
+      $("#nav-userexp").text(
+        "EXP: " + response.data.exp + "/" + response.data.expToLevel
+      );
 
-      if(!response.data) [
-        $("#navbar").hide()
-      ]
+      if (!response.data) [$("#navbar").hide()];
     })
     .catch(function(error) {
       console.log(error);

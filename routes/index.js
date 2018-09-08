@@ -6,6 +6,7 @@ const Alliance = require("../models/Alliance");
 const Item = require("../models/Item");
 const Rank = require("../models/Rank");
 const uploadCloud = require("../utils/cloudinary.js");
+const Forum = require("../models/forum")
 
 /* GET all routes. */
 router.get("/index", (req, res, next) => {
@@ -264,10 +265,10 @@ router.get("/hack/hack-player/:id", (req, res, next) => {
       return res.render("menu/hack-player-id-error", {
         error: "You can't kill what's already dead!"
       });
-    if (result[1].rank < result[0].rank / 2)
-      return res.render("menu/hack-player-id-error", {
-        error: "You can't hack players that are lower than half of your rank"
-      });
+    // if (result[1].rank < result[0].rank / 2)
+    //   return res.render("menu/hack-player-id-error", {
+    //     error: "You can't hack players that are lower than half of your rank"
+    //   });
     let resultHack = result[0].hackPlayer(result[1]);
     res.render("menu/hack-player-id", { result: JSON.stringify(resultHack) });
   });
@@ -277,6 +278,9 @@ router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
   User.find({})
     .then(users => {
       let bountyUsers = users.filter(user => user.bounty > 0);
+      bountyUsers.sort(function (a,b) {
+        return b.bounty - a.bounty
+      })
       res.render("menu/hack-wanted-list", { bountyUsers });
     })
     .catch(console.error);
@@ -300,8 +304,30 @@ router.post("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
-  res.render("menu/alliance-forum");
+  Forum.find({}).then((result) => {
+    res.render("menu/alliance-forum", {result});
+  })
 });
+
+router.post("/alliance/forum", ensureAuthenticated, (req, res, next) => {
+    let comment = req.body.comment;
+    let username;
+    let dateNow = new Date()
+    console.log(dateNow)
+    User.findById(req.user._id).then((result) => {
+      username = result.name;
+      console.log(username)
+      const newMessage = Forum({
+        user: username,
+        post: comment,
+        date: dateNow,
+      })
+      newMessage.save()
+      return Forum.find({}).then((result) => {
+        res.render("menu/alliance-forum", {result});
+      })
+    })
+})
 
 router.get("/alliance/group-kill", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-group-kill");
@@ -715,6 +741,10 @@ router.get("/user/details", (req, res, next) => {
 router.get("/ladder", (req, res, next) => {
   User.find({})
     .then(user => {
+      user.sort(function (a,b){
+        return b.networth - a.networth
+      })
+      console.log(user)
       res.render("menu/ladder", { user });
     })
     .catch(console.error);

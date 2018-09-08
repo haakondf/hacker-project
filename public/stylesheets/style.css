@@ -280,7 +280,7 @@ a {
   position: fixed;
 }
 
-.success {
+.success-fight {
   color: blue;
 }
 
@@ -663,3 +663,13 @@ color: red;
 
 /* END SIGN IN PAGE */
 
+/* FORUM */
+
+.userformcss {
+  margin: 5vw 0vw 0vw 35%;
+  width: 35vw;
+  margin: 5vw auto;
+  font-size: 0.9vw;
+  line-height: 1vw;
+  color: rgb(71, 223, 71);
+}

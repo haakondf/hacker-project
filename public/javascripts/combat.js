@@ -81,7 +81,7 @@ function combatLog(array, result, index) {
 function combatFinished(result) {
   document.getElementById("writing").innerHTML +=
     "<br><br><br>" +
-    "Hack successful!! <br><br><br><br><div class='success'>You gained:<br><br>" +
+    "Hack successful!! <br><br><br><br><div class='success-fight'>You gained:<br><br>" +
     result.gains.exp +
     " exp<br>" +
     result.gains.bitCoins +

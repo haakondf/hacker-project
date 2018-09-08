@@ -297,34 +297,25 @@ a {
 }
 
 #create-hacker {
-  background-color: rgb(71, 223, 71);
   width: 910px;
   height: 800px;
 }
 
 #left-box {
-  background-color: red;
   float: left;
-  height: 300px;
   width: 30%;
-  margin: 10px;
+  margin: 4vw;
 }
 
-#center-box {
-  background-color: red;
+
+
+#right-box {  
   float: left;
-  height: 300px;
   width: 30%;
-  margin: 10px;
+  margin: 1vw;
 }
 
-#right-box {
-  background-color: red;
-  float: left;
-  height: 300px;
-  width: 30%;
-  margin: 10px;
-}
+/* END CREATE HACKER */
 
 /* picture items */
 
@@ -656,14 +647,16 @@ color: red;
   width: 100%;
 }
 .card-signin {
-  padding: 25px;
-  background-color: #fff;
   border-radius: 25px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+
 }
 
 .card-signin img {
-  height: 15vw;
+  height: 100px;
+  margin: 10px;
+
 }
 
 

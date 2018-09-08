@@ -1,1 +1,23 @@
-<h1>This is DLC! Click to buy: £15</h1>
+<h1>Forum</h1>
+<div class="userformcss">
+
+
+    {{#each result}}
+    Username: {{this.user}} <br>
+    Post: {{this.post}} <br>
+    Date: {{this.date}} <br>
+    <br><br>
+    {{/each}}
+
+
+    <form action="/alliance/forum" id="usrform" method="POST">
+        <input type="submit" name="usrname">
+    </form>
+    <br>
+    <textarea rows="4" cols="50" name="comment" form="usrform"></textarea>
+{{!--     
+<form action="/alliance/forum" method="POST" name="usrform">
+    <input type="submit" name="usrform" id="usrform">
+<textarea rows="4" cols="50" name="comment" form="usrform"></textarea>
+    </form> --}}
+</div>

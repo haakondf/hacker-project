@@ -200,7 +200,6 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
   } else if (opponent.currentFirewall <= 0) {
     //Combat won:
     results.won = true;
-    let batteryChange = opponent.difficulty * 4 + 2;
     let moneyChange =
       Math.floor(Math.random() * (opponent.difficulty * 1000)) +
       opponent.difficulty * 500;
@@ -214,7 +213,7 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     if (this.crimeSkill > 1000) this.crimeSkill = 1000;
     results.gains.exp = expChange;
     results.gains.bitCoins = moneyChange;
-    results.gains.battery = batteryChange;
+    results.gains.battery = -7;
     results.gains.crime = crimeChange;
     this.failedAttempts = 0;
     this.save();
@@ -295,9 +294,10 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     this.networth += moneyChange;
     this.exp += expChange;
     results.gains.exp = expChange;
-    results.gains.bitCoins = moneyChange;
+    results.gains.bitCoins = shutmoneyChange;
     results.gains.battery = -7;
     this.failedAttempts = 0;
+    this.shutdowns += 1;
     opponentPlayer.gracePeriod = true;
     this.gracePeriodFunction(opponentPlayer);
     opponentPlayer.save();
@@ -322,22 +322,22 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
     opponent.gracePeriod = false;
     opponent.currentFirewall = opponent.maxFirewall;
     opponent.save();
-  }, 2 * 3600 * 1000);
+  }, 1800 * 1000);
 };
 
 userSchema.methods.partialRepair = function() {
 if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
-    this.bitCoins -= 10000;
+    this.bitCoins -= 3000;
     this.currentFirewall = this.maxFirewall;
   } else {
-    this.bitCoins -= 10000;
+    this.bitCoins -= 3000;
     this.currentFirewall += (15 * this.maxFirewall) / 100;
   }
   return this.save()
 }
 
 userSchema.methods.systemFullRepair = function () {
-  this.bitCoins -= 50000;
+  this.bitCoins -= 12000;
   this.currentFirewall = this.maxFirewall;
   return this.save()
 }

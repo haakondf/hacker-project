@@ -6,6 +6,7 @@ const Alliance = require("../models/Alliance");
 const Item = require("../models/Item");
 const Rank = require("../models/Rank");
 const uploadCloud = require("../utils/cloudinary.js");
+const Forum = require("../models/forum")
 
 /* GET all routes. */
 router.get("/index", (req, res, next) => {
@@ -269,8 +270,30 @@ router.post("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
-  res.render("menu/alliance-forum");
+  Forum.find({}).then((result) => {
+    res.render("menu/alliance-forum", {result});
+  })
 });
+
+router.post("/alliance/forum", ensureAuthenticated, (req, res, next) => {
+    let comment = req.body.comment;
+    let username;
+    let dateNow = new Date()
+    console.log(dateNow)
+    User.findById(req.user._id).then((result) => {
+      username = result.name;
+      console.log(username)
+      const newMessage = Forum({
+        user: username,
+        post: comment,
+        date: dateNow,
+      })
+      newMessage.save()
+      return Forum.find({}).then((result) => {
+        res.render("menu/alliance-forum", {result});
+      })
+    })
+})
 
 router.get("/alliance/group-kill", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-group-kill");

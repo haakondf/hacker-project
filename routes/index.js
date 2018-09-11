@@ -695,14 +695,15 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
 });
 router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  if (userPerson.bitCoins < 10000) {
-    return res.render("menu/system-repair", { message: "Insufficient funds" });
-  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
-    return res.render("menu/system-repair", {
-      message: "Your computer is already working just fine!"
-    });
-  }
+  console.log(userPerson.currentFirewall)
   User.findById(userPerson).then(result => {
+    if (result.bitCoins < 3000) {
+      return res.render("menu/system-repair", { message: "Insufficient funds" });
+    } else if (result.currentFirewall === result.maxFirewall) {
+      return res.render("menu/system-repair", {
+        message: "Your computer is already working just fine!"
+      });
+    }
     result.partialRepair();
     res.render("menu/system-repair", {
       message:
@@ -713,15 +714,15 @@ router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
 
 router.get("/repair/full", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  if (userPerson.bitCoins < 50000) {
-    return res.render("menu/system-repair", { message: "Insufficient funds" });
-  } else if (userPerson.currentFirewall === userPerson.maxFirewall) {
-    return res.render("menu/system-repair", {
-      message: "Your computer is already working just fine!"
-    });
-  }
   User.findById(userPerson).then(result => {
-    if (result.bitCoins < 50000) {
+    if (result.bitCoins < 12000) {
+      return res.render("menu/system-repair", { message: "Insufficient funds" });
+    } else if (result.currentFirewall === result.maxFirewall) {
+      return res.render("menu/system-repair", {
+        message: "Your computer is already working just fine!"
+      });
+    }
+    if (result.bitCoins < 12000) {
       res.render("menu/system-repair", { message: "Insufficient funds" });
     }
     result.systemFullRepair();

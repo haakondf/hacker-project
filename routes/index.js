@@ -620,7 +620,7 @@ router.get("/modelcreate123", ensureAuthenticated, (req, res, next) => {
   newRankSeven.save();
 
   const newRankEight = Rank({
-    name: "Syber Security Dev",
+    name: "Cyber Security Dev",
     rank: 7,
     expToNewRank: 300000
   });
@@ -1050,7 +1050,7 @@ const newRankSeven = Rank({
 newRankSeven.save();
 
 const newRankEight = Rank({
-  name: "Syber Security Dev",
+  name: "Cyber Security Dev",
   rank: 7,
   expToNewRank: 300000
 })

@@ -6,7 +6,7 @@ const Alliance = require("../models/Alliance");
 const Item = require("../models/Item");
 const Rank = require("../models/Rank");
 const uploadCloud = require("../utils/cloudinary.js");
-const Forum = require("../models/forum")
+const Forum = require("../models/forum");
 
 /* GET all routes. */
 router.get("/index", (req, res, next) => {
@@ -112,7 +112,7 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
   let userIdThing;
   let cpu;
   let firewall;
-  let antiVirus;
+  let avs;
   let encryption;
   User.findById(req.user._id).then(result => {
     userIdThing = result;
@@ -139,7 +139,7 @@ router.get("/my-profile", ensureAuthenticated, (req, res, next) => {
                 createdAtDate,
                 cpu,
                 firewall,
-                antiVirus,
+                avs,
                 encryption
               });
             }
@@ -276,9 +276,9 @@ router.get("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
   User.find({})
     .then(users => {
       let bountyUsers = users.filter(user => user.bounty > 0);
-      bountyUsers.sort(function (a,b) {
-        return b.bounty - a.bounty
-      })
+      bountyUsers.sort(function(a, b) {
+        return b.bounty - a.bounty;
+      });
       res.render("menu/hack-wanted-list", { bountyUsers });
     })
     .catch(console.error);
@@ -302,30 +302,30 @@ router.post("/hack/wanted-list", ensureAuthenticated, (req, res, next) => {
 });
 
 router.get("/alliance/forum", ensureAuthenticated, (req, res, next) => {
-  Forum.find({}).then((result) => {
-    res.render("menu/alliance-forum", {result});
-  })
+  Forum.find({}).then(result => {
+    res.render("menu/alliance-forum", { result });
+  });
 });
 
 router.post("/alliance/forum", ensureAuthenticated, (req, res, next) => {
-    let comment = req.body.comment;
-    let username;
-    let dateNow = new Date()
-    console.log(dateNow)
-    User.findById(req.user._id).then((result) => {
-      username = result.name;
-      console.log(username)
-      const newMessage = Forum({
-        user: username,
-        post: comment,
-        date: dateNow,
-      })
-      newMessage.save()
-      return Forum.find({}).then((result) => {
-        res.render("menu/alliance-forum", {result});
-      })
-    })
-})
+  let comment = req.body.comment;
+  let username;
+  let dateNow = new Date();
+  console.log(dateNow);
+  User.findById(req.user._id).then(result => {
+    username = result.name;
+    console.log(username);
+    const newMessage = Forum({
+      user: username,
+      post: comment,
+      date: dateNow
+    });
+    newMessage.save();
+    return Forum.find({}).then(result => {
+      res.render("menu/alliance-forum", { result });
+    });
+  });
+});
 
 router.get("/alliance/group-kill", ensureAuthenticated, (req, res, next) => {
   res.render("menu/alliance-group-kill");
@@ -695,10 +695,12 @@ router.get("/system-repair", ensureAuthenticated, (req, res, next) => {
 });
 router.get("/repair/partial", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
-  console.log(userPerson.currentFirewall)
+  console.log(userPerson.currentFirewall);
   User.findById(userPerson).then(result => {
     if (result.bitCoins < 3000) {
-      return res.render("menu/system-repair", { message: "Insufficient funds" });
+      return res.render("menu/system-repair", {
+        message: "Insufficient funds"
+      });
     } else if (result.currentFirewall === result.maxFirewall) {
       return res.render("menu/system-repair", {
         message: "Your computer is already working just fine!"
@@ -716,7 +718,9 @@ router.get("/repair/full", ensureAuthenticated, (req, res, next) => {
   let userPerson = req.user._id;
   User.findById(userPerson).then(result => {
     if (result.bitCoins < 12000) {
-      return res.render("menu/system-repair", { message: "Insufficient funds" });
+      return res.render("menu/system-repair", {
+        message: "Insufficient funds"
+      });
     } else if (result.currentFirewall === result.maxFirewall) {
       return res.render("menu/system-repair", {
         message: "Your computer is already working just fine!"
@@ -739,10 +743,10 @@ router.get("/user/details", (req, res, next) => {
 router.get("/ladder", (req, res, next) => {
   User.find({})
     .then(user => {
-      user.sort(function (a,b){
-        return b.networth - a.networth
-      })
-      console.log(user)
+      user.sort(function(a, b) {
+        return b.networth - a.networth;
+      });
+      console.log(user);
       res.render("menu/ladder", { user });
     })
     .catch(console.error);
@@ -757,323 +761,313 @@ router.get("/events", (req, res, next) => {
 });
 
 router.get("/arcade", (req, res, next) => {
+  const newCrimeOne = Crime({
+    name: "Internet Troll",
+    difficulty: 1,
+    encryption: 10,
+    currentFirewall: 140,
+    maxFirewall: 140
+  });
+  newCrimeOne.save();
 
-const newCrimeOne = Crime({
-  name: "Internet Troll",
-  difficulty: 1,
-  encryption: 10,
-  currentFirewall: 140,
-  maxFirewall: 140,
-})
-newCrimeOne.save();
+  const newCrimeTwo = Crime({
+    name: "Internet Scam",
+    difficulty: 2.5,
+    encryption: 20,
+    currentFirewall: 200,
+    maxFirewall: 200
+  });
+  newCrimeTwo.save();
 
-const newCrimeTwo = Crime({
-  name: "Internet Scam",
-  difficulty: 2.5,
-  encryption: 20,
-  currentFirewall: 200,
-  maxFirewall: 200,
-})
-newCrimeTwo.save()
+  const newCrimeThree = Crime({
+    name: "ID Theft",
+    difficulty: 5,
+    encryption: 30,
+    currentFirewall: 300,
+    maxFirewall: 300
+  });
+  newCrimeThree.save();
 
-const newCrimeThree = Crime({
-  name: "ID Theft",
-  difficulty: 5,
-  encryption: 30,
-  currentFirewall: 300,
-  maxFirewall: 300,
-})
-newCrimeThree.save()
+  const newCrimeFour = Crime({
+    name: "DDOS",
+    difficulty: 10,
+    encryption: 50,
+    currentFirewall: 400,
+    maxFirewall: 400
+  });
+  newCrimeFour.save();
 
-const newCrimeFour = Crime({
-  name: "DDOS",
-  difficulty: 10,
-  encryption: 50,
-  currentFirewall: 400,
-  maxFirewall: 400,
-})
-newCrimeFour.save()
+  const newCrime = Crime({
+    name: "Logic Bomb",
+    difficulty: 15,
+    encryption: 60,
+    currentFirewall: 700,
+    maxFirewall: 700
+  });
+  newCrime.save();
 
-const newCrime = Crime({
-  name: "Logic Bomb",
-  difficulty: 15,
-  encryption: 60,
-  currentFirewall: 700,
-  maxFirewall: 700,
-})
-newCrime.save()
+  //Alliance
+  //Alliance
+  //ALLIANCES WHITE HATS & BLACK HATS:
 
+  const newAllianceWhite = Alliance({
+    name: "White hats",
+    hideoutStrength: 1,
+    members: Array
+  });
+  newAllianceWhite.save();
 
-//Alliance
-//Alliance
-//ALLIANCES WHITE HATS & BLACK HATS:
+  const newAllianceBlack = Alliance({
+    name: "Black hats",
+    hideoutStrength: 1,
+    members: Array
+  });
+  newAllianceBlack.save();
 
-const newAllianceWhite = Alliance({
-  name: "White hats",
-  hideoutStrength: 1,
-  members: Array,
-})
-newAllianceWhite.save();
+  //User
+  //User
 
-const newAllianceBlack = Alliance({
-  name: "Black hats",
-  hideoutStrength: 1,
-  members: Array,
-})
-newAllianceBlack.save();
+  // ITEMS
+  // ITEMS
 
-//User
-//User
+  //CPU items:
+  //CPU items:
+  const newItemOne = Item({
+    name: "Intel celeron G3930",
+    type: "cpu",
+    price: 15000,
+    bonus: 3
+  });
+  newItemOne.save();
 
+  const newItemTwo = Item({
+    name: "Intel i3-8350K",
+    type: "cpu",
+    price: 50000,
+    bonus: 10
+  });
+  newItemTwo.save();
 
+  const newItemThree = Item({
+    name: "AMD Ryzen Threaddripper 1950X",
+    type: "cpu",
+    price: 120000,
+    bonus: 20
+  });
+  newItemThree.save();
 
-// ITEMS
-// ITEMS
+  const newItemFour = Item({
+    name: "Intel i9-7980 xe",
+    type: "cpu",
+    price: 300000,
+    bonus: 50
+  });
+  newItemFour.save();
 
-//CPU items:
-//CPU items:
-const newItemOne = Item({
-  name: "Intel celeron G3930",
-  type: "cpu",
-  price: 15000,
-  bonus: 3,
-})
-newItemOne.save();
+  const newItemFive = Item({
+    name: "Intel Xeon Platinum 8180",
+    type: "cpu",
+    price: 1000000,
+    bonus: 100
+  });
+  newItemFive.save();
 
-const newItemTwo = Item({
-  name: "Intel i3-8350K",
-  type: "cpu",
-  price: 50000,
-  bonus: 10,
-})
-newItemTwo.save();
+  // FIREWALL ITEMS
+  // FIREWALL ITEMS
+  const newItemSix = Item({
+    name: "A lighter and a can of fuel",
+    type: "firewall",
+    price: 15000,
+    bonus: 3
+  });
+  newItemSix.save();
 
-const newItemThree = Item({
-  name: "AMD Ryzen Threaddripper 1950X",
-  type: "cpu",
-  price: 120000,
-  bonus: 20,
-})
-newItemThree.save();
+  const newItemSeven = Item({
+    name: "Linksys VPN router",
+    type: "firewall",
+    price: 50000,
+    bonus: 10
+  });
+  newItemSeven.save();
 
-const newItemFour = Item({
-  name: "Intel i9-7980 xe",
-  type: "cpu",
-  price: 300000,
-  bonus: 50,
-})
-newItemFour.save();
+  const newItemEight = Item({
+    name: "Zyxel ZYWALL110",
+    type: "firewall",
+    price: 120000,
+    bonus: 20
+  });
+  newItemEight.save();
 
-const newItemFive = Item({
-  name: "Intel Xeon Platinum 8180",
-  type: "cpu",
-  price: 1000000,
-  bonus: 100,
-})
-newItemFive.save();
+  const newItemNine = Item({
+    name: "Zyxel USG1100 UTM BDL",
+    type: "firewall",
+    price: 300000,
+    bonus: 50
+  });
+  newItemNine.save();
 
-// FIREWALL ITEMS
-// FIREWALL ITEMS
-const newItemSix = Item({
-  name: "A lighter and a can of fuel",
-  type: "firewall",
-  price: 15000,
-  bonus: 3,
-})
-newItemSix.save();
+  const newItemTen = Item({
+    name: "Cisco PIX 500",
+    type: "firewall",
+    price: 1000000,
+    bonus: 100
+  });
+  newItemTen.save();
 
-const newItemSeven = Item({
-  name: "Linksys VPN router",
-  type: "firewall",
-  price: 50000,
-  bonus: 10,
-})
-newItemSeven.save();
+  // Anti Virus Software (AVS) items
+  // Anti Virus Software (AVS) items
+  const newItemEleven = Item({
+    name: "Windows defender",
+    type: "avs",
+    price: 15000,
+    bonus: 3
+  });
+  newItemEleven.save();
 
-const newItemEight = Item({
-  name: "Zyxel ZYWALL110",
-  type: "firewall",
-  price: 120000,
-  bonus: 20,
-})
-newItemEight.save();
+  const newItemTwelve = Item({
+    name: "McAfee",
+    type: "avs",
+    price: 50000,
+    bonus: 10
+  });
+  newItemTwelve.save();
 
-const newItemNine = Item({
-  name: "Zyxel USG1100 UTM BDL",
-  type: "firewall",
-  price: 300000,
-  bonus: 50,
-})
-newItemNine.save();
+  const newItemThirteen = Item({
+    name: "Norton Antivirus",
+    type: "avs",
+    price: 120000,
+    bonus: 20
+  });
+  newItemThirteen.save();
 
-const newItemTen = Item({
-  name: "Cisco PIX 500",
-  type: "firewall",
-  price: 1000000,
-  bonus: 100,
-})
-newItemTen.save();
+  const newItemFourteen = Item({
+    name: "AVG",
+    type: "avs",
+    price: 300000,
+    bonus: 50
+  });
+  newItemFourteen.save();
 
-// Anti Virus Software (AVS) items
-// Anti Virus Software (AVS) items
-const newItemEleven = Item({
-  name: "Windows defender",
-  type: "avs",
-  price: 15000,
-  bonus: 3,
-})
-newItemEleven.save();
+  const newItemFifteen = Item({
+    name: "Avast Business Pro",
+    type: "avs",
+    price: 1000000,
+    bonus: 100
+  });
+  newItemFifteen.save();
 
-const newItemTwelve = Item({
-  name: "McAfee",
-  type: "avs",
-  price: 50000,
-  bonus: 10,
-})
-newItemTwelve.save();
+  // ENCRYPTION ITEMS
+  // ENCRYPTION ITEMS
+  const newItemSixteen = Item({
+    name: "Enigma machine",
+    type: "encryption",
+    price: 15000,
+    bonus: 3
+  });
+  newItemSixteen.save();
 
-const newItemThirteen = Item({
-  name: "Norton Antivirus",
-  type: "avs",
-  price: 120000,
-  bonus: 20,
-})
-newItemThirteen.save();
+  const newItemSeventeen = Item({
+    name: "Bcrypt npm node",
+    type: "encryption",
+    price: 50000,
+    bonus: 5
+  });
+  newItemSeventeen.save();
 
-const newItemFourteen = Item({
-  name: "AVG",
-  type: "avs",
-  price: 300000,
-  bonus: 50,
-})
-newItemFourteen.save();
+  const newItemEighteen = Item({
+    name: "IVeraCrypt",
+    type: "encryption",
+    price: 120000,
+    bonus: 7
+  });
+  newItemEighteen.save();
 
-const newItemFifteen = Item({
-  name: "Avast Business Pro",
-  type: "avs",
-  price: 1000000,
-  bonus: 100,
-})
-newItemFifteen.save();
+  const newItemNineteen = Item({
+    name: "CertainSafe",
+    type: "encryption",
+    price: 300000,
+    bonus: 10
+  });
+  newItemNineteen.save();
 
-// ENCRYPTION ITEMS
-// ENCRYPTION ITEMS
-const newItemSixteen = Item({
-  name: "Enigma machine",
-  type: "encryption",
-  price: 15000,
-  bonus: 3,
-})
-newItemSixteen.save();
+  const newItemTwenty = Item({
+    name: "Vernam Cipher",
+    type: "encryption",
+    price: 1000000,
+    bonus: 15
+  });
+  newItemTwenty.save();
 
-const newItemSeventeen = Item({
-  name: "Bcrypt npm node",
-  type: "encryption",
-  price: 50000,
-  bonus: 5,
-})
-newItemSeventeen.save();
+  // Ranks
+  const newRankOne = Rank({
+    name: "Script Kiddie",
+    rank: 0,
+    expToNewRank: 10000
+  });
+  newRankOne.save();
 
-const newItemEighteen = Item({
-  name: "IVeraCrypt",
-  type: "encryption",
-  price: 120000,
-  bonus: 7,
-})
-newItemEighteen.save();
+  const newRankTwo = Rank({
+    name: "Family IT-Support",
+    rank: 1,
+    expToNewRank: 25000
+  });
+  newRankTwo.save();
 
-const newItemNineteen = Item({
-  name: "CertainSafe",
-  type: "encryption",
-  price: 300000,
-  bonus: 10,
-})
-newItemNineteen.save();
+  const newRankThree = Rank({
+    name: "Blog Writer",
+    rank: 2,
+    expToNewRank: 45000
+  });
+  newRankThree.save();
 
-const newItemTwenty = Item({
-  name: "Vernam Cipher",
-  type: "encryption",
-  price: 1000000,
-  bonus: 15,
-})
-newItemTwenty.save();
+  const newRankFour = Rank({
+    name: "HTML 'programmer'",
+    rank: 3,
+    expToNewRank: 70000
+  });
+  newRankFour.save();
 
+  const newRankFive = Rank({
+    name: "Jr. Web Dev",
+    rank: 4,
+    expToNewRank: 100000
+  });
+  newRankFive.save();
 
-// Ranks
-const newRankOne = Rank({
-  name: "Script Kiddie",
-  rank: 0,
-  expToNewRank: 10000
-})
-newRankOne.save();
+  const newRankSix = Rank({
+    name: "Sr. Web Dev",
+    rank: 5,
+    expToNewRank: 140000
+  });
+  newRankSix.save();
 
-const newRankTwo = Rank({
-  name: "Family IT-Support",
-  rank: 1,
-  expToNewRank: 25000,
-})
-newRankTwo.save();
+  const newRankSeven = Rank({
+    name: "System Dev",
+    rank: 6,
+    expToNewRank: 200000
+  });
+  newRankSeven.save();
 
-const newRankThree = Rank({
-  name: "Blog Writer",
-  rank: 2,
-  expToNewRank: 45000
-})
-newRankThree.save();
+  const newRankEight = Rank({
+    name: "Cyber Security Dev",
+    rank: 7,
+    expToNewRank: 300000
+  });
+  newRankEight.save();
 
-const newRankFour = Rank({
-  name: "HTML 'programmer'",
-  rank: 3,
-  expToNewRank: 70000
-})
-newRankFour.save();
+  const newRankNine = Rank({
+    name: "Basement Dweller",
+    rank: 8,
+    expToNewRank: 500000
+  });
+  newRankNine.save();
 
-const newRankFive = Rank({
-  name: "Jr. Web Dev",
-  rank: 4,
-  expToNewRank: 100000
-})
-newRankFive.save();
-
-const newRankSix = Rank({
-  name: "Sr. Web Dev",
-  rank: 5,
-  expToNewRank: 140000
-})
-newRankSix.save();
-
-const newRankSeven = Rank({
-  name: "System Dev",
-  rank: 6,
-  expToNewRank: 200000
-})
-newRankSeven.save();
-
-const newRankEight = Rank({
-  name: "Cyber Security Dev",
-  rank: 7,
-  expToNewRank: 300000
-})
-newRankEight.save();
-
-const newRankNine = Rank({
-  name: "Basement Dweller",
-  rank: 8,
-  expToNewRank: 500000
-})
-newRankNine.save();
-
-const newRankTen = Rank({
-  name: "Anonymous",
-  rank: 9,
-  expToNewRank: 9999999999999
-})
-newRankTen.save();
-
-
-
-
-
+  const newRankTen = Rank({
+    name: "Anonymous",
+    rank: 9,
+    expToNewRank: 9999999999999
+  });
+  newRankTen.save();
 
   res.render("menu/arcade");
 });

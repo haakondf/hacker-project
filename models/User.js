@@ -41,7 +41,7 @@ const userSchema = new Schema(
     //Player stats
     statPoints: {
       type: Number,
-      default: 5,
+      default: 5
     },
     maxFirewall: {
       type: Number,
@@ -96,7 +96,7 @@ const userSchema = new Schema(
       avs: {
         type: Schema.Types.ObjectId,
         ref: "Item",
-        default: null,
+        default: null
       },
       encryption: {
         type: Schema.Types.ObjectId,
@@ -178,11 +178,11 @@ userSchema.methods.fightCrime = function(opponent) {
     updatedResults.levelUp = true;
     this.statPoints += 5;
     this.rank += 1;
-    Rank.findOne({rank: this.rank}).then((newRank) => {
+    Rank.findOne({ rank: this.rank }).then(newRank => {
       this.rankName = newRank.name;
       this.expToLevel = newRank.expToNewRank;
-      this.save()
-    })
+      this.save();
+    });
   }
   return updatedResults;
 };
@@ -219,7 +219,7 @@ userSchema.methods.fightCrimeBattle = function(opponent, results) {
     this.save();
     return results;
     //Combat won over
-  } else if (encryptionOccurance >= 0.80 + this.crimeSkill / 100) {
+  } else if (encryptionOccurance >= 0.8 + this.crimeSkill / 100) {
     this.failedAttempts += 1;
     results.rounds.push("encryption");
     results.currentHp.push(opponent.currentFirewall);
@@ -252,11 +252,11 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
     updatedResults.levelUp = true;
     this.statPoints += 5;
     this.rank += 1;
-    Rank.findOne({rank: this.rank}).then((newRank) => {
+    Rank.findOne({ rank: this.rank }).then(newRank => {
       this.rankName = newRank.name;
       this.expToLevel = newRank.expToNewRank;
-      this.save()
-    })
+      this.save();
+    });
   }
   return updatedResults;
 };
@@ -294,7 +294,7 @@ userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
     this.networth += moneyChange;
     this.exp += expChange;
     results.gains.exp = expChange;
-    results.gains.bitCoins = shutmoneyChange;
+    results.gains.bitCoins = moneyChange;
     results.gains.battery = -7;
     this.failedAttempts = 0;
     this.shutdowns += 1;
@@ -326,75 +326,73 @@ userSchema.methods.gracePeriodFunction = function(opponent) {
 };
 
 userSchema.methods.partialRepair = function() {
-if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
+  if ((this.currentFirewall * 100) / this.maxFirewall > 85) {
     this.bitCoins -= 3000;
     this.currentFirewall = this.maxFirewall;
   } else {
     this.bitCoins -= 3000;
     this.currentFirewall += (15 * this.maxFirewall) / 100;
   }
-  return this.save()
-}
+  return this.save();
+};
 
-userSchema.methods.systemFullRepair = function () {
+userSchema.methods.systemFullRepair = function() {
   this.bitCoins -= 12000;
   this.currentFirewall = this.maxFirewall;
-  return this.save()
-}
+  return this.save();
+};
 // only level 9 web developers knows what's going on underneath.
 userSchema.methods.addItem = function(item) {
-  const currentItem = this.items[item.type]
-  let p = Promise.resolve(null)
-  if(currentItem) {
-    if(currentItem.bonus) {
-      p = Promise.resolve(currentItem)
+  const currentItem = this.items[item.type];
+  let p = Promise.resolve(null);
+  if (currentItem) {
+    if (currentItem.bonus) {
+      p = Promise.resolve(currentItem);
     } else {
-      p = Item.findById(currentItem)
+      p = Item.findById(currentItem);
     }
   }
 
   p.then(currentItem => {
-    if(currentItem) {
+    if (currentItem) {
       // lower the stats
-       switch(currentItem.type) {
+      switch (currentItem.type) {
         case "cpu":
-            this.cpu -= currentItem.bonus
+          this.cpu -= currentItem.bonus;
           break;
         case "avs":
-            this.antiVirus -= currentItem.bonus
+          this.antiVirus -= currentItem.bonus;
           break;
         case "firewall":
-            this.maxFirewall -= currentItem.bonus
-            this.currentFirewall -= currentItem.bonus
+          this.maxFirewall -= currentItem.bonus;
+          this.currentFirewall -= currentItem.bonus;
           break;
         case "encryption":
-            this.encryption -= currentItem.bonus
+          this.encryption -= currentItem.bonus;
           break;
       }
     }
 
-    this.items[item.type] = item
+    this.items[item.type] = item;
 
-    switch(item.type) {
+    switch (item.type) {
       case "cpu":
-          this.cpu += item.bonus
+        this.cpu += item.bonus;
         break;
       case "avs":
-          this.antiVirus += item.bonus
+        this.antiVirus += item.bonus;
         break;
       case "firewall":
-          this.maxFirewall += item.bonus
-          this.currentFirewall += item.bonus
+        this.maxFirewall += item.bonus;
+        this.currentFirewall += item.bonus;
         break;
       case "encryption":
-          this.encryption += item.bonus
+        this.encryption += item.bonus;
         break;
     }
 
-    return this.save()
-  })
-
-}
-
+    return this.save();
+  });
+};
 
 module.exports = mongoose.model("User", userSchema);

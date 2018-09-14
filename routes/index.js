@@ -40,6 +40,20 @@ router.get("/create-hacker", ensureAuthenticated, (req, res, next) => {
   });
 });
 
+//upload photo
+// router.post("/upload-photo", uploadCloud.single("photo"), (req, res, next) => {
+//   const imgPath = req.file.url;
+//   const imgName = req.file.originalname;
+//   User.findByIdAndUpdate(req.user._id, { imgPath, imgName }).then((result) => {
+//     console.log(result)
+//   })
+//   .catch(error => {
+//     console.log(error);
+//     res.redirect("error");
+
+//   })
+// })
+
 router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
   if (req.user.isSetup) return res.redirect("/");
 
@@ -57,7 +71,7 @@ router.post("/create-hacker", uploadCloud.single("photo"), (req, res, next) => {
         } else if (req.body.antivirus) {
           result.antiVirus += 1;
         } else if (req.body.encryption) {
-          result.encryption += 1;
+          result.encryption += 2;
         }
 
         return result.save();
@@ -155,7 +169,7 @@ router.post("/my-profile", ensureAuthenticated, (req, res, next) => {
     } else if (statUpgrade[0] === "antivirus") {
       result.antiVirus += 1;
     } else if (statUpgrade[0] === "encryption") {
-      result.encryption += 1;
+      result.encryption += 2;
     }
     result.save();
     return res.render("menu/my-profile", {
@@ -204,10 +218,6 @@ router.get("/hack/crimes/:id", (req, res, next) => {
     if (result[0].battery < 7)
       return res.render("menu/hack-crimes-id-error", {
         error: "Insufficient battery!"
-      });
-    if (result[0].currentFirewall <= 0)
-      return res.render("menu/hack-crimes-id-error", {
-        error: "You need a firewall to be able to commit crimes!"
       });
     let resultCrime = result[0].fightCrime(result[1]);
 

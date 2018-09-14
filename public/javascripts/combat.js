@@ -22,15 +22,19 @@ let randomCrimeString = [
   "Spreading Wannacry ransomware... Login: Wanna_cry, Password: ran_some_where. Access granted!1",
   "Stealing personal information from Equifax...1",
   "Breaking into Pentagon and selling their software on ebay1",
-  "Trading Chartreuse on the black market: A shady guy named mc100s is willing to sell it!1"
+  "Trading Chartreuse on the black market: A shady guy named mc100s is willing to sell it!1",
+  "Putting on a hoodie and skimask and punches keyboard furiously1",
+  "Setting up local printer in order to print out cash you just stole from the interwebz1",
+  "Changing the theme on your terminal to neon-green in order to be more effective1",
+  "Installing bcrypt on enemy computer in order to mess him up for life1"
 ];
 let errorEncryptionText = "ERROR: Problem detected, have to solve encryption";
 let errorEncryptionDots =
   "....................................................... 4";
 
 function fight(result, index) {
-pageScroll()  
-if (result.rounds[index] === "encryption") {
+  pageScroll();
+  if (result.rounds[index] === "encryption") {
     let splitStrFour = errorEncryptionDots.split("");
     document.getElementById("writing").innerHTML +=
       "<br><br><div id='red-error-text'>" + errorEncryptionText + "</div>";

@@ -16,7 +16,10 @@ let randomCrimeString = [
   "Git push origin_encrypted_secret master. Activating git pull request... Waiting for server to respond... Access granted on specific terms1",
   "Origin base requested from server: 1.119.1337.923. Accepted!1",
   "101010111010100011111010010010010101010101010101001011 01010110101010101010010101110101010100101010011001",
-  "Running around the house trying to find the battery charger, but it failed to commit... System reboots: external_battery_source = True1"
+  "Running around the house trying to find the battery charger, but it failed to commit... System reboots: external_battery_source = True1",
+  "Installing PassportJS on enemy computer in order to confuse him for a life time.... 1",
+  "let i = 0; while (i <=10) { document.write('your browser is about to crash<br />);} 1",
+  "Setting Internet Explorer 6 as default browser on enemy computer 1"
 ];
 let errorEncryptionText = "ERROR: Problem detected, have to solve encryption";
 let errorEncryptionDots =

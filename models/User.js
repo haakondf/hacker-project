@@ -186,7 +186,7 @@ userSchema.methods.fightCrime = function(opponent) {
   }
   return updatedResults;
 };
-
+// TODO if (this.battery < 14) { this.battery = 0 } --------- preventing minus battery
 userSchema.methods.fightCrimeBattle = function(opponent, results) {
   let encryptionOccurance =
     Math.random() * (opponent.encryption / this.encryption);

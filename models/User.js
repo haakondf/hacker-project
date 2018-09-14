@@ -188,8 +188,14 @@ userSchema.methods.fightCrime = function(opponent) {
 };
 // TODO if (this.battery < 14) { this.battery = 0 } --------- preventing minus battery
 userSchema.methods.fightCrimeBattle = function(opponent, results) {
+  let different = (opponentPlayer.encryption / this.encryption) * 0.5;
   let encryptionOccurance =
-    Math.random() * (opponent.encryption / this.encryption);
+    Math.random() + (opponentPlayer.encryption / this.encryption) * 0.5;
+  if (different > 0.35) {
+    encryptionOccurance = Math.random() + 0.35;
+  } else if (different < 0.2) {
+    encryptionOccurance = Math.random() + 0.2;
+  }
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
@@ -262,8 +268,15 @@ userSchema.methods.hackPlayer = function(opponentPlayer) {
 };
 
 userSchema.methods.hackPlayerBattle = function(opponentPlayer, results) {
+  let different = (opponentPlayer.encryption / this.encryption) * 0.5;
   let encryptionOccurance =
-    Math.random() + (opponentPlayer.encryption / this.encryption) * 0.4;
+    Math.random() + (opponentPlayer.encryption / this.encryption) * 0.5;
+  if (different > 0.3) {
+    encryptionOccurance = Math.random() + 0.3;
+  } else if (different < 0.2) {
+    encryptionOccurance = Math.random() + 0.2;
+  }
+
   if (this.failedAttempts === 4) {
     results.gains.battery = -14;
     this.battery -= 7;
